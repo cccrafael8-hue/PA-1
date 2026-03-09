@@ -10,7 +10,7 @@
 
     <!-- Tengah: Menu -->
     <ul class="nav-links">
-        <li><a href="{{ route('menu') }}">Menu</a></li>
+        <li><a href="{{ route('admin.menu') }}">Menu</a></li>
         <li><a href="{{ route('gallery') }}">Gallery</a></li>
         <li><a href="{{ route('admin.reservasi') }}">Reservasi</a></li>
         <li><a href="{{ route('kontak') }}">Kontak</a></li>

@@ -20,7 +20,6 @@
     <!-- Kanan: Sign In -->
     <div class="nav-right">
     @auth
-        <span class="user-name">{{ auth()->user()->name }}</span>
 
         <form action="{{ route('logout') }}" method="POST">
             @csrf

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\AdminMenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
 
     Route::view('/welcome', 'welcome')->name('welcome');
-    Route::view('/menu', 'menu')->name('menu');
     Route::view('/gallery', 'gallery')->name('gallery');
     Route::view('/reservasi', 'reservasi')->name('reservasi');
     Route::view('/kontak', 'kontak')->name('kontak');
@@ -65,4 +66,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::delete('/admin/reservasi/{id}', [ReservasiController::class, 'destroy'])
         ->name('admin.reservasi.destroy');
+});
+
+//Menu 
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+
+Route::middleware(['auth','admin'])->prefix('admin')->group(function(){
+
+    Route::get('/menu',[AdminMenuController::class,'index'])->name('admin.menu');
+
+    Route::get('/menu/create',[AdminMenuController::class,'create'])
+        ->name('admin.menu.create');
+
+    Route::post('/menu/store',[AdminMenuController::class,'store'])
+        ->name('admin.menu.store');
+
 });
