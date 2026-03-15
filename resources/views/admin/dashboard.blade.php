@@ -58,7 +58,7 @@
 
 <div class="dashboard-container">
     <div class="button-wrapper">
-        <a href="#" class="dashboard-btn">Menu</a>
+        <a href="{{ route('admin.menu') }}" class="dashboard-btn">Menu</a>
         <a href="#" class="dashboard-btn">Gallery</a>
         <a href="{{ route('admin.reservasi') }}" class="dashboard-btn">Reservasi</a>
         <a href="#" class="dashboard-btn">Kontak</a>
