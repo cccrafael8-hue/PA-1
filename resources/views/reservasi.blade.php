@@ -69,28 +69,57 @@ h2 {
 
 @include('partials.navbar')
 
-<form action="{{ route('reservasi.store') }}" method="POST" class="card">
+<form action="{{ route('reservasi.store') }}" method="POST" class="card" id="formReservasi">
     @csrf
 
-    <input type="text" name="nama" placeholder="Nama" class="form-control" required>
+    <input type="text" name="nama" id="nama" placeholder="Nama" class="form-control" required>
 
-    <input type="date" name="tanggal" class="form-control" required>
+<input type="date" name="tanggal" id="tanggal" class="form-control" required>
 
-    <input type="time" name="waktu" class="form-control" required>
+<input type="time" name="waktu" id="waktu" class="form-control" required>
 
-    <input type="number" name="jumlah_orang" placeholder="Jumlah Orang" class="form-control" required>
+<input type="number" name="jumlah_orang" id="jumlah_orang" placeholder="Jumlah Orang" class="form-control" required>
 
-    <button class="btn-dark">Reservasi Sekarang</button>
+    <button type="button" onclick="kirimReservasi()">Reservasi Sekarang</button>
 </form>
 
 <hr style="margin:50px 0;">
 
-<h4>Pembayaran</h4>
-<p>Silakan scan QR berikut untuk melakukan pembayaran:</p>
-
-<img src="{{ asset('images/qr-placeholder.png') }}" width="250">
-
 </div>
 @include('partials.footer')
+
+<script>
+
+function kirimReservasi(){
+
+let nama = document.getElementById("nama").value;
+let tanggal = document.getElementById("tanggal").value;
+let waktu = document.getElementById("waktu").value;
+let orang = document.getElementById("jumlah_orang").value;
+
+let pesan = `Halo Kakk,
+
+Saya ingin melakukan reservasi meja.
+
+Nama : ${nama}
+Tanggal : ${tanggal}
+Jam : ${waktu}
+Jumlah Orang : ${orang}
+
+Saya juga akan melakukan pembayaran melalui QRIS.
+
+Terima kasih Kakk.`;
+
+let nomorAdmin = "62895346041061";
+
+let url = "https://wa.me/" + nomorAdmin + "?text=" + encodeURIComponent(pesan);
+
+window.open(url, '_blank');
+
+document.getElementById("formReservasi").submit();
+
+}
+
+</script>
 
 @endsection

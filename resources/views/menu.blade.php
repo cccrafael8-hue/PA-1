@@ -64,6 +64,17 @@ body{
 }
 
 </style>
+<script>
+    function kirimWA(namaMenu, harga) {
+        let pesan = `Halo Kakk,
+        Saya mau order nih, ${namaMenu}, Rp ${harga}, mohon segera dikonfirmasi yaa, Terimakasihh.`;
+
+        let nomorAdmin = "62895346041061";
+        let url = "https://wa.me/" + nomorAdmin + "?text+" + encodeURIComponent(pesan);
+        window.open(url, '_blank');
+}
+    </script>
+
 
 @include('partials.navbar')
 
@@ -100,9 +111,9 @@ body{
                             Rp {{ number_format($menu->harga) }}
                         </div>
 
-                        <a href="#" class="btn-order">
+                        <button class="btn-order border-0" onclick="kirimWA('{{ $menu->nama_menu }}',' {{ $menu->harga }}) '">
                             Pesan
-                        </a>
+                        </button>
 
                     </div>
 
