@@ -59,45 +59,45 @@ h2 {
 
 <div class="container">
 
-<h2>Reservasi Meja</h2>
+    <h2>Reservasi Meja</h2>
 
-@if(session('success'))
-<div style="background:#d4edda;padding:10px;border-radius:8px;margin-bottom:15px;">
-    {{ session('success') }}
+    @if(session('success'))
+        <div style="background:#d4edda;padding:10px;border-radius:8px;margin-bottom:15px;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @include('partials.navbar')
+
+    <form action="{{ route('reservasi.store') }}" method="POST" class="card" id="formReservasi">
+        @csrf
+
+        <input type="text" name="nama" id="nama" placeholder="Nama" class="form-control" required>
+
+        <input type="date" name="tanggal" id="tanggal" class="form-control" required>
+
+        <input type="time" name="waktu" id="waktu" class="form-control" required>
+
+        <input type="number" name="jumlah_orang" id="jumlah_orang" placeholder="Jumlah Orang" class="form-control" required>
+
+        <button type="button" onclick="kirimReservasi()">Reservasi Sekarang</button>
+    </form>
+
+    <hr style="margin:50px 0;">
+
 </div>
-@endif
 
-@include('partials.navbar')
-
-<form action="{{ route('reservasi.store') }}" method="POST" class="card" id="formReservasi">
-    @csrf
-
-    <input type="text" name="nama" id="nama" placeholder="Nama" class="form-control" required>
-
-<input type="date" name="tanggal" id="tanggal" class="form-control" required>
-
-<input type="time" name="waktu" id="waktu" class="form-control" required>
-
-<input type="number" name="jumlah_orang" id="jumlah_orang" placeholder="Jumlah Orang" class="form-control" required>
-
-    <button type="button" onclick="kirimReservasi()">Reservasi Sekarang</button>
-</form>
-
-<hr style="margin:50px 0;">
-
-</div>
 @include('partials.footer')
 
 <script>
+function kirimReservasi() {
 
-function kirimReservasi(){
+    let nama = document.getElementById("nama").value;
+    let tanggal = document.getElementById("tanggal").value;
+    let waktu = document.getElementById("waktu").value;
+    let orang = document.getElementById("jumlah_orang").value;
 
-let nama = document.getElementById("nama").value;
-let tanggal = document.getElementById("tanggal").value;
-let waktu = document.getElementById("waktu").value;
-let orang = document.getElementById("jumlah_orang").value;
-
-let pesan = `Halo Kakk,
+    let pesan = `Halo Kakk,
 
 Saya ingin melakukan reservasi meja.
 
@@ -110,16 +110,14 @@ Saya juga akan melakukan pembayaran melalui QRIS.
 
 Terima kasih Kakk.`;
 
-let nomorAdmin = "62895346041061";
+    let nomorAdmin = "62895346041061";
 
-let url = "https://wa.me/" + nomorAdmin + "?text=" + encodeURIComponent(pesan);
+    let url = "https://wa.me/" + nomorAdmin + "?text=" + encodeURIComponent(pesan);
 
-window.open(url, '_blank');
+    window.open(url, '_blank');
 
-document.getElementById("formReservasi").submit();
-
+    document.getElementById("formReservasi").submit();
 }
-
 </script>
 
 @endsection
