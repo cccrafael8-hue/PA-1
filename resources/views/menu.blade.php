@@ -38,10 +38,11 @@ body{
 
 .menu-title{
     font-weight:600;
+    font-size:16px;
 }
 
 .menu-desc{
-    font-size:14px;
+    font-size:13px;
     color:#777;
 }
 
@@ -50,39 +51,68 @@ body{
     color:#5b3a34;
 }
 
-.btn-order{
+/* tombol */
+.btn-cart{
     background:#5b3a34;
     color:white;
     border-radius:25px;
-    padding:8px 16px;
-    font-size:14px;
-    text-decoration:none;
+    padding:7px 14px;
+    font-size:13px;
+    transition:0.2s;
+    width:100%;
 }
 
-.btn-order:hover{
+.btn-cart:hover{
     background:#472c27;
 }
 
-</style>
-<script>
-    function kirimWA(namaMenu, harga) {
-        let pesan = `Halo Kakk,
-        Saya mau order nih, ${namaMenu}, Rp ${harga}, mohon segera dikonfirmasi yaa, Terimakasihh.`;
-
-        let nomorAdmin = "62895346041061";
-        let url = "https://wa.me/" + nomorAdmin + "?text+" + encodeURIComponent(pesan);
-        window.open(url, '_blank');
+/* tombol lihat cart */
+.btn-lihat{
+    background:#f3e9e6;
+    color:#5b3a34;
+    border-radius:25px;
+    padding:8px 18px;
+    text-decoration:none;
+    font-size:14px;
 }
-    </script>
 
+.btn-lihat:hover{
+    background:#e0d3cf;
+}
+
+/* notifikasi */
+.alert-custom{
+    background:#d4edda;
+    color:#155724;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+</style>
 
 @include('partials.navbar')
 
 <div class="container menu-container">
 
-    <h2 class="text-center mb-4">
-        Menu Makanan
-    </h2>
+    <!-- NOTIFIKASI -->
+    @if(session('success'))
+        <div class="alert-custom">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>Menu Makanan</h2>
+
+        <!-- TOMBOL KE KERANJANG -->
+        <a href="{{ route('cart') }}" class="btn-lihat">
+            🛒 Lihat Keranjang
+        </a>
+
+    </div>
 
     <div class="row">
 
@@ -92,8 +122,7 @@ body{
 
             <div class="menu-card">
 
-                <img src="{{ asset('storage/'.$menu->gambar) }}" 
-                class="menu-img">
+                <img src="{{ asset('storage/'.$menu->gambar) }}" class="menu-img">
 
                 <div class="menu-body">
 
@@ -105,17 +134,19 @@ body{
                         {{ $menu->deskripsi }}
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-2">
-
-                        <div class="menu-price">
-                            Rp {{ number_format($menu->harga) }}
-                        </div>
-
-                        <button class="btn-order border-0" onclick="kirimWA('{{ $menu->nama_menu }}',' {{ $menu->harga }}) '">
-                            Pesan
-                        </button>
-
+                    <div class="menu-price mt-2">
+                        Rp {{ number_format($menu->harga) }}
                     </div>
+
+                    <!-- TOMBOL KERANJANG -->
+                    <form action="{{ route('cart.add') }}" method="POST" class="mt-3">
+                        @csrf
+                        <input type="hidden" name="menu_id" value="{{ $menu->id }}">
+
+                        <button type="submit" class="btn-cart border-0">
+                            🛒 Tambah ke Keranjang
+                        </button>
+                    </form>
 
                 </div>
 

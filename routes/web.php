@@ -6,6 +6,8 @@ use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminMenuController;
+use App\Http\Controllers\OrderAdminController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +42,6 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/gallery', 'gallery')->name('gallery');
     Route::view('/reservasi', 'reservasi')->name('reservasi');
     Route::view('/kontak', 'kontak')->name('kontak');
-    Route::view('/order', 'order')->name('order');
 
     Route::post('/reservasi/store', [ReservasiController::class, 'store'])
         ->name('reservasi.store');
@@ -82,3 +83,19 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function(){
         ->name('admin.menu.store');
 
 });
+
+//Order
+Route::get('/admin/order_admin', [App\Http\Controllers\OrderAdminController::class, 'index'])->name('admin.order_admin');
+
+Route::post('/order', [OrderAdminController::class,'store'])->name('order.store');
+
+//Cart / Keranjang
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('cart');
+    Route::post('/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+});
+
+//Data orderan ke admin
+Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');

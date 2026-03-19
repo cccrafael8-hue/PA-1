@@ -18,6 +18,6 @@
     © {{ date('Y') }} AGATHA SPACE. CRAFTED FOR EXCELLENCE.
 </div>
 
-<a href="{{ route('order') }}" class="order-float">
+<a href="{{ route('menu') }}" class="order-float">
     <i class="fas fa-mug-hot"></i> Order Now!
 </a>

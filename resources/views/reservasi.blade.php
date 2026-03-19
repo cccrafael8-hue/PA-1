@@ -80,7 +80,7 @@ h2 {
 
         <input type="number" name="jumlah_orang" id="jumlah_orang" placeholder="Jumlah Orang" class="form-control" required>
 
-        <button type="button" onclick="kirimReservasi()">Reservasi Sekarang</button>
+        <button class="btn-dark" type="button" onclick="kirimReservasi()">Reservasi Sekarang</button>
     </form>
 
     <hr style="margin:50px 0;">

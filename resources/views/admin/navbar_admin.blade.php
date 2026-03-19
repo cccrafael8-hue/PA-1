@@ -14,7 +14,7 @@
         <li><a href="{{ route('gallery') }}">Gallery</a></li>
         <li><a href="{{ route('admin.reservasi') }}">Reservasi</a></li>
         <li><a href="{{ route('kontak') }}">Kontak</a></li>
-        <li><a href="{{ route('order') }}">Order</a></li>
+        <li><a href="{{ route('admin.order_admin') }}">Order</a></li>
     </ul>
 
     <!-- Kanan: Sign In -->
