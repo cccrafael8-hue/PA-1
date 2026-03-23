@@ -27,4 +27,12 @@ class OrderAdminController extends Controller
         return redirect()->back()->with('success','Pesanan berhasil dibuat');
     }
 
+    public function destroy($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
+
+        return back()->with('success', 'Pesanan berhasil dihapus');
+    }
+
 }

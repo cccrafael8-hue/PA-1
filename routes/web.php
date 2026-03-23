@@ -88,6 +88,8 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function(){
 
 //Order
 Route::get('/admin/order_admin', [App\Http\Controllers\OrderAdminController::class, 'index'])->name('admin.order_admin');
+Route::delete('/admin/order/{id}', [OrderAdminController::class, 'destroy'])
+    ->name('admin.order.delete');
 
 Route::post('/order', [OrderAdminController::class,'store'])->name('order.store');
 

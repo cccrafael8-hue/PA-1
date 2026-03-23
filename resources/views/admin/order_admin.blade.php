@@ -62,6 +62,20 @@ tr:hover{
     background:#c3e6cb;
 }
 
+.btn-delete{
+    background:#e74c3c;
+    color:white;
+    border:none;
+    padding:6px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.btn-delete:hover{
+    background:#c0392b;
+}
+
 </style>
 @include('admin.navbar_admin')
 
@@ -78,27 +92,38 @@ tr:hover{
                 <th>Total</th>
                 <th>Status</th>
                 <th>Tanggal</th>
+                <th>Aksi</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach($orders as $order)
-            <tr>
-                <td>{{ $order->nama }}</td>
-                <td>{{ $order->menu}}</td>
-                <td>Rp {{ number_format ( $order->total) }}</td>
-            <td>
-                @if($order->status == 'menunggu')
-                <span class="status pending">Menunggu</span>
-                @else
-                <span class="status success">Dibayar</span>
-                @endif
-            </td>
+    @foreach($orders as $order)
+    <tr>
+        <td>{{ $order->nama }}</td>
+        <td>{{ $order->menu}}</td>
+        <td>Rp {{ number_format($order->total) }}</td>
 
-                <td>{{ $order->created_at->format('d M Y') }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+        <td>
+            @if($order->status == 'menunggu')
+                <span class="status pending">Menunggu</span>
+            @else
+                <span class="status success">Dibayar</span>
+            @endif
+        </td>
+
+        <td>{{ $order->created_at->format('d M Y') }}</td>
+
+        <td>
+            <form action="{{ route('admin.order.delete', $order->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus pesanan ini?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-delete">Hapus</button>
+            </form>
+        </td>
+
+    </tr>
+    @endforeach
+</tbody>
         </table>
     </div>
 </div>
