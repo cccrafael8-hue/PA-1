@@ -13,7 +13,7 @@
         <li><a href="{{ route('admin.menu') }}">Menu</a></li>
         <li><a href="{{ route('gallery') }}">Gallery</a></li>
         <li><a href="{{ route('admin.reservasi') }}">Reservasi</a></li>
-        <li><a href="{{ route('admin.contact') }}">Kontak</a></li>
+        <li><a href="{{ route('admin.kontak') }}">Kontak</a></li>
         <li><a href="{{ route('admin.order_admin') }}">Order</a></li>
     </ul>
 

@@ -8,7 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\OrderAdminController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\Contactcontroller;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,11 +106,25 @@ Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checko
 Route::post('/contact', [ContactController::class, 'store'])
     ->name('contact.store');
 //admin
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 
-    Route::get('/admin/kontak', [ContactController::class, 'index'])
+    Route::get('/', [AdminController::class, 'dashboard'])
+        ->name('admin.dashboard');
+
+    Route::get('/reservasi', [ReservasiController::class, 'index'])
+        ->name('admin.reservasi');
+
+    Route::get('/reservasi/{id}/paid', [ReservasiController::class, 'updateStatus'])
+        ->name('admin.reservasi.paid');
+
+    Route::delete('/reservasi/{id}', [ReservasiController::class, 'destroy'])
+        ->name('admin.reservasi.destroy');
+
+    // KONTAK
+    Route::get('/kontak', [ContactController::class, 'index'])
         ->name('admin.kontak');
 
+    Route::delete('/kontak/{id}', [ContactController::class, 'destroy'])
+        ->name('admin.kontak.delete');
+
 });
-Route::delete('/admin/kontak/{id}', [ContactController::class, 'destroy'])
-    ->name('admin.kontak.delete');
