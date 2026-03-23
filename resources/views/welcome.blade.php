@@ -7,16 +7,14 @@
 @include('partials.navbar')
 
 <section class="hero-banner">
+    <img src="{{ asset('adminlte/dist/img/kopi3.png') }}" class="hero-img">
+
     <div class="hero-content">
-        <img src=>
         <h1>Agatha Space</h1>
         <h2>Quality Coffee<br>Premium Taste</h2>
-        <p>Rasakan kehangatan kopi pilihan dengan pemandangan danau yang memukau. Kami hadir untuk memberikan momen relaksasi terbaik untuk Anda.</p>
-        <div style="display: flex; gap: 20px; font-size: 18px; color: var(--gold);">
-            <i class="fab fa-instagram"></i>
-            <i class="fab fa-facebook"></i>
-            <i class="fab fa-youtube"></i>
-        </div>
+        <p>
+            Rasakan kehangatan kopi pilihan dengan pemandangan danau yang memukau.
+        </p>
     </div>
 </section>
 

@@ -2,10 +2,10 @@
 
     <!-- Kiri: Logo -->
     <div class="nav-left">
-        <div class="logo-box">
+        <a href="{{ route('welcome') }}" class="logo-box" style="text-decoration:none; color:inherit;">
             <img src="{{ asset('adminlte/dist/img/logo agatha.jpg') }}" alt="Logo">
             AGATHA
-        </div>
+        </a>
     </div>
 
     <!-- Tengah: Menu -->
@@ -15,6 +15,7 @@
         <li><a href="{{ route('reservasi') }}">Reservasi</a></li>
         <li><a href="{{ route('kontak') }}">Kontak</a></li>
         <li><a href="{{ route('cart') }}">Cart</a></li>
+        <li><a href="{{ route('kritik') }}">Kritik</a></li>
     </ul>
 
     <!-- Kanan: Sign In -->

@@ -52,23 +52,73 @@
         .btn-login:hover { background: transparent; color: var(--espresso); }
 
         .hero-banner {
-            width: 100%;
-            height: 550px;  
-            background: linear-gradient(to right, rgba(42, 30, 23, 0.8), rgba(42, 30, 23, 0.3)),
-            url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            padding: 0 8%;
-            color: var(--white);
-        }
+    position: relative;
+    width: 100%;
+    height: 550px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    color: white;
+}
 
-        .hero-content { max-width: 600px; }
-        .hero-content h1 { font-family: 'Allura', cursive; font-size: 85px; color: var(--gold); margin-bottom: -10px; line-height: 1; }
-        .hero-content h2 { font-size: 45px; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 15px; letter-spacing: -1px; }
-        .hero-content p { font-size: 16px; opacity: 0.9; margin-bottom: 25px; font-weight: 300; line-height: 1.6; }
+/* gambar jadi background manual */
+.hero-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
 
+.hero-banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(42,30,23,0.6),
+        rgba(42,30,23,0.2)
+    );
+    z-index: 2;
+}
+
+/* konten di atas gambar */
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 600px;
+}
+
+.hero-content h1 {
+    font-family: 'Allura', cursive;
+    font-size: 85px;
+    color: #C5A059;
+    margin-bottom: -10px;
+    line-height: 1;
+}
+
+.hero-content h2 {
+    font-size: 45px;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.hero-content p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 25px;
+    font-weight: 300;
+    line-height: 1.6;
+}
         .news { padding: 80px 8%; background: var(--linen); }
 
         .section-header { text-align: center; margin-bottom: 50px; }

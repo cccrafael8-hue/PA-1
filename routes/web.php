@@ -8,6 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\OrderAdminController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Contactcontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/gallery', 'gallery')->name('gallery');
     Route::view('/reservasi', 'reservasi')->name('reservasi');
     Route::view('/kontak', 'kontak')->name('kontak');
+    Route::view('/kritik', 'kritik')->name('kritik');
 
     Route::post('/reservasi/store', [ReservasiController::class, 'store'])
         ->name('reservasi.store');
@@ -99,3 +101,16 @@ Route::prefix('cart')->group(function () {
 
 //Data orderan ke admin
 Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+//Kontak
+Route::post('/contact', [ContactController::class, 'store'])
+    ->name('contact.store');
+//admin
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get('/admin/kontak', [ContactController::class, 'index'])
+        ->name('admin.kontak');
+
+});
+Route::delete('/admin/kontak/{id}', [ContactController::class, 'destroy'])
+    ->name('admin.kontak.delete');
