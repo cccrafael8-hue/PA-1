@@ -13,7 +13,7 @@
         <h1>Agatha Space</h1>
         <h2>Quality Coffee<br>Premium Taste</h2>
         <p>
-            Rasakan kehangatan kopi pilihan dengan pemandangan danau yang memukau.
+            Rasakan kehangatan kopi pilihan dengan pemandangan danau Toba yang indah.
         </p>
     </div>
 </section>

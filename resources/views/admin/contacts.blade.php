@@ -89,6 +89,7 @@ body {
     margin-bottom: 20px;
 }
 </style>
+@include('admin.navbar_admin')
 
 <div class="admin-container">
 

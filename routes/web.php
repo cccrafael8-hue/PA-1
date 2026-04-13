@@ -9,6 +9,8 @@ use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\OrderAdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AdminGalleryController;
+use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +42,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
 
     Route::view('/welcome', 'welcome')->name('welcome');
-    Route::view('/gallery', 'gallery')->name('gallery');
     Route::view('/reservasi', 'reservasi')->name('reservasi');
     Route::view('/kontak', 'kontak')->name('kontak');
     Route::view('/kritik', 'kritik')->name('kritik');
@@ -128,5 +129,26 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 
     Route::delete('/kontak/{id}', [ContactController::class, 'destroy'])
         ->name('admin.kontak.delete');
+        
+});
+
+//Galeri
+//user
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
+
+//admin
+Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
+
+    Route::get('/gallery_admin', [AdminGalleryController::class, 'index'])
+        ->name('gallery_admin');
+
+    Route::post('/gallery_admin', [AdminGalleryController::class, 'store'])
+        ->name('gallery_admin.store');
+
+    Route::put('/gallery_admin/{id}', [AdminGalleryController::class, 'update'])
+        ->name('gallery_admin.update');
+
+    Route::delete('/gallery_admin/{id}', [AdminGalleryController::class, 'destroy'])
+        ->name('gallery_admin.delete');
 
 });

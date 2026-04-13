@@ -1,0 +1,179 @@
+@extends('layouts.app')
+
+@section('content')
+
+<style>
+
+body{
+    background:#e9e5e3;
+}
+
+/* CONTAINER */
+.container-admin{
+    max-width:950px;
+    margin:auto;
+    margin-top:110px;
+}
+
+/* CARD */
+.card-admin{
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+h4{
+    margin-bottom:25px;
+    font-weight:600;
+}
+
+/* BUTTON */
+.btn-main{
+    background:#5b3a34;
+    color:white;
+    border-radius:25px;
+    padding:10px 18px;
+    border:none;
+}
+
+.btn-main:hover{
+    background:#472c27;
+}
+
+/* FORM */
+.form-control{
+    padding:10px;
+    border-radius:10px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse: collapse;
+}
+
+th{
+    padding:12px 10px;
+    font-weight:600;
+    border-bottom:1px solid #eee;
+}
+
+td{
+    padding:14px 10px;
+    vertical-align: middle;
+    border-bottom:1px solid #f2f2f2;
+}
+
+/* ROW HOVER */
+tr:hover{
+    background:#f5f3f2;
+}
+
+/* IMAGE */
+img{
+    border-radius:8px;
+}
+
+/* ACTION BUTTON */
+.btn-sm{
+    margin-right:5px;
+}
+
+</style>
+
+@include('admin.navbar_admin')
+
+<div class="container container-admin">
+
+<div class="card-admin">
+
+<h4>Manajemen Galeri</h4>
+
+<!-- FORM -->
+<form id="formGaleri" method="POST" enctype="multipart/form-data">
+@csrf
+<input type="hidden" name="_method" id="methodField" value="POST">
+
+<div class="row mb-2">
+
+<div class="col-md-5 mb-3">
+<input type="text" name="title" id="title" class="form-control" placeholder="Judul">
+</div>
+
+<div class="col-md-5 mb-3">
+<input type="file" name="image" class="form-control">
+</div>
+
+<div class="col-md-2 mb-3 d-flex align-items-end">
+<button class="btn-main w-100" id="submitBtn">Tambah</button>
+</div>
+
+</div>
+
+</form>
+
+<hr style="margin:30px 0;">
+
+<!-- TABLE -->
+<table>
+
+<thead>
+<tr>
+<th width="120">Gambar</th>
+<th>Judul</th>
+<th width="160">Aksi</th>
+</tr>
+</thead>
+
+<tbody>
+
+@foreach($galleries as $item)
+
+<tr>
+
+<td>
+<img src="{{ asset('storage/'.$item->image) }}"
+style="width:90px;height:65px;object-fit:cover;">
+</td>
+
+<td>{{ $item->title }}</td>
+
+<td>
+
+<button class="btn btn-warning btn-sm"
+onclick="editData('{{ $item->id }}','{{ $item->title }}')">
+Edit
+</button>
+
+<form action="{{ route('gallery_admin.delete',$item->id) }}" method="POST" style="display:inline">
+@csrf
+@method('DELETE')
+<button class="btn btn-danger btn-sm">Hapus</button>
+</form>
+
+</td>
+
+</tr>
+
+@endforeach
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+function editData(id, title) {
+    document.getElementById('formGaleri').action = '/admin/gallery_admin/' + id;
+    document.getElementById('methodField').value = 'PUT';
+    document.getElementById('title').value = title;
+    document.getElementById('submitBtn').innerText = 'Update';
+}
+</script>
+
+@endsection
