@@ -15,7 +15,7 @@
         <li><a href="{{ route('reservasi') }}">Reservasi</a></li>
         <li><a href="{{ route('kontak') }}">Kontak</a></li>
         <li><a href="{{ route('cart') }}">Cart</a></li>
-        <li><a href="{{ route('kritik') }}">Kritik</a></li>
+        <li><a href="{{ route('reviews.store') }}">Kritik</a></li>
     </ul>
 
     <!-- Kanan: Sign In -->

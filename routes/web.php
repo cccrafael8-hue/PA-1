@@ -11,6 +11,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminGalleryController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,6 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/welcome', 'welcome')->name('welcome');
     Route::view('/reservasi', 'reservasi')->name('reservasi');
     Route::view('/kontak', 'kontak')->name('kontak');
-    Route::view('/kritik', 'kritik')->name('kritik');
 
     Route::post('/reservasi/store', [ReservasiController::class, 'store'])
         ->name('reservasi.store');
@@ -84,6 +84,15 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function(){
 
     Route::post('/menu/store',[AdminMenuController::class,'store'])
         ->name('admin.menu.store');
+
+    Route::get('/menu/{id}/edit',[AdminMenuController::class,'edit'])
+        ->name('admin.menu.edit');
+
+    Route::put('/menu/{id}',[AdminMenuController::class,'update'])
+        ->name('admin.menu.update');
+
+    Route::delete('/menu/{id}',[AdminMenuController::class,'destroy'])
+        ->name('admin.menu.delete');
 
 });
 
@@ -151,4 +160,11 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     Route::delete('/gallery_admin/{id}', [AdminGalleryController::class, 'destroy'])
         ->name('gallery_admin.delete');
 
+});
+
+//kritik
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/kritik', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::post('/kritik', [ReviewController::class, 'store'])->name('reviews.store');
 });
