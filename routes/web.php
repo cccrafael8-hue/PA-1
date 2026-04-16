@@ -48,62 +48,24 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/reservasi/store', [ReservasiController::class, 'store'])
         ->name('reservasi.store');
+
+    /* --- KRITIK USER (BAGIAN YANG DIUBAH) --- */
+    Route::get('/kritik', [ReviewController::class, 'index'])->name('kritik.index');
+    Route::post('/kritik', [ReviewController::class, 'store'])->name('kritik.store');
 });
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN (WAJIB LOGIN + ROLE ADMIN)
+| MENU USER
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'admin'])->group(function () {
-
-    // Dashboard Admin (PAKAI CONTROLLER)
-    Route::get('/admin', [AdminController::class, 'dashboard'])
-        ->name('admin.dashboard');
-
-    // Data Reservasi
-    Route::get('/admin/reservasi', [ReservasiController::class, 'index'])
-        ->name('admin.reservasi');
-
-    Route::get('/admin/reservasi/{id}/paid', [ReservasiController::class, 'updateStatus'])
-        ->name('admin.reservasi.paid');
-
-    Route::delete('/admin/reservasi/{id}', [ReservasiController::class, 'destroy'])
-        ->name('admin.reservasi.destroy');
-});
-
-//Menu 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 
-Route::middleware(['auth','admin'])->prefix('admin')->group(function(){
-
-    Route::get('/menu',[AdminMenuController::class,'index'])->name('admin.menu');
-
-    Route::get('/menu/create',[AdminMenuController::class,'create'])
-        ->name('admin.menu.create');
-
-    Route::post('/menu/store',[AdminMenuController::class,'store'])
-        ->name('admin.menu.store');
-
-    Route::get('/menu/{id}/edit',[AdminMenuController::class,'edit'])
-        ->name('admin.menu.edit');
-
-    Route::put('/menu/{id}',[AdminMenuController::class,'update'])
-        ->name('admin.menu.update');
-
-    Route::delete('/menu/{id}',[AdminMenuController::class,'destroy'])
-        ->name('admin.menu.delete');
-
-});
-
-//Order
-Route::get('/admin/order_admin', [App\Http\Controllers\OrderAdminController::class, 'index'])->name('admin.order_admin');
-Route::delete('/admin/order/{id}', [OrderAdminController::class, 'destroy'])
-    ->name('admin.order.delete');
-
-Route::post('/order', [OrderAdminController::class,'store'])->name('order.store');
-
-//Cart / Keranjang
+/*
+|--------------------------------------------------------------------------
+| CART / KERANJANG
+|--------------------------------------------------------------------------
+*/
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart');
     Route::post('/add', [CartController::class, 'add'])->name('cart.add');
@@ -111,18 +73,50 @@ Route::prefix('cart')->group(function () {
     Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
 });
 
-//Data orderan ke admin
 Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-//Kontak
+/*
+|--------------------------------------------------------------------------
+| ORDER
+|--------------------------------------------------------------------------
+*/
+Route::post('/order', [OrderAdminController::class,'store'])->name('order.store');
+
+/*
+|--------------------------------------------------------------------------
+| KONTAK
+|--------------------------------------------------------------------------
+*/
 Route::post('/contact', [ContactController::class, 'store'])
     ->name('contact.store');
-//admin
+
+/*
+|--------------------------------------------------------------------------
+| GALLERY USER
+|--------------------------------------------------------------------------
+*/
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN (WAJIB LOGIN + ADMIN)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 
+    /*
+    |------------------------------------------
+    | Dashboard
+    |------------------------------------------
+    */
     Route::get('/', [AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
 
+    /*
+    |------------------------------------------
+    | Reservasi
+    |------------------------------------------
+    */
     Route::get('/reservasi', [ReservasiController::class, 'index'])
         ->name('admin.reservasi');
 
@@ -132,22 +126,56 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     Route::delete('/reservasi/{id}', [ReservasiController::class, 'destroy'])
         ->name('admin.reservasi.destroy');
 
-    // KONTAK
+    /*
+    |------------------------------------------
+    | Menu Admin
+    |------------------------------------------
+    */
+    Route::get('/menu', [AdminMenuController::class,'index'])
+        ->name('admin.menu');
+
+    Route::get('/menu/create', [AdminMenuController::class,'create'])
+        ->name('admin.menu.create');
+
+    Route::post('/menu/store', [AdminMenuController::class,'store'])
+        ->name('admin.menu.store');
+
+    Route::get('/menu/{id}/edit', [AdminMenuController::class,'edit'])
+        ->name('admin.menu.edit');
+
+    Route::put('/menu/{id}', [AdminMenuController::class,'update'])
+        ->name('admin.menu.update');
+
+    Route::delete('/menu/{id}', [AdminMenuController::class,'destroy'])
+        ->name('admin.menu.delete');
+
+    /*
+    |------------------------------------------
+    | Order Admin
+    |------------------------------------------
+    */
+    Route::get('/order_admin', [OrderAdminController::class, 'index'])
+        ->name('admin.order_admin');
+
+    Route::delete('/order/{id}', [OrderAdminController::class, 'destroy'])
+        ->name('admin.order.delete');
+
+    /*
+    |------------------------------------------
+    | Kontak Admin
+    |------------------------------------------
+    */
     Route::get('/kontak', [ContactController::class, 'index'])
         ->name('admin.kontak');
 
     Route::delete('/kontak/{id}', [ContactController::class, 'destroy'])
         ->name('admin.kontak.delete');
-        
-});
 
-//Galeri
-//user
-Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
-
-//admin
-Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
-
+    /*
+    |------------------------------------------
+    | Gallery Admin
+    |------------------------------------------
+    */
     Route::get('/gallery_admin', [AdminGalleryController::class, 'index'])
         ->name('gallery_admin');
 
@@ -160,11 +188,12 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     Route::delete('/gallery_admin/{id}', [AdminGalleryController::class, 'destroy'])
         ->name('gallery_admin.delete');
 
-});
+    /*
+    |------------------------------------------
+    | Kritik & Saran Admin
+    |------------------------------------------
+    */
+    Route::get('/reviews', [ReviewController::class, 'adminIndex'])
+        ->name('admin.reviews');
 
-//kritik
-Route::middleware(['auth'])->group(function () {
-
-    Route::get('/kritik', [ReviewController::class, 'index'])->name('reviews.index');
-    Route::post('/kritik', [ReviewController::class, 'store'])->name('reviews.store');
 });
