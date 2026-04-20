@@ -14,28 +14,25 @@ body{
     margin-top:120px;
 }
 
-/* card */
 .cart-card{
     background:white;
     border-radius:15px;
     padding:20px;
     margin-bottom:15px;
     box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom:50px;
 }
 
-/* nama menu */
 .cart-title{
     font-weight:600;
     font-size:16px;
 }
 
-/* harga */
 .cart-price{
     color:#5b3a34;
     font-weight:600;
 }
 
-/* input qty */
 .qty-input{
     width:60px;
     border-radius:8px;
@@ -44,7 +41,6 @@ body{
     text-align:center;
 }
 
-/* tombol */
 .btn-update{
     background:#f3e9e6;
     border:none;
@@ -107,6 +103,7 @@ body{
                     Rp {{ number_format($item->menu->harga) }}
                 </div>
             </div>
+        </div>
 
             <!-- UPDATE QTY -->
             <form action="{{ route('cart.update') }}" method="POST" class="d-flex align-items-center gap-2">

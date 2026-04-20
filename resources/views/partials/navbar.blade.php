@@ -15,19 +15,19 @@
         <li><a href="{{ route('reservasi') }}">Reservasi</a></li>
         <li><a href="{{ route('kontak') }}">Kontak</a></li>
         <li><a href="{{ route('cart') }}">Cart</a></li>
-        <li><a href="{{ route('kritik') }}">Kritik</a></li>
+        
+        <!-- PERBAIKAN: Diubah dari reviews.store menjadi kritik.index -->
+        <li><a href="{{ route('kritik.index') }}">Kritik</a></li>
     </ul>
 
-    <!-- Kanan: Sign In -->
+    <!-- Kanan: Logout -->
     <div class="nav-right">
     @auth
-
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="btn-logout">LOGOUT</button>
         </form>
     @endauth
-
-</div>
+    </div>
 
 </nav>

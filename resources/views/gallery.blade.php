@@ -29,6 +29,7 @@
     border-radius: 15px;
     overflow: hidden;
     position: relative;
+    margin-top:80px;
 }
 
 .gallery-card img {
