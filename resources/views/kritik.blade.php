@@ -7,6 +7,7 @@
     max-width:1000px;
     margin:auto;
     padding:40px 20px;
+    margin-top:80px;
 }
 
 .title{
@@ -94,21 +95,18 @@
 
     <div class="title">Kritik & Saran</div>
 
-    {{-- NOTIF --}}
     @if(session('success'))
         <div style="color:green; margin-bottom:10px;">
             {{ session('success') }}
         </div>
     @endif
 
-    {{-- FORM --}}
     <div class="form-box">
         <form action="{{ route('reviews.store') }}" method="POST">
             @csrf
 
             <input type="text" name="name" placeholder="Nama kamu" required>
 
-            {{-- BINTANG KLIK --}}
             <div class="rating">
                 <input type="hidden" name="rating" id="rating" required>
 
@@ -125,7 +123,6 @@
         </form>
     </div>
 
-    {{-- LIST REVIEW --}}
     <div class="review-grid">
         @foreach($reviews as $review)
             <div class="review-card">
@@ -144,7 +141,6 @@
 
 </div>
 
-{{-- SCRIPT --}}
 <script>
     const stars = document.querySelectorAll('.star-input');
     const ratingInput = document.getElementById('rating');
