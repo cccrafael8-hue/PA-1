@@ -11,7 +11,9 @@ class ReviewController extends Controller
     // Fungsi untuk USER (Menampilkan Form)
     public function index()
     {
-        return view('kritik');
+        $reviews = Review::latest()->get();
+
+        return view('kritik', compact('reviews'));
     }
 
     // Fungsi untuk ADMIN (Menampilkan Tabel)

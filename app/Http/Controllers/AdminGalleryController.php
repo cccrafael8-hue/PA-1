@@ -17,7 +17,7 @@ class AdminGalleryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
+            'title' => 'nullable',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
@@ -36,8 +36,8 @@ class AdminGalleryController extends Controller
         $gallery = Gallery::findOrFail($id);
 
         $request->validate([
-            'title' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'title' => 'nullable|string',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         if ($request->hasFile('image')) {

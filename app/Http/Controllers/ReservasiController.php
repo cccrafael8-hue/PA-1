@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservasiController extends Controller
 {
-    // USER BUAT RESERVASI
     public function store(Request $request)
     {
         $request->validate([
@@ -18,7 +17,8 @@ class ReservasiController extends Controller
             'jumlah_orang' => 'required|integer'
         ]);
 
-        $total = $request->jumlah_orang * 50000; // 50rb per orang
+        //total reservasi per orang
+        $total = $request->jumlah_orang * 50000;
 
         Reservasi::create([
             'user_id' => Auth::id(),
@@ -33,7 +33,7 @@ class ReservasiController extends Controller
         return redirect()->back()->with('success', 'Reservasi berhasil dibuat!');
     }
 
-    // ADMIN LIHAT SEMUA
+    // ADMIN LIHAT 
     public function index()
     {
         $reservasis = Reservasi::latest()->get();

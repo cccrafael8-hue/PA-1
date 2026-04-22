@@ -92,7 +92,7 @@ img{
 <h4>Manajemen Galeri</h4>
 
 <!-- FORM -->
-<form id="formGaleri" method="POST" enctype="multipart/form-data">
+<form id="formGaleri" method="POST" action="{{ route('gallery_admin.store') }}" enctype="multipart/form-data">
 @csrf
 <input type="hidden" name="_method" id="methodField" value="POST">
 

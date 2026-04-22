@@ -63,6 +63,7 @@
         <a href="{{ route('admin.reservasi') }}" class="dashboard-btn">Reservasi</a>
         <a href="#" class="dashboard-btn">Kontak</a>
         <a href="#" class="dashboard-btn">Order</a>
+        <a href="#" class="dashboard-btn">Kritik</a>
     </div>
 </div>
 
