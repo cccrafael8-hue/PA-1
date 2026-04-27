@@ -12,6 +12,7 @@ class Review extends Model
     protected $fillable = [
         'name',
         'rating',
-        'comment'
+        'comment',
+        'admin_reply'
     ];
 }

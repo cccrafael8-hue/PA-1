@@ -3,151 +3,200 @@
 @section('content')
 
 <style>
-
-body{
-    background:#e9e5e3;
+body {
+    background: #f0ebe8;
 }
 
-.menu-container{
-    max-width:1100px;
-    margin:auto;
-    margin-top:120px;
+.menu-container {
+    max-width: 1100px;
+    margin: 110px auto 60px;
+    padding: 0 16px;
 }
 
-.menu-card{
-    background:white;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
-    transition:0.2s;
+/* ── TOPBAR ── */
+.menu-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.menu-card:hover{
-    transform:translateY(-5px);
+.menu-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: #3d1f1a;
 }
 
-.menu-img{
-    width:100%;
-    height:170px;
-    object-fit:cover;
+.btn-lihat {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #fff;
+    border: 0.5px solid rgba(91,58,52,0.2);
+    color: #5b3a34;
+    padding: 9px 18px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
 }
 
-.menu-body{
-    padding:15px;
+.btn-lihat:hover {
+    background: #f5ede9;
+    color: #5b3a34;
+    text-decoration: none;
 }
 
-.menu-title{
-    font-weight:600;
-    font-size:16px;
+/* ── ALERT ── */
+.alert-custom {
+    background: #eaf5ec;
+    border: 0.5px solid rgba(60,130,70,0.2);
+    color: #2e6b38;
+    padding: 11px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.menu-desc{
-    font-size:13px;
-    color:#777;
+/* ── GRID ── */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
 }
 
-.menu-price{
-    font-weight:600;
-    color:#5b3a34;
+/* ── CARD ── */
+.menu-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 0.5px solid rgba(91,58,52,0.1);
+    transition: transform 0.2s;
 }
 
-/* tombol */
-.btn-cart{
-    background:#5b3a34;
-    color:white;
-    border-radius:25px;
-    padding:7px 14px;
-    font-size:13px;
-    transition:0.2s;
-    width:100%;
+.menu-card:hover {
+    transform: translateY(-4px);
 }
 
-.btn-cart:hover{
-    background:#472c27;
+.menu-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
 }
 
-/* tombol lihat cart */
-.btn-lihat{
-    background:#f3e9e6;
-    color:#5b3a34;
-    border-radius:25px;
-    padding:8px 18px;
-    text-decoration:none;
-    font-size:14px;
+.menu-body {
+    padding: 14px;
 }
 
-.btn-lihat:hover{
-    background:#e0d3cf;
+.menu-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c1410;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* notifikasi */
-.alert-custom{
-    background:#d4edda;
-    color:#155724;
-    padding:10px;
-    border-radius:10px;
-    text-align:center;
-    margin-bottom:20px;
+.menu-desc {
+    font-size: 12px;
+    color: #9a7068;
+    line-height: 1.5;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
+.menu-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 0.5px solid rgba(91,58,52,0.1);
+}
+
+.menu-price {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5b3a34;
+}
+
+/* ── TOMBOL + ── */
+.btn-add {
+    width: 34px;
+    height: 34px;
+    background: #5b3a34;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-add:hover {
+    background: #4a2e29;
+}
 </style>
 
 @include('partials.navbar')
 
-<div class="container menu-container">
+<div class="menu-container">
 
-    <!-- NOTIFIKASI -->
     @if(session('success'))
         <div class="alert-custom">
             {{ session('success') }}
         </div>
     @endif
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <h2>Menu Makanan</h2>
-
-        <!-- TOMBOL KE KERANJANG -->
+    <div class="menu-topbar">
+        <h2 class="menu-heading">Menu Makanan</h2>
         <a href="{{ route('cart') }}" class="btn-lihat">
-            🛒 Lihat Keranjang
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b3a34" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            Lihat Keranjang
         </a>
-
     </div>
 
-    <div class="row">
+    <div class="menu-grid">
 
         @foreach($menus as $menu)
 
-        <div class="col-md-3 mb-4">
+        <div class="menu-card">
 
-            <div class="menu-card">
+            <img
+                src="{{ asset('storage/'.$menu->gambar) }}"
+                class="menu-img"
+                alt="{{ $menu->nama_menu }}"
+            >
 
-                <img src="{{ asset('storage/'.$menu->gambar) }}" class="menu-img">
+            <div class="menu-body">
 
-                <div class="menu-body">
+                <div class="menu-name">{{ $menu->nama_menu }}</div>
+                <div class="menu-desc">{{ $menu->deskripsi }}</div>
 
-                    <div class="menu-title">
-                        {{ $menu->nama_menu }}
-                    </div>
+                <div class="menu-footer">
+                    <span class="menu-price">Rp {{ number_format($menu->harga, 0, ',', '.') }}</span>
 
-                    <div class="menu-desc">
-                        {{ $menu->deskripsi }}
-                    </div>
-
-                    <div class="menu-price mt-2">
-                        Rp {{ number_format($menu->harga) }}
-                    </div>
-
-                    <!-- TOMBOL KERANJANG -->
-                    <form action="{{ route('cart.add') }}" method="POST" class="mt-3">
+                    <form action="{{ route('cart.add') }}" method="POST">
                         @csrf
                         <input type="hidden" name="menu_id" value="{{ $menu->id }}">
-
-                        <button type="submit" class="btn-cart border-0">
-                            🛒 Tambah ke Keranjang
-                        </button>
+                        <button type="submit" class="btn-add" title="Tambah ke Keranjang">+</button>
                     </form>
-
                 </div>
 
             </div>

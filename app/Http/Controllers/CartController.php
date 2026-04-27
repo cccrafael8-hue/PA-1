@@ -62,7 +62,7 @@ class CartController extends Controller
         return back()->with('success', 'Menu berhasil dihapus');
     }
 
-    public function checkout() {
+    public function checkout(Request $request) {
 
     $cart = $this->getCart()->load('items.menu');
 
@@ -80,7 +80,8 @@ class CartController extends Controller
         'nama' => auth()->user()->name,
         'menu' => $menuList,
         'total' => $total,
-        'status' => 'Belum Bayar'
+        'status' => 'Belum Bayar',
+        'note' => $request->note
     ]);
 
     return back()->with('success', 'Pesanan Berhasil Dibuat');

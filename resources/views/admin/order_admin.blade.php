@@ -11,7 +11,7 @@ body{
 }
 
 .container{
-    max-width:900px;
+    max-width:1000px;
     margin:100px auto;
 }
 
@@ -48,6 +48,13 @@ tr:hover{
     background:#f3f3f3;
 }
 
+/* biar catatan gak kepanjangan */
+.note-cell{
+    max-width:200px;
+    word-wrap:break-word;
+    text-align:left;
+}
+
 .status{
     padding:6px 12px;
     border-radius:20px;
@@ -77,6 +84,7 @@ tr:hover{
 }
 
 </style>
+
 @include('admin.navbar_admin')
 
 <div class="container">
@@ -90,6 +98,7 @@ tr:hover{
                 <th>Nama</th>
                 <th>Menu</th>
                 <th>Total</th>
+                <th>Catatan</th> <!-- 🔥 TAMBAHAN -->
                 <th>Status</th>
                 <th>Tanggal</th>
                 <th>Aksi</th>
@@ -97,34 +106,41 @@ tr:hover{
         </thead>
 
         <tbody>
-    @foreach($orders as $order)
-    <tr>
-        <td>{{ $order->nama }}</td>
-        <td>{{ $order->menu}}</td>
-        <td>Rp {{ number_format($order->total) }}</td>
+        @foreach($orders as $order)
+        <tr>
+            <td>{{ $order->nama }}</td>
+            <td>{{ $order->menu }}</td>
+            <td>Rp {{ number_format($order->total) }}</td>
 
-        <td>
-            @if($order->status == 'menunggu')
-                <span class="status pending">Menunggu</span>
-            @else
-                <span class="status success">Dibayar</span>
-            @endif
-        </td>
+            <!-- NOTE -->
+            <td class="note-cell">
+                {{ $order->note ?? '-' }}
+            </td>
 
-        <td>{{ $order->created_at->format('d M Y') }}</td>
+            <td>
+                @if($order->status == 'menunggu')
+                    <span class="status pending">Menunggu</span>
+                @else
+                    <span class="status success">Dibayar</span>
+                @endif
+            </td>
 
-        <td>
-            <form action="{{ route('admin.order.delete', $order->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus pesanan ini?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-delete">Hapus</button>
-            </form>
-        </td>
+            <td>{{ $order->created_at->format('d M Y') }}</td>
 
-    </tr>
-    @endforeach
-</tbody>
+            <td>
+                <form action="{{ route('admin.order.delete', $order->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus pesanan ini?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Hapus</button>
+                </form>
+            </td>
+
+        </tr>
+        @endforeach
+        </tbody>
+
         </table>
     </div>
 </div>
+
 @endsection

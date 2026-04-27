@@ -1,6 +1,8 @@
 @extends('layouts.app') {{-- Pastikan ini sesuai dengan layout admin kamu --}}
 
 @section('content')
+
+@include('admin.navbar_admin')
 <div class="container" style="padding: 40px; background: #fff;">
     <h2 style="color: #4a342e; margin-bottom: 20px; font-weight: bold;">Daftar Kritik & Saran (Admin)</h2>
     
@@ -12,6 +14,7 @@
                 <th style="padding: 15px;">Rating</th>
                 <th style="padding: 15px;">Komentar</th>
                 <th style="padding: 15px;">Tanggal</th>
+                <th style="padding: 15px;">Aksi / Balasan</th>
             </tr>
         </thead>
         <tbody>
@@ -26,10 +29,24 @@
                 </td>
                 <td style="padding: 12px; text-align: left;">{{ $item->comment }}</td>
                 <td style="padding: 12px;">{{ $item->created_at->format('d M Y') }}</td>
+                <td style="padding: 12px; text-align: left;">
+                    @if($item->admin_reply)
+                        <div style="background: #e8f5e9; padding: 10px; border-radius: 5px; font-size: 0.9em;">
+                            <strong>Balasan Admin:</strong><br>
+                            {{ $item->admin_reply }}
+                        </div>
+                    @else
+                        <form action="{{ route('admin.reviews.reply', $item->id) }}" method="POST">
+                            @csrf
+                            <textarea name="admin_reply" rows="2" style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 5px;" placeholder="Tulis balasan..."></textarea>
+                            <button type="submit" style="background-color: #4a342e; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Balas</button>
+                        </form>
+                    @endif
+                </td>
             </tr>
             @empty
             <tr>
-                <td colspan="5" style="padding: 20px; text-align: center;">Belum ada kritik masuk.</td>
+                <td colspan="6" style="padding: 20px; text-align: center;">Belum ada kritik masuk.</td>
             </tr>
             @endforelse
         </tbody>

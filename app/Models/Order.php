@@ -13,6 +13,7 @@ class Order extends Model
         'nama',
         'menu',
         'total',
-        'status'
+        'status',
+        'note'
     ];
 }

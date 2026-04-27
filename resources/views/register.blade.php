@@ -1,162 +1,182 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Register | AGATHA SPACE</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --gold: #C5A059;
-            --espresso: #2A1E17;
-            --linen: #FDFBF7;
-            --white: #FFFFFF;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body {
-            height: 100vh;
-            display: flex;
-            background: linear-gradient(rgba(42,30,23,0.8), rgba(42,30,23,0.8)),
-            url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .register-box {
-            background: var(--white);
-            width: 420px;
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            text-align: center;
-        }
-
-        .register-box h1 {
-            font-family: 'Allura', cursive;
-            font-size: 60px;
-            color: var(--gold);
-            margin-bottom: -10px;
-        }
-
-        .register-box h2 {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            color: var(--espresso);
-            letter-spacing: 2px;
-        }
-
-        .input-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .input-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--espresso);
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            margin-top: 5px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .input-group input:focus {
-            border-color: var(--gold);
-        }
-
-        .btn-register {
-            width: 100%;
-            padding: 12px;
-            border-radius: 25px;
-            border: none;
-            background: var(--espresso);
-            color: var(--gold);
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-register:hover {
-            background: #3d2d23;
-        }
-
-        .btn-login {
-            display: block;
-            margin-top: 15px;
-            text-decoration: none;
-            font-size: 14px;
-            color: var(--espresso);
-        }
-
-        .error {
-            color: red;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register | AGATHA SPACE</title>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  min-height:100vh;
+  font-family:'DM Sans',sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+  background:
+    linear-gradient(rgba(26,17,12,0.82), rgba(26,17,12,0.82)),
+    url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+}
+.card{
+  background:#fff;
+  width:100%;
+  max-width:440px;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,0.35);
+}
+.card-top{
+  background:#2A1A12;
+  padding:36px 40px 28px;
+  text-align:center;
+  position:relative;
+}
+.card-top::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:50%;transform:translateX(-50%);
+  width:40px;height:2px;
+  background:#B8942B;
+}
+.brand-script{
+  font-family:'Allura',cursive;
+  font-size:62px;
+  color:#D4B253;
+  line-height:1;
+  display:block;
+}
+.brand-tagline{
+  font-size:10px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:rgba(212,178,83,0.5);
+  margin-top:4px;
+}
+.card-body{
+  padding:36px 40px 40px;
+}
+.section-label{
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:#B8942B;
+  margin-bottom:24px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-label::before,.section-label::after{
+  content:'';flex:1;height:1px;background:#EEE;
+}
+.field{
+  margin-bottom:18px;
+}
+.field label{
+  display:block;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:#888;
+  margin-bottom:7px;
+}
+.field input{
+  width:100%;
+  padding:12px 16px;
+  border:1.5px solid #E8E3DB;
+  border-radius:8px;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  color:#1A110C;
+  outline:none;
+  transition:border-color 0.25s, box-shadow 0.25s;
+  background:#FDFBF7;
+}
+.field input:focus{
+  border-color:#B8942B;
+  box-shadow:0 0 0 3px rgba(184,148,43,0.1);
+  background:#fff;
+}
+.field input::placeholder{color:#C8C3BB}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn{
+  width:100%;
+  padding:14px;
+  background:#2A1A12;
+  color:#D4B253;
+  border:none;
+  border-radius:8px;
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-weight:500;
+  cursor:pointer;
+  margin-top:6px;
+  transition:background 0.2s, transform 0.1s;
+}
+.btn:hover{background:#3D2B20}
+.btn:active{transform:scale(0.99)}
+.footer{
+  text-align:center;
+  margin-top:22px;
+  font-size:13px;
+  color:#AAA;
+}
+.footer a{color:#B8942B;text-decoration:none;font-weight:500;border-bottom:1px solid rgba(184,148,43,0.3)}
+.footer a:hover{border-bottom-color:#B8942B}
+.error{
+  background:#FEF2F2;
+  border-left:3px solid #EF4444;
+  color:#B91C1C;
+  font-size:13px;
+  padding:10px 14px;
+  border-radius:0 6px 6px 0;
+  margin-bottom:18px;
+}
+</style>
 </head>
 <body>
+<div class="card">
+  <div class="card-top">
+    <span class="brand-script">Agatha</span>
+    <span class="brand-tagline">Space</span>
+  </div>
 
-<div class="register-box">
-    <h1>Agatha</h1>
-    <h2>CREATE ACCOUNT</h2>
+  <div class="card-body">
+    <div class="section-label">Buat Akun</div>
 
     @if($errors->any())
-        <div class="error">
-            {{ $errors->first() }}
-        </div>
+      <div class="error">{{ $errors->first() }}</div>
     @endif
 
     <form method="POST" action="{{ route('register') }}">
-        @csrf
+      @csrf
 
-        <div class="input-group">
-            <label>Nama</label>
-            <input type="text" name="name" required>
+      <div class="field">
+        <label>Nama</label>
+        <input type="text" name="name" value="{{ old('name') }}" placeholder="Nama lengkap" required>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" value="{{ old('email') }}" placeholder="email@contoh.com" required>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="••••••••" required>
         </div>
-
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" name="email" required>
+        <div class="field">
+          <label>Konfirmasi</label>
+          <input type="password" name="password_confirmation" placeholder="••••••••" required>
         </div>
-
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" name="password" required>
-        </div>
-
-        <div class="input-group">
-            <label>Konfirmasi Password</label>
-            <input type="password" name="password_confirmation" required>
-        </div>
-
-        <button type="submit" class="btn-register">Register</button>
+      </div>
+      <button type="submit" class="btn">Daftar Sekarang</button>
     </form>
 
-    <a href="{{ route('login') }}" class="btn-login">
-        Sudah punya akun? Login
-    </a>
-
+    <p class="footer">Sudah punya akun? <a href="{{ route('login') }}">Login di sini</a></p>
+  </div>
 </div>
-
 </body>
 </html>

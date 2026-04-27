@@ -136,6 +136,15 @@
                 </div>
 
                 <p>{{ $review->comment }}</p>
+                
+                @if($review->admin_reply)
+                    <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-left: 4px solid #5c3b33; border-radius: 4px;">
+                        <div style="font-weight: bold; color: #5c3b33; font-size: 0.9em; margin-bottom: 5px;">
+                            Balasan Admin
+                        </div>
+                        <p style="margin: 0; font-size: 0.9em; color: #555;">{{ $review->admin_reply }}</p>
+                    </div>
+                @endif
             </div>
         @endforeach
     </div>
