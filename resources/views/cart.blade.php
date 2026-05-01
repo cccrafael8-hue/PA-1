@@ -353,7 +353,7 @@ function decreaseQty(btn) {
 }
 
 function kirimPesanan() {
-    let pesan = "Halo kak, saya mau pesan:\n\n";
+    let pesan = "Halo kak, saya mau pesan ";
 
     @foreach($cart->items as $item)
         pesan += "- {{ $item->menu->nama_menu }} x{{ $item->qty }}\n";

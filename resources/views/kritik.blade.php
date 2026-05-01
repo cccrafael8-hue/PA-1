@@ -16,7 +16,6 @@
     margin-bottom:20px;
 }
 
-/* FORM */
 .form-box{
     background:#fff;
     padding:20px;
@@ -47,7 +46,6 @@
     background:#3e2723;
 }
 
-/* RATING INPUT */
 .rating{
     margin:10px 0;
 }
@@ -63,7 +61,6 @@
     color:gold;
 }
 
-/* CARD REVIEW */
 .review-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
@@ -82,7 +79,6 @@
     margin-bottom:5px;
 }
 
-/* BINTANG DISPLAY */
 .stars-display span{
     color:gold;
     font-size:18px;
@@ -101,7 +97,6 @@
         </div>
     @endif
 
-    <!-- FORM BINTANG -->
     <div class="form-box">
         <form action="{{ route('kritik.store') }}" method="POST">
             @csrf

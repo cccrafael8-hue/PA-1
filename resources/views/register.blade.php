@@ -149,7 +149,7 @@ body{
 
     @if($errors->any())
       <div class="error">{{ $errors->first() }}</div>
-    @endif
+    @endif 
 
     <form method="POST" action="{{ route('register') }}">
       @csrf

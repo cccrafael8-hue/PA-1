@@ -55,18 +55,29 @@ tr:hover{
     text-align:left;
 }
 
-.status{
+.status-select {
     padding:6px 12px;
     border-radius:20px;
     font-size:13px;
+    border: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.pending{
-    background:#ffeeba;
+.pending {
+    background-color:#ffeeba;
+    color: #856404;
 }
 
-.success{
-    background:#c3e6cb;
+.proses {
+    background-color:#b8daff;
+    color: #004085;
+}
+
+.selesai {
+    background-color:#c3e6cb;
+    color: #155724;
 }
 
 .btn-delete{
@@ -118,11 +129,15 @@ tr:hover{
             </td>
 
             <td>
-                @if($order->status == 'menunggu')
-                    <span class="status pending">Menunggu</span>
-                @else
-                    <span class="status success">Dibayar</span>
-                @endif
+                <form action="{{ route('admin.order.status', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('PUT')
+                    <select name="status" onchange="this.form.submit()" class="status-select {{ $order->status }}">
+                        <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="proses" {{ $order->status == 'proses' ? 'selected' : '' }}>Proses</option>
+                        <option value="selesai" {{ $order->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                    </select>
+                </form>
             </td>
 
             <td>{{ $order->created_at->format('d M Y') }}</td>

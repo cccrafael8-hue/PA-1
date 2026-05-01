@@ -12,6 +12,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminGalleryController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\HistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -192,8 +193,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     Route::get('/order_admin', [OrderAdminController::class, 'index'])
         ->name('admin.order_admin');
 
+    Route::put('/order/{id}/status', [OrderAdminController::class, 'updateStatus'])
+        ->name('admin.order.status');
+
     Route::delete('/order/{id}', [OrderAdminController::class, 'destroy'])
         ->name('admin.order.delete');
+
 
     /*
     |------------------------------------------
@@ -235,3 +240,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
         ->name('admin.reviews.reply');
 
 });
+
+//History
+Route::get('/history', [HistoryController::class, 'index'])->name('history')->middleware('auth');

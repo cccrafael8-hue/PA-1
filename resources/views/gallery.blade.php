@@ -8,7 +8,7 @@
 
     <div class="gallery-hero">
         <div class="gallery-hero-left">
-            <span class="gallery-tag">Koleksi Foto</span>
+            <span class="gallery-tag">Lihat bagaimana AGATHA SPACE hadir dalam keseharian.</span>
             <h1 class="gallery-title">Galeri <span>Foto</span></h1>
         </div>
         <div class="gallery-count">
@@ -48,8 +48,6 @@
 @include('partials.footer')
 
 <style>
-/* ── Page ── */
-/* Warna background diubah menjadi #e9e5e3 (krem/off-white seperti gambar) */
 html, body {
     background-color: #e9e5e3 !important;
 }
@@ -61,7 +59,6 @@ html, body {
     padding-bottom: 60px;
 }
 
-/* ── Hero Header ── */
 .gallery-hero {
     display: flex;
     align-items: flex-end;
@@ -106,7 +103,6 @@ html, body {
     font-weight: 500;
 }
 
-/* ── Divider ── */
 .gallery-divider {
     height: 1px;
     background: linear-gradient(90deg,
@@ -118,7 +114,6 @@ html, body {
     margin: 0 48px 36px;
 }
 
-/* ── Grid ── */
 .gallery-container {
     padding-left: 48px;
     padding-right: 48px;
@@ -132,7 +127,6 @@ html, body {
     overflow: hidden;
 }
 
-/* ── Card ── */
 .gallery-card {
     position: relative;
     overflow: hidden;
@@ -160,7 +154,6 @@ html, body {
     filter: brightness(1.02) saturate(1.05);
 }
 
-/* ── Overlays (disesuaikan untuk background terang) ── */
 .gallery-overlay {
     position: absolute;
     inset: 0;
@@ -189,7 +182,6 @@ html, body {
     opacity: 1;
 }
 
-/* ── Number badge ── */
 .gallery-num {
     position: absolute;
     top: 14px;
@@ -206,7 +198,6 @@ html, body {
     color: rgba(255,255,255,0.85);
 }
 
-/* ── Caption area ── */
 .gallery-info {
     position: absolute;
     bottom: 0;
@@ -239,7 +230,6 @@ html, body {
     transform: translateY(-2px);
 }
 
-/* ── Arrow button ── */
 .gallery-arrow {
     width: 30px;
     height: 30px;
@@ -268,7 +258,6 @@ html, body {
     border-color: rgba(255,255,255,0.5);
 }
 
-/* ── Responsive ── */
 @media (max-width: 992px) {
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);

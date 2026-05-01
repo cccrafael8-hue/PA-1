@@ -47,13 +47,11 @@
             overflow: hidden;
         }
 
-        /* Gold top bar */
         .card-top-bar {
             height: 4px;
             background: linear-gradient(90deg, var(--espresso), var(--gold), var(--espresso));
         }
 
-        /* Header */
         .card-header {
             text-align: center;
             padding: 36px 40px 0;
@@ -76,7 +74,6 @@
             margin-top: 2px;
         }
 
-        /* Divider with diamond */
         .ornament {
             display: flex;
             align-items: center;
@@ -102,12 +99,10 @@
             flex-shrink: 0;
         }
 
-        /* Body */
         .card-body {
             padding: 0 40px 36px;
         }
 
-        /* Error */
         .error {
             font-size: 13px;
             color: #9b3a3a;
@@ -118,7 +113,6 @@
             margin-bottom: 20px;
         }
 
-        /* Input group */
         .input-group {
             margin-bottom: 18px;
         }
@@ -171,7 +165,6 @@
             box-shadow: 0 0 0 3px rgba(197,160,89,0.12);
         }
 
-        /* Buttons */
         .btn-login {
             width: 100%;
             padding: 13px;

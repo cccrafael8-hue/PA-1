@@ -13,7 +13,6 @@ body {
     padding: 0 16px;
 }
 
-/* ── TOPBAR ── */
 .menu-topbar {
     display: flex;
     justify-content: space-between;
@@ -60,14 +59,12 @@ body {
     margin-bottom: 20px;
 }
 
-/* ── GRID ── */
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 16px;
 }
 
-/* ── CARD ── */
 .menu-card {
     background: #fff;
     border-radius: 16px;
@@ -127,7 +124,6 @@ body {
     color: #5b3a34;
 }
 
-/* ── TOMBOL + ── */
 .btn-add {
     width: 34px;
     height: 34px;
@@ -162,7 +158,7 @@ body {
     @endif
 
     <div class="menu-topbar">
-        <h2 class="menu-heading">Menu Makanan</h2>
+        <h2 class="menu-heading">Menu Kami</h2>
         <a href="{{ route('cart') }}" class="btn-lihat">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b3a34" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
@@ -172,11 +168,19 @@ body {
         </a>
     </div>
 
+    <!-- Category Shortcuts -->
+    <div class="category-filters" style="display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px;">
+        <button class="filter-btn active" data-filter="all" style="padding: 8px 16px; border: 1px solid #5b3a34; background: #5b3a34; color: #fff; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.3s; white-space: nowrap;">Semua</button>
+        <button class="filter-btn" data-filter="makanan" style="padding: 8px 16px; border: 1px solid #5b3a34; background: transparent; color: #5b3a34; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.3s; white-space: nowrap;">Makanan</button>
+        <button class="filter-btn" data-filter="coffee" style="padding: 8px 16px; border: 1px solid #5b3a34; background: transparent; color: #5b3a34; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.3s; white-space: nowrap;">Coffee</button>
+        <button class="filter-btn" data-filter="non_coffee" style="padding: 8px 16px; border: 1px solid #5b3a34; background: transparent; color: #5b3a34; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.3s; white-space: nowrap;">Non Coffee</button>
+    </div>
+
     <div class="menu-grid">
 
         @foreach($menus as $menu)
 
-        <div class="menu-card">
+        <div class="menu-card" data-kategori="{{ $menu->kategori }}">
 
             <img
                 src="{{ asset('storage/'.$menu->gambar) }}"
@@ -208,6 +212,41 @@ body {
     </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const menuCards = document.querySelectorAll('.menu-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update active state
+            filterBtns.forEach(b => {
+                b.style.background = 'transparent';
+                b.style.color = '#5b3a34';
+                b.classList.remove('active');
+            });
+            this.style.background = '#5b3a34';
+            this.style.color = '#fff';
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            menuCards.forEach(card => {
+                if (filterValue === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    if (card.getAttribute('data-kategori') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+});
+</script>
 
 @include('partials.footer')
 

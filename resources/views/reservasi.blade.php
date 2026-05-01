@@ -186,7 +186,7 @@ body {
 
         <div class="info-box">
             <span class="info-icon">💳</span>
-            <span class="info-text">Pembayaran dilakukan via <strong>QRIS</strong> saat konfirmasi reservasi di WhatsApp.</span>
+            <span class="info-text">Pembayaran dilakukan saat konfirmasi reservasi di WhatsApp.</span>
         </div>
 
         <button type="button" onclick="kirimReservasi()" class="btn-reservasi">
@@ -210,7 +210,7 @@ function kirimReservasi() {
     let waktu   = document.getElementById("waktu").value;
     let orang   = document.getElementById("jumlah_orang").value;
 
-    let pesan = `Halo Kakk,\n\nSaya ingin melakukan reservasi meja.\n\nNama         : ${nama}\nTanggal      : ${tanggal}\nJam          : ${waktu}\nJumlah Orang : ${orang}\n\nSaya juga akan melakukan pembayaran melalui QRIS.\n\nTerima kasih Kakk.`;
+    let pesan = `Halo Kakk, Saya ingin melakukan reservasi meja atas nama ${nama}\nTanggal      : ${tanggal}\nJam          : ${waktu}\nJumlah Orang : ${orang}\n\nSaya juga akan melakukan pembayaran melalui QRIS.\n\nTerima kasih Kakk.`;
 
     let nomorAdmin = "62895346041061";
     let url = "https://wa.me/" + nomorAdmin + "?text=" + encodeURIComponent(pesan);

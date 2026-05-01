@@ -76,6 +76,15 @@ th, td{
 </div>
 
 <div class="col-md-4 mb-3">
+<select name="kategori" class="form-control" required>
+    <option value="">Pilih Kategori</option>
+    <option value="makanan" {{ (isset($menu) && $menu->kategori == 'makanan') ? 'selected' : '' }}>Makanan</option>
+    <option value="coffee" {{ (isset($menu) && $menu->kategori == 'coffee') ? 'selected' : '' }}>Coffee</option>
+    <option value="non_coffee" {{ (isset($menu) && $menu->kategori == 'non_coffee') ? 'selected' : '' }}>Non Coffee</option>
+</select>
+</div>
+
+<div class="col-md-4 mb-3">
 <input type="number" name="harga" class="form-control"
     placeholder="Harga"
     value="{{ $menu->harga ?? '' }}" required>
@@ -110,6 +119,7 @@ th, td{
 <tr>
 <th>Gambar</th>
 <th>Nama</th>
+<th>Kategori</th>
 <th>Harga</th>
 <th>Aksi</th>
 </tr>
@@ -127,6 +137,14 @@ style="width:80px;height:60px;object-fit:cover;border-radius:8px;">
 </td>
 
 <td>{{ $menu->nama_menu }}</td>
+
+<td>
+    @if($menu->kategori == 'makanan') Makanan
+    @elseif($menu->kategori == 'coffee') Coffee
+    @elseif($menu->kategori == 'non_coffee') Non Coffee
+    @else -
+    @endif
+</td>
 
 <td>Rp {{ number_format($menu->harga) }}</td>
 

@@ -12,9 +12,12 @@ class CartController extends Controller
 {
     private function getCart()
     {
-        $cart = Cart::first();
+        $cart = Cart::where('user_id', auth()->id())->first();
+
         if(!$cart){
-            $cart = Cart::create();
+            $cart = Cart::create([
+                'user_id' => auth()->id()
+            ]);
         }
         return $cart;
     }
@@ -77,12 +80,15 @@ class CartController extends Controller
     }
 
     Order::create([
+        'user_id' => auth()->id(),
         'nama' => auth()->user()->name,
         'menu' => $menuList,
         'total' => $total,
-        'status' => 'Belum Bayar',
+        'status' => 'Pending',
         'note' => $request->note
     ]);
+
+    CartItem::where('cart_id', $cart->id)->delete();
 
     return back()->with('success', 'Pesanan Berhasil Dibuat');
 }

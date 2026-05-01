@@ -27,6 +27,20 @@ class OrderAdminController extends Controller
         return redirect()->back()->with('success','Pesanan berhasil dibuat');
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,proses,selesai'
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('success', 'Status pesanan berhasil diperbarui');
+    }
+
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
