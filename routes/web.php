@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
     /* --- KRITIK USER (BAGIAN YANG DIUBAH) --- */
     Route::get('/kritik', [ReviewController::class, 'index'])->name('kritik.index');
     Route::post('/kritik', [ReviewController::class, 'store'])->name('kritik.store');
+    Route::delete('/kritik/{id}', [ReviewController::class, 'destroy'])->name('kritik.destroy');
 });
 
 /*
@@ -238,6 +239,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
         
     Route::post('/reviews/{id}/reply', [ReviewController::class, 'reply'])
         ->name('admin.reviews.reply');
+
+    Route::delete('/reviews/{id}/reply', [ReviewController::class, 'deleteReply'])
+        ->name('admin.reviews.reply.delete');
 
 });
 

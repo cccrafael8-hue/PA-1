@@ -55,4 +55,22 @@ class ReviewController extends Controller
 
         return redirect()->back()->with('success', 'Berhasil membalas pesan user!');
     }
+
+    // Fungsi untuk Menghapus Review (User)
+    public function destroy($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->delete();
+
+        return redirect()->back()->with('success', 'Review berhasil dihapus!');
+    }
+
+    // Fungsi untuk Menghapus Balasan Admin
+    public function deleteReply($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->update(['admin_reply' => null]);
+
+        return redirect()->back()->with('success', 'Balasan berhasil dihapus!');
+    }
 }

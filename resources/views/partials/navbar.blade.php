@@ -16,9 +16,7 @@
         <li><a href="{{ route('kontak') }}">Kontak</a></li>
         <li><a href="{{ route('cart') }}">Cart</a></li>
         <li><a href="{{ route('history') }}">History</a></li>
-        
-        <!-- PERBAIKAN: Diubah dari reviews.store menjadi kritik.index -->
-        <li><a href="{{ route('kritik.index') }}">Kritik</a></li>
+        <li><a href="{{ route('kritik.index') }}">Ulasan</a></li>
     </ul>
 
     <!-- Kanan: Logout -->

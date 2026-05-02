@@ -101,7 +101,7 @@
         <form action="{{ route('kritik.store') }}" method="POST">
             @csrf
 
-            <input type="text" name="name" placeholder="Nama kamu" required>
+            <input type="text" name="name" value="{{ Auth::user()->name }}" readonly required style="background-color: #f5f5f5; cursor: not-allowed;">
 
             <div class="rating">
                 <input type="hidden" name="rating" id="rating" required>
@@ -139,6 +139,14 @@
                         </div>
                         <p style="margin: 0; font-size: 0.9em; color: #555;">{{ $review->admin_reply }}</p>
                     </div>
+                @endif
+
+                @if(Auth::check() && Auth::user()->name == $review->name)
+                    <form action="{{ route('kritik.destroy', $review->id) }}" method="POST" style="margin-top: 15px; text-align: right;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Hapus komentar ini?')" style="background: #dc3545; color: #fff; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">Hapus</button>
+                    </form>
                 @endif
             </div>
         @endforeach
