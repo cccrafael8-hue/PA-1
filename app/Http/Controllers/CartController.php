@@ -34,6 +34,7 @@ class CartController extends Controller
 
         $item = CartItem::where('cart_id', $cart->id)
                         ->where('menu_id', $request->menu_id)
+                        ->where('tipe', $request->tipe)
                         ->first();
 
         if($item){
@@ -43,7 +44,8 @@ class CartController extends Controller
             CartItem::create([
                 'cart_id' => $cart->id,
                 'menu_id' => $request->menu_id,
-                'qty' => 1
+                'qty' => 1,
+                'tipe' => $request->tipe
             ]);
         }
 
@@ -73,10 +75,17 @@ class CartController extends Controller
     $menuList = "";
 
     foreach($cart->items as $item){
-        $subtotal = $item->menu->harga * $item->qty;
+        $harga = $item->menu->harga;
+        if($item->menu->kategori == 'coffee') {
+            if($item->tipe == 'hot' && $item->menu->harga_hot) $harga = $item->menu->harga_hot;
+            if($item->tipe == 'cold' && $item->menu->harga_cold) $harga = $item->menu->harga_cold;
+        }
+
+        $subtotal = $harga * $item->qty;
         $total += $subtotal;
 
-        $menuList .= $item->menu->nama_menu . " x" . $item->qty . ", ";
+        $tipeLabel = $item->tipe ? ' ('.ucfirst($item->tipe).')' : '';
+        $menuList .= $item->menu->nama_menu . $tipeLabel . " x" . $item->qty . ", ";
     }
 
     Order::create([

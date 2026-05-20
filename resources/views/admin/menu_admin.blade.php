@@ -81,13 +81,26 @@ th, td{
     <option value="makanan" {{ (isset($menu) && $menu->kategori == 'makanan') ? 'selected' : '' }}>Makanan</option>
     <option value="coffee" {{ (isset($menu) && $menu->kategori == 'coffee') ? 'selected' : '' }}>Coffee</option>
     <option value="non_coffee" {{ (isset($menu) && $menu->kategori == 'non_coffee') ? 'selected' : '' }}>Non Coffee</option>
+    <option value="snack" {{ (isset($menu) && $menu->kategori == 'snack') ? 'selected' : '' }}>Snack</option>
 </select>
 </div>
 
 <div class="col-md-4 mb-3">
 <input type="number" name="harga" class="form-control"
-    placeholder="Harga"
+    placeholder="Harga (Default/Umum)"
     value="{{ $menu->harga ?? '' }}" required>
+</div>
+
+<div class="col-md-4 mb-3 coffee-price" style="display:none;">
+<input type="number" name="harga_hot" class="form-control"
+    placeholder="Harga Hot (Kopi)"
+    value="{{ $menu->harga_hot ?? '' }}">
+</div>
+
+<div class="col-md-4 mb-3 coffee-price" style="display:none;">
+<input type="number" name="harga_cold" class="form-control"
+    placeholder="Harga Cold (Kopi)"
+    value="{{ $menu->harga_cold ?? '' }}">
 </div>
 
 <div class="col-md-4 mb-3">
@@ -142,6 +155,7 @@ style="width:80px;height:60px;object-fit:cover;border-radius:8px;">
     @if($menu->kategori == 'makanan') Makanan
     @elseif($menu->kategori == 'coffee') Coffee
     @elseif($menu->kategori == 'non_coffee') Non Coffee
+    @elseif($menu->kategori == 'snack') Snack
     @else -
     @endif
 </td>
@@ -177,5 +191,26 @@ style="width:80px;height:60px;object-fit:cover;border-radius:8px;">
 
 </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const kategoriSelect = document.querySelector('select[name="kategori"]');
+    const coffeePrices = document.querySelectorAll('.coffee-price');
+
+    function toggleCoffeePrices() {
+        if(kategoriSelect.value === 'coffee') {
+            coffeePrices.forEach(el => el.style.display = 'block');
+        } else {
+            coffeePrices.forEach(el => {
+                el.style.display = 'none';
+                el.querySelector('input').value = '';
+            });
+        }
+    }
+
+    kategoriSelect.addEventListener('change', toggleCoffeePrices);
+    toggleCoffeePrices(); // Run on load
+});
+</script>
 
 @endsection

@@ -26,6 +26,8 @@
             @csrf
             <button type="submit" class="btn-logout">LOGOUT</button>
         </form>
+    @else
+        <a href="{{ route('login') }}" class="btn-login" style="text-decoration:none;">LOGIN</a>
     @endauth
     </div>
 

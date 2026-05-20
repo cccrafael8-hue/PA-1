@@ -14,8 +14,7 @@
         <li><a href="{{ route('admin.reservasi') }}">Reservasi</a></li>
         <li><a href="{{ route('admin.kontak') }}">Kontak</a></li>
         <li><a href="{{ route('admin.order_admin') }}">Order</a></li>
-
-        <li><a href="{{ route('admin.reviews') }}">Kritik</a></li>
+        <li><a href="{{ route('admin.reviews') }}">Ulasan</a></li>
     </ul>
 
     <div class="nav-right">

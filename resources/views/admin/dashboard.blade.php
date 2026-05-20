@@ -13,7 +13,7 @@
         <a href="{{ route('admin.reservasi') }}"   class="dash-btn"><span class="dash-btn-num">03</span>Reservasi</a>
         <a href="{{ route('admin.kontak') }}"      class="dash-btn"><span class="dash-btn-num">04</span>Kontak</a>
         <a href="{{ route('admin.order_admin') }}" class="dash-btn"><span class="dash-btn-num">05</span>Order</a>
-        <a href="{{ route('admin.reviews') }}"     class="dash-btn"><span class="dash-btn-num">06</span>Kritik</a>
+        <a href="{{ route('admin.reviews') }}"     class="dash-btn"><span class="dash-btn-num">06</span>Ulasan</a>
     </div>
 
     {{-- Chart Card --}}

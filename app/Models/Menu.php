@@ -13,7 +13,8 @@ class Menu extends Model
         'kategori',
         'deskripsi',
         'harga',
+        'harga_hot',
+        'harga_cold',
         'gambar'
-
     ];
 }

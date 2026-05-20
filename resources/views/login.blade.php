@@ -225,6 +225,10 @@
 
     <div class="card-body">
 
+        @if(session('error'))
+            <div class="error">{{ session('error') }}</div>
+        @endif
+
         @if($errors->any())
             <div class="error">{{ $errors->first() }}</div>
         @endif

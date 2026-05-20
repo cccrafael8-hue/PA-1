@@ -20,7 +20,12 @@ use App\Http\Controllers\HistoryController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    return view('login');
+    return redirect()->route('welcome');
+});
+
+Route::get('/run-migrations', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return "Migrations ran successfully. Please go back to <a href='/'>Home</a>.";
 });
 
 /*
@@ -38,49 +43,56 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
+| HALAMAN PUBLIK (TANPA LOGIN)
+|--------------------------------------------------------------------------
+*/
+Route::get('/welcome', function () {
+    $latestGallery = \App\Models\Gallery::latest()->first();
+
+    // Cari menu paling populer dari Orders
+    $orders = \App\Models\Order::all();
+    $menuCounts = [];
+    foreach($orders as $order) {
+        $items = explode(', ', $order->menu);
+        foreach($items as $item) {
+            if(trim($item) == '') continue;
+            $parts = explode(' x', $item);
+            if(count($parts) == 2) {
+                $name = trim($parts[0]);
+                $qty = (int)$parts[1];
+                if(!isset($menuCounts[$name])) {
+                    $menuCounts[$name] = 0;
+                }
+                $menuCounts[$name] += $qty;
+            }
+        }
+    }
+    
+    $popularMenu = null;
+    if(!empty($menuCounts)) {
+        arsort($menuCounts);
+        $popularName = array_key_first($menuCounts);
+        $popularMenu = \App\Models\Menu::where('nama_menu', $popularName)->first();
+    }
+
+    // Kalau tidak ada order atau menu tidak ditemukan, tampilkan menu pertama
+    if(!$popularMenu) {
+        $popularMenu = \App\Models\Menu::first();
+    }
+
+    return view('welcome', compact('latestGallery', 'popularMenu'));
+})->name('welcome');
+
+Route::view('/kontak', 'kontak')->name('kontak');
+
+/*
+|--------------------------------------------------------------------------
 | USER (WAJIB LOGIN)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/welcome', function () {
-        $latestGallery = \App\Models\Gallery::latest()->first();
-
-        // Cari menu paling populer dari Orders
-        $orders = \App\Models\Order::all();
-        $menuCounts = [];
-        foreach($orders as $order) {
-            $items = explode(', ', $order->menu);
-            foreach($items as $item) {
-                if(trim($item) == '') continue;
-                $parts = explode(' x', $item);
-                if(count($parts) == 2) {
-                    $name = trim($parts[0]);
-                    $qty = (int)$parts[1];
-                    if(!isset($menuCounts[$name])) {
-                        $menuCounts[$name] = 0;
-                    }
-                    $menuCounts[$name] += $qty;
-                }
-            }
-        }
-        
-        $popularMenu = null;
-        if(!empty($menuCounts)) {
-            arsort($menuCounts);
-            $popularName = array_key_first($menuCounts);
-            $popularMenu = \App\Models\Menu::where('nama_menu', $popularName)->first();
-        }
-
-        // Kalau tidak ada order atau menu tidak ditemukan, tampilkan menu pertama
-        if(!$popularMenu) {
-            $popularMenu = \App\Models\Menu::first();
-        }
-
-        return view('welcome', compact('latestGallery', 'popularMenu'));
-    })->name('welcome');
     Route::view('/reservasi', 'reservasi')->name('reservasi');
-    Route::view('/kontak', 'kontak')->name('kontak');
 
     Route::post('/reservasi/store', [ReservasiController::class, 'store'])
         ->name('reservasi.store');
@@ -103,21 +115,21 @@ Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 | CART / KERANJANG
 |--------------------------------------------------------------------------
 */
-Route::prefix('cart')->group(function () {
+Route::prefix('cart')->middleware(['auth'])->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart');
     Route::post('/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/update', [CartController::class, 'update'])->name('cart.update');
     Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
 });
 
-Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
 | ORDER
 |--------------------------------------------------------------------------
 */
-Route::post('/order', [OrderAdminController::class,'store'])->name('order.store');
+Route::post('/order', [OrderAdminController::class,'store'])->name('order.store')->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------

@@ -22,6 +22,14 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Akun tersebut belum terdaftar',
+            ]);
+        }
+
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
@@ -36,7 +44,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah',
+            'email' => 'Password yang Anda masukkan salah',
         ]);
     }
 

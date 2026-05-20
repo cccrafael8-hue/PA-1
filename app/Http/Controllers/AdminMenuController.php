@@ -24,9 +24,11 @@ class AdminMenuController extends Controller
     {
         $data = $request->validate([
             'nama_menu'=>'required',
-            'kategori'=>'required|in:makanan,coffee,non_coffee',
+            'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
             'deskripsi'=>'required',
             'harga'=>'required',
+            'harga_hot'=>'nullable|integer',
+            'harga_cold'=>'nullable|integer',
             'gambar'=>'nullable|image'
         ]);
 
@@ -59,9 +61,11 @@ class AdminMenuController extends Controller
 
         $data = $request->validate([
             'nama_menu'=>'required',
-            'kategori'=>'required|in:makanan,coffee,non_coffee',
+            'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
             'deskripsi'=>'required',
             'harga'=>'required',
+            'harga_hot'=>'nullable|integer',
+            'harga_cold'=>'nullable|integer',
             'gambar'=>'nullable|image'
         ]);
 

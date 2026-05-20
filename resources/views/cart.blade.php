@@ -253,7 +253,12 @@ body {
     @foreach($cart->items as $item)
 
     @php
-        $subtotal = $item->menu->harga * $item->qty;
+        $harga = $item->menu->harga;
+        if($item->menu->kategori == 'coffee') {
+            if($item->tipe == 'hot' && $item->menu->harga_hot) $harga = $item->menu->harga_hot;
+            if($item->tipe == 'cold' && $item->menu->harga_cold) $harga = $item->menu->harga_cold;
+        }
+        $subtotal = $harga * $item->qty;
         $total += $subtotal;
     @endphp
 
@@ -263,8 +268,13 @@ body {
             <div class="item-icon">🍽️</div>
 
             <div class="item-info">
-                <div class="item-name">{{ $item->menu->nama_menu }}</div>
-                <div class="item-price">Rp {{ number_format($item->menu->harga, 0, ',', '.') }}</div>
+                <div class="item-name">
+                    {{ $item->menu->nama_menu }}
+                    @if($item->tipe)
+                        <span style="font-size:12px; color:#a8862f;">({{ ucfirst($item->tipe) }})</span>
+                    @endif
+                </div>
+                <div class="item-price">Rp {{ number_format($harga, 0, ',', '.') }}</div>
             </div>
 
             <!-- UPDATE QTY -->
@@ -356,7 +366,10 @@ function kirimPesanan() {
     let pesan = "Halo kak, saya mau pesan ";
 
     @foreach($cart->items as $item)
-        pesan += "- {{ $item->menu->nama_menu }} x{{ $item->qty }}\n";
+        @php
+            $tipeLabel = $item->tipe ? ' ('.ucfirst($item->tipe).')' : '';
+        @endphp
+        pesan += "- {{ $item->menu->nama_menu }}{{ $tipeLabel }} x{{ $item->qty }}\n";
     @endforeach
 
     pesan += "\nTotal: Rp {{ number_format($total, 0, ',', '.') }}";
