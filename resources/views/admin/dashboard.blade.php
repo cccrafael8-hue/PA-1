@@ -23,7 +23,17 @@
                 <span class="dash-chart-tag">Statistik Penjualan</span>
                 <h3 class="dash-chart-title">Revenue <span>Overview</span></h3>
             </div>
-            <div class="dash-chart-meta">30 hari terakhir</div>
+            <div class="dash-chart-meta">
+                <form method="GET" action="{{ route('admin.dashboard') }}" id="filterForm">
+                    <select name="filter" onchange="document.getElementById('filterForm').submit()" 
+                            style="padding: 5px 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); background: #fff; font-family: sans-serif; font-size: 11px; outline: none; cursor: pointer; color: #1a1a1a;">
+                        <option value="day" {{ $filter == 'day' ? 'selected' : '' }}>Per Hari</option>
+                        <option value="week" {{ $filter == 'week' ? 'selected' : '' }}>Per Minggu</option>
+                        <option value="month" {{ $filter == 'month' ? 'selected' : '' }}>Per Bulan</option>
+                        <option value="year" {{ $filter == 'year' ? 'selected' : '' }}>Per Tahun</option>
+                    </select>
+                </form>
+            </div>
         </div>
         <div class="dash-chart-body">
             <canvas id="revenueChart" height="110"></canvas>

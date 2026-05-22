@@ -46,42 +46,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 | HALAMAN PUBLIK (TANPA LOGIN)
 |--------------------------------------------------------------------------
 */
-Route::get('/welcome', function () {
-    $latestGallery = \App\Models\Gallery::latest()->first();
-
-    // Cari menu paling populer dari Orders
-    $orders = \App\Models\Order::all();
-    $menuCounts = [];
-    foreach($orders as $order) {
-        $items = explode(', ', $order->menu);
-        foreach($items as $item) {
-            if(trim($item) == '') continue;
-            $parts = explode(' x', $item);
-            if(count($parts) == 2) {
-                $name = trim($parts[0]);
-                $qty = (int)$parts[1];
-                if(!isset($menuCounts[$name])) {
-                    $menuCounts[$name] = 0;
-                }
-                $menuCounts[$name] += $qty;
-            }
-        }
-    }
-    
-    $popularMenu = null;
-    if(!empty($menuCounts)) {
-        arsort($menuCounts);
-        $popularName = array_key_first($menuCounts);
-        $popularMenu = \App\Models\Menu::where('nama_menu', $popularName)->first();
-    }
-
-    // Kalau tidak ada order atau menu tidak ditemukan, tampilkan menu pertama
-    if(!$popularMenu) {
-        $popularMenu = \App\Models\Menu::first();
-    }
-
-    return view('welcome', compact('latestGallery', 'popularMenu'));
-})->name('welcome');
+Route::get('/welcome', [AuthController::class, 'welcome'])->name('welcome');
 
 Route::view('/kontak', 'kontak')->name('kontak');
 

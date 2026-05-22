@@ -10,7 +10,7 @@ class OrderAdminController extends Controller
 
     public function index()
     {
-        $orders = Order::latest()->get();
+        $orders = Order::where('is_hidden', false)->latest()->get();
 
         return view('admin.order_admin', compact('orders'));
     }
@@ -44,7 +44,7 @@ class OrderAdminController extends Controller
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
-        $order->delete();
+        $order->update(['is_hidden' => true]);
 
         return back()->with('success', 'Pesanan berhasil dihapus');
     }
