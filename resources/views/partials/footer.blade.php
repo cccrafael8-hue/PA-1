@@ -1,7 +1,7 @@
 <footer class="main-footer">
     <div class="footer-container">
         <h4 class="footer-title">IKUTI KAMI</h4>
-        <p class="footer-subtext">Tetap terhubung dengan kami di media sosial untuk info promo dan update terbaru.</p>
+        <p class="footer-subtext">Tetap terhubung dengan kami di media sosial untuk info dan update terbaru.</p>
         
         <div class="social-row">
             <a href="https://www.instagram.com/agathaspace.balige" target="_blank" class="social-btn" title="Instagram">
@@ -24,22 +24,11 @@
         </div>
 
         <div class="quote-box">
-            "Dari biji kopi terbaik Nusantara, kami hadirkan cita rasa yang tak terlupakan."
+            "Dari pelayanan yang hangat, kami hadirkan cita rasa yang tak terlupakan."
         </div>
     </div>
 </footer>
 
 <div class="copyright">
-    &copy; {{ date('Y') }} Agatha Coffee.
+    &copy; {{ date('Y') }} Agatha Space.
 </div>
-
-<a href="{{ route('menu') }}" class="order-float">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-        <line x1="6" y1="1" x2="6" y2="4"/>
-        <line x1="10" y1="1" x2="10" y2="4"/>
-        <line x1="14" y1="1" x2="14" y2="4"/>
-    </svg>
-    Order Now!
-</a>

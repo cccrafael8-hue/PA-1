@@ -20,7 +20,7 @@
 
         <div class="ag-hero__eyebrow">
             <span class="eyebrow-line"></span>
-            <span>Est. Balige · Danau Toba</span>
+            <span>Est 2024 · Balige · Danau Toba</span>
             <span class="eyebrow-line"></span>
         </div>
 
@@ -30,8 +30,8 @@
         </h1>
 
         <p class="ag-hero__sub">
-            Rasakan kehangatan kopi pilihan dengan pemandangan Danau Toba yang memukau —<br>
-            setiap cangkir adalah cerita yang tak terlupakan.
+            Rasakan kenikmatan sajian pilihan dengan pemandangan Danau Toba yang memukau —<br>
+            setiap sajian adalah cerita yang tak terlupakan.
         </p>
 
         <div class="ag-hero__actions">
@@ -54,7 +54,7 @@
             </div>
             <div class="hero-stat__divider"></div>
             <div class="hero-stat">
-                <span class="hero-stat__num" data-count="4">0</span><span class="hero-stat__unit">.9★</span>
+                <span class="hero-stat__num" data-count="4">0</span><span class="hero-stat__unit">.3★</span>
                 <span class="hero-stat__label">Rating Google</span>
             </div>
         </div>
@@ -185,40 +185,40 @@
 
         <div class="showcase-card showcase-card--featured reveal-up" style="--d:0ms">
             <div class="showcase-card__img-wrap">
-                <img src="{{ asset('adminlte/dist/img/kopi3.png') }}" alt="Signature Coffee" class="showcase-card__img">
+                <img src="{{ asset('adminlte/dist/img/nasgor.png') }}" alt="Signature Coffee" class="showcase-card__img">
                 <div class="showcase-card__overlay"></div>
             </div>
             <div class="showcase-card__info">
                 <span class="card-pill">Bestseller</span>
-                <h3>Signature Toba Coffee</h3>
+                <h3>Nasi Goreng Kampung</h3>
                 <p>Kopi Arabika single origin dari pegunungan Toba, diseduh dengan metode pour-over untuk menghasilkan rasa yang bersih dan kompleks.</p>
-                <a href="{{ route('menu') }}" class="card-link">Lihat Detail →</a>
+                <a href="{{ route('menu') }}" class="card-link">Pesan Sekarang! →</a>
             </div>
         </div>
 
         <div class="showcase-col-right">
             <div class="showcase-card showcase-card--half reveal-up" style="--d:120ms">
                 <div class="showcase-card__img-wrap">
-                    <img src="{{ asset('adminlte/dist/img/cold_brew.png') }}" alt="Cold Brew" class="showcase-card__img">
+                    <img src="{{ asset('adminlte/dist/img/matcha.png') }}" alt="Cold Brew" class="showcase-card__img">
                     <div class="showcase-card__overlay"></div>
                 </div>
                 <div class="showcase-card__info">
                     <span class="card-pill">Favorit</span>
-                    <h3>Cold Brew Danau</h3>
-                    <p>Diseduh dingin 16 jam untuk rasa yang halus dan menyegarkan.</p>
+                    <h3>Matcha</h3>
+                    <p>Perpaduan matcha berkualitas dan susu creamy yang menghasilkan rasa lembut dengan sentuhan manis alami..</p>
                     <a href="{{ route('menu') }}" class="card-link">Pesan →</a>
                 </div>
             </div>
 
             <div class="showcase-card showcase-card--half reveal-up" style="--d:240ms">
                 <div class="showcase-card__img-wrap">
-                    <img src="{{ asset('adminlte/dist/img/kopi3.png') }}" alt="Snack" class="showcase-card__img" style="object-position:center 60%">
+                    <img src="{{ asset('adminlte/dist/img/piscok.png') }}" alt="Snack" class="showcase-card__img" style="object-position:center 60%">
                     <div class="showcase-card__overlay"></div>
                 </div>
                 <div class="showcase-card__info">
-                    <span class="card-pill">New Menu</span>
+                    <span class="card-pill">Our Snack</span>
                     <h3>Snack Premium</h3>
-                    <p>Camilan pilihan yang sempurna menemani sesi kopi kamu.</p>
+                    <p>Camilan pilihan yang sempurna menemani sesi santai k amu.</p>
                     <a href="{{ route('menu') }}" class="card-link">Pesan →</a>
                 </div>
             </div>
@@ -262,7 +262,7 @@
             <h2 class="section-title" style="color:#fff">Tempat Terbaik<br><em>untuk Setiap Momen</em></h2>
             <p class="experience-body">
                 Agatha Space menyediakan ruang yang nyaman dan instagramable —
-                sempurna untuk gathering teman, arisan keluarga, meeting santai,
+                sempurna untuk gathering teman, meeting santai,
                 hingga sesi foto yang estetik dengan latar Danau Toba.
             </p>
 
@@ -314,10 +314,10 @@
         <div class="experience-visual reveal-right">
             <div class="exp-img-stack">
                 <div class="exp-img exp-img--main">
-                    <img src="{{ asset('adminlte/dist/img/kopi4.png') }}" alt="Agatha Space Suasana">
+                    <img src="{{ asset('adminlte/dist/img/tempat2.jpeg') }}" alt="Agatha Space Suasana">
                 </div>
                 <div class="exp-img exp-img--float">
-                    <img src="{{ asset('adminlte/dist/img/kopi3.png') }}" alt="Agatha Space View">
+                    <img src="{{ asset('adminlte/dist/img/tempat.jpeg') }}" alt="Agatha Space View">
                 </div>
                 <div class="exp-badge-lake">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
@@ -346,7 +346,7 @@
         </div>
         <div class="counter-divider"></div>
         <div class="counter-item reveal-up" style="--d:200ms">
-            <span class="counter-num" data-count="4">0</span><span class="counter-unit">.9★</span>
+            <span class="counter-num" data-count="4">0</span><span class="counter-unit">.3★</span>
             <span class="counter-label">Rating Google Maps</span>
         </div>
         <div class="counter-divider"></div>
@@ -356,88 +356,6 @@
         </div>
     </div>
 </section>
-
-
-{{-- ════════════════════════════════════════
-     NEWS & GALLERY
-════════════════════════════════════════ --}}
-<section class="ag-news" id="news">
-
-    <div class="ag-news__header reveal-up">
-        <p class="section-eyebrow">Update Terbaru</p>
-        <h2 class="section-title">News &amp; <em>Gallery</em></h2>
-        <div class="title-underline"></div>
-    </div>
-
-    <div class="ag-news__grid">
-
-        @if(isset($latestGallery) && $latestGallery)
-        <div class="news-card reveal-up" style="--d:0ms">
-            <div class="news-card__img-wrap">
-                <img src="{{ asset('storage/' . $latestGallery->image) }}" alt="{{ $latestGallery->title ?? 'Galeri Agatha' }}">
-                <span class="news-card__pill">Gallery Update</span>
-            </div>
-            <div class="news-card__body">
-                <h3>{{ $latestGallery->title ?? 'Momen Terbaru di Agatha' }}</h3>
-                <p>Lihat momen-momen indah terbaru yang kami abadikan di Agatha Space. Dari sesi kopi pagi hingga sore yang hangat.</p>
-                <a href="{{ route('gallery') }}" class="news-card__link">Lihat Galeri →</a>
-            </div>
-        </div>
-        @else
-        <div class="news-card reveal-up" style="--d:0ms">
-            <div class="news-card__img-wrap">
-                <img src="{{ asset('adminlte/dist/img/kopi3.png') }}" alt="Gallery">
-                <span class="news-card__pill">Gallery</span>
-            </div>
-            <div class="news-card__body">
-                <h3>Momen Indah di Agatha Space</h3>
-                <p>Abadikan setiap momen berharga bersama orang-orang tersayang di tepi Danau Toba yang memukau.</p>
-                <a href="{{ route('gallery') }}" class="news-card__link">Lihat Galeri →</a>
-            </div>
-        </div>
-        @endif
-
-        @if(isset($popularMenu) && $popularMenu)
-        <div class="news-card reveal-up" style="--d:140ms">
-            <div class="news-card__img-wrap">
-                <img src="{{ asset('storage/' . $popularMenu->gambar) }}" alt="{{ $popularMenu->nama_menu }}">
-                <span class="news-card__pill">Bestseller</span>
-            </div>
-            <div class="news-card__body">
-                <h3>{{ $popularMenu->nama_menu }}</h3>
-                <p>{{ Str::limit($popularMenu->deskripsi, 100) }}</p>
-                <a href="{{ route('menu') }}" class="news-card__link">Pesan Sekarang →</a>
-            </div>
-        </div>
-        @else
-        <div class="news-card reveal-up" style="--d:140ms">
-            <div class="news-card__img-wrap">
-                <img src="{{ asset('adminlte/dist/img/kopi4.png') }}" alt="Menu Favorit">
-                <span class="news-card__pill">Bestseller</span>
-            </div>
-            <div class="news-card__body">
-                <h3>Signature Toba Coffee</h3>
-                <p>Menu andalan kami yang selalu menjadi favorit pelanggan. Rasa autentik dari biji kopi pilihan terbaik Toba.</p>
-                <a href="{{ route('menu') }}" class="news-card__link">Pesan Sekarang →</a>
-            </div>
-        </div>
-        @endif
-
-        <div class="news-card reveal-up" style="--d:280ms">
-            <div class="news-card__img-wrap">
-                <img src="{{ asset('adminlte/dist/img/kopi3.png') }}" alt="Promo" style="object-position:center 30%">
-                <span class="news-card__pill news-card__pill--promo">🎉 Promo</span>
-            </div>
-            <div class="news-card__body">
-                <h3>Happy Hour 14.00 – 17.00</h3>
-                <p>Nikmati diskon spesial untuk semua minuman setiap hari di jam Happy Hour. Ajak temanmu dan rasakan serunya!</p>
-                <a href="{{ route('menu') }}" class="news-card__link">Klaim Promo →</a>
-            </div>
-        </div>
-
-    </div>
-</section>
-
 
 {{-- ════════════════════════════════════════
      LOKASI
@@ -502,11 +420,6 @@
                     width="100%" height="100%" style="border:0" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade" title="Lokasi Agatha Space Balige">
                 </iframe>
-                <div class="map-pin-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#c5a059"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
-                    Agatha Space · Balige, Toba
-                </div>
-            </div>
         </div>
 
     </div>

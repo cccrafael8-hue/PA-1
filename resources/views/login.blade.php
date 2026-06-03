@@ -32,7 +32,7 @@
             justify-content: center;
             background:
                 linear-gradient(rgba(42,30,23,0.78), rgba(42,30,23,0.78)),
-                url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop');
+                url('{{asset("adminlte/dist/img/tempat.jpeg")}}');
             background-size: cover;
             background-position: center;
         }

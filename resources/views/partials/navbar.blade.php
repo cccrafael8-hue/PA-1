@@ -13,9 +13,9 @@
         <li><a href="{{ route('menu') }}">Menu</a></li>
         <li><a href="{{ route('gallery') }}">Gallery</a></li>
         <li><a href="{{ route('reservasi') }}">Reservasi</a></li>
-        <li><a href="{{ route('kontak') }}">Kontak</a></li>
         <li><a href="{{ route('cart') }}">Keranjang</a></li>
         <li><a href="{{ route('history') }}">History</a></li>
+        <li><a href="{{ route('kontak') }}">Kontak</a></li>
         <li><a href="{{ route('kritik.index') }}">Ulasan</a></li>
     </ul>
 

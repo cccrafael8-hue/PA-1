@@ -23,11 +23,6 @@ Route::get('/', function () {
     return redirect()->route('welcome');
 });
 
-Route::get('/run-migrations', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    return "Migrations ran successfully. Please go back to <a href='/'>Home</a>.";
-});
-
 /*
 |--------------------------------------------------------------------------
 | AUTH
