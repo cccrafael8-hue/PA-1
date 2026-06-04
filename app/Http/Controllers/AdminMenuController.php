@@ -22,15 +22,21 @@ class AdminMenuController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'harga.min' => 'Harga tidak boleh negatif.',
+            'harga_hot.min' => 'Harga Hot tidak boleh negatif.',
+            'harga_cold.min' => 'Harga Cold tidak boleh negatif.'
+        ];
+
         $data = $request->validate([
             'nama_menu'=>'required',
             'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
             'deskripsi'=>'required',
-            'harga'=>'required',
-            'harga_hot'=>'nullable|integer',
-            'harga_cold'=>'nullable|integer',
+            'harga'=>'required|numeric|min:0',
+            'harga_hot'=>'nullable|numeric|min:0',
+            'harga_cold'=>'nullable|numeric|min:0',
             'gambar'=>'nullable|image'
-        ]);
+        ], $messages);
 
         if($request->file('gambar')){
             $data['gambar'] = $request->file('gambar')->store('menu','public');
@@ -41,11 +47,6 @@ class AdminMenuController extends Controller
         return redirect('/admin/menu')->with('success', 'Menu berhasil ditambahkan');
     }
 
-    // =========================
-    // 🔥 TAMBAHAN MULAI SINI
-    // =========================
-
-    // EDIT
     public function edit($id)
     {
         $menu = Menu::findOrFail($id);
@@ -59,18 +60,23 @@ class AdminMenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
 
+        $messages = [
+            'harga.min' => 'Harga tidak boleh negatif.',
+            'harga_hot.min' => 'Harga Hot tidak boleh negatif.',
+            'harga_cold.min' => 'Harga Cold tidak boleh negatif.'
+        ];
+
         $data = $request->validate([
             'nama_menu'=>'required',
             'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
             'deskripsi'=>'required',
-            'harga'=>'required',
-            'harga_hot'=>'nullable|integer',
-            'harga_cold'=>'nullable|integer',
+            'harga'=>'required|numeric|min:0',
+            'harga_hot'=>'nullable|numeric|min:0',
+            'harga_cold'=>'nullable|numeric|min:0',
             'gambar'=>'nullable|image'
-        ]);
+        ], $messages);
 
         if($request->file('gambar')){
-            // hapus gambar lama
             if($menu->gambar){
                 Storage::disk('public')->delete($menu->gambar);
             }

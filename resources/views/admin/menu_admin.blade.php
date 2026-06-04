@@ -58,6 +58,16 @@ th, td{
     </div>
 @endif
 
+@if($errors->any())
+    <div style="color:red; margin-bottom:10px;">
+        <ul style="margin:0; padding-left:20px;">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 {{-- FORM (CREATE + EDIT) --}}
 <form action="{{ isset($menu) ? route('admin.menu.update',$menu->id) : route('admin.menu.store') }}" 
       method="POST" enctype="multipart/form-data">
