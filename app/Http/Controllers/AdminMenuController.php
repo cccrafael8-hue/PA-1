@@ -23,9 +23,9 @@ class AdminMenuController extends Controller
     public function store(Request $request)
     {
         $messages = [
-            'harga.min' => 'Harga tidak boleh negatif.',
-            'harga_hot.min' => 'Harga Hot tidak boleh negatif.',
-            'harga_cold.min' => 'Harga Cold tidak boleh negatif.'
+            'harga'=>'required|numeric|min:1000|max:100000',
+            'harga_hot'=>'nullable|numeric|min:1000|max:100000',
+            'harga_cold'=>'nullable|numeric|min:1000|max:100000',
         ];
 
         $data = $request->validate([
@@ -61,10 +61,15 @@ class AdminMenuController extends Controller
         $menu = Menu::findOrFail($id);
 
         $messages = [
-            'harga.min' => 'Harga tidak boleh negatif.',
-            'harga_hot.min' => 'Harga Hot tidak boleh negatif.',
-            'harga_cold.min' => 'Harga Cold tidak boleh negatif.'
-        ];
+            'harga.min' => 'Harga minimal Rp 1.000.',
+            'harga.max' => 'Harga maksimal Rp 100.000.',
+
+            'harga_hot.min' => 'Harga Hot minimal Rp 1.000.',
+            'harga_hot.max' => 'Harga Hot maksimal Rp 100.000.',
+
+            'harga_cold.min' => 'Harga Cold minimal Rp 1.000.',
+            'harga_cold.max' => 'Harga Cold maksimal Rp 100.000.'
+];
 
         $data = $request->validate([
             'nama_menu'=>'required',

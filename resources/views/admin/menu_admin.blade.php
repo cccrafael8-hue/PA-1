@@ -98,19 +98,29 @@ th, td{
 <div class="col-md-4 mb-3">
 <input type="number" name="harga" class="form-control"
     placeholder="Harga (Default/Umum)"
-    value="{{ $menu->harga ?? '' }}" required>
+    value="{{ $menu->harga ?? '' }}"
+    min="1000"
+    max="100000"
+    step="1000"
+    required>
 </div>
 
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
 <input type="number" name="harga_hot" class="form-control"
     placeholder="Harga Hot (Kopi)"
-    value="{{ $menu->harga_hot ?? '' }}">
+    value="{{ $menu->harga_hot ?? '' }}"
+    min="1000"
+    max="100000"
+    step="1000">
 </div>
 
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
 <input type="number" name="harga_cold" class="form-control"
     placeholder="Harga Cold (Kopi)"
-    value="{{ $menu->harga_cold ?? '' }}">
+    value="{{ $menu->harga_cold ?? '' }}"
+    min="1000"
+    max="100000"
+    step="1000">
 </div>
 
 <div class="col-md-4 mb-3">
