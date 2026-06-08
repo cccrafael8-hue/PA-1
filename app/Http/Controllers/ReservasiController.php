@@ -12,10 +12,29 @@ class ReservasiController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'tanggal' => 'required',
+            'tanggal' => 'required|date|after_or_equal:today',
             'waktu' => 'required',
-            'jumlah_orang' => 'required|integer'
+            'jumlah_orang' => 'required|integer|min:1'
+        ], [
+            'tanggal.after_or_equal' => 'Tanggal reservasi tidak boleh sebelum hari ini.',
+            'jumlah_orang.min' => 'Jumlah pesanan orang minimal adalah 1 orang.'
         ]);
+
+        $tanggal = \Carbon\Carbon::parse($request->tanggal);
+        $waktu = \Carbon\Carbon::createFromFormat('H:i', $request->waktu);
+        $dayOfWeek = $tanggal->dayOfWeek; // 0 = Sunday, 1-5 = Mon-Fri, 6 = Saturday
+
+        if ($dayOfWeek >= 1 && $dayOfWeek <= 5) {
+            $openTime = \Carbon\Carbon::createFromTime(11, 0);
+            $closeTime = \Carbon\Carbon::createFromTime(21, 59);
+        } else {
+            $openTime = \Carbon\Carbon::createFromTime(11, 0);
+            $closeTime = \Carbon\Carbon::createFromTime(22, 59);
+        }
+
+        if ($waktu->lessThan($openTime) || $waktu->greaterThanOrEqualTo($closeTime)) {
+            return redirect()->back()->withErrors(['waktu' => 'Cafe sudah tutup pada jam segitu.'])->withInput();
+        }
 
         //total reservasi per orang
         $total = $request->jumlah_orang * 50000;

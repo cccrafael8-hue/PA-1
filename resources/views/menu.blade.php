@@ -409,13 +409,7 @@ body {
             <div class="menu-hero-eyebrow">Pilihan Terbaik Kami</div>
             <h1 class="menu-hero-title">Menu <span>Kami</span></h1>
         </div>
-        <a href="{{ route('cart') }}" class="btn-cart">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            Lihat Keranjang
-        </a>
+
     </div>
 
     {{-- Filters --}}
@@ -482,7 +476,7 @@ body {
                         </span>
                     </div>
 
-                    <form action="{{ route('cart.add') }}" method="POST">
+                    <form action="{{ route('cart.add') }}" method="POST" class="form-add-cart">
                         @csrf
                         <input type="hidden" name="menu_id" value="{{ $menu->id }}">
                         @if($menu->kategori == 'coffee')
@@ -530,6 +524,54 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             countEl.textContent = visible + ' item tersedia';
+        });
+    });
+
+    const cartForms = document.querySelectorAll('.form-add-cart');
+    cartForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-add');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '...';
+            btn.disabled = true;
+
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    btn.innerHTML = '&#10003;';
+                    btn.style.background = '#2a6b38';
+                    
+                    const cartLink = document.querySelector('.nav-right a[href$="cart"]');
+                    if(cartLink) {
+                        let badge = cartLink.querySelector('span');
+                        if(badge) {
+                            badge.textContent = data.cartCount;
+                        } else {
+                            cartLink.innerHTML += `<span style="position: absolute; top: -8px; right: -12px; background: #ff5722; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 50px; line-height: 1; min-width: 18px; text-align: center; border: 2px solid #fff;">${data.cartCount}</span>`;
+                        }
+                    }
+
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 1500);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
         });
     });
 });

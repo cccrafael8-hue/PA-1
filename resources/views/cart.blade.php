@@ -248,6 +248,18 @@ body {
 
     <p class="page-title">Keranjang Kamu 🛒</p>
 
+    @if(session('error'))
+        <div style="background: #fdf0f0; border: 1px solid #f7dada; color: #a84040; padding: 12px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; font-weight: 500;">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div style="background: #edf7ef; border: 1px solid #b4d9bc; color: #2a6b38; padding: 12px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; font-weight: 500;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     @php $total = 0; @endphp
 
     @foreach($cart->items as $item)
@@ -363,7 +375,14 @@ function decreaseQty(btn) {
 }
 
 function kirimPesanan() {
-    let pesan = "Halo kak, saya mau pesan ";
+    let itemCount = {{ $cart->items->count() }};
+    if (itemCount === 0) {
+        // Biarkan controller yang menangani pesan error-nya
+        document.getElementById("formPesan").submit();
+        return;
+    }
+
+    let pesan = "Halo kak, saya mau pesan \n";
 
     @foreach($cart->items as $item)
         @php

@@ -140,8 +140,14 @@ body {
     transition: background 0.2s;
 }
 
-.btn-reservasi:hover {
+.btn-reservasi:hover:not(:disabled) {
     background: #4a2e29;
+}
+
+.btn-reservasi:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #9a6e66;
 }
 </style>
 
@@ -169,11 +175,11 @@ body {
         <div class="field-row">
             <div class="field-group">
                 <label class="field-label">Tanggal</label>
-                <input type="date" name="tanggal" id="tanggal" class="field-input" required>
+                <input type="date" name="tanggal" id="tanggal" class="field-input" min="{{ date('Y-m-d') }}" required>
             </div>
             <div class="field-group">
                 <label class="field-label">Jam</label>
-                <input type="time" name="waktu" id="waktu" class="field-input" required>
+                <input type="time" name="waktu" id="waktu" class="field-input" required disabled title="Pilih tanggal terlebih dahulu">
             </div>
         </div>
 
@@ -204,7 +210,97 @@ body {
 @include('partials.footer')
 
 <script>
+function checkValidations() {
+    let nama = document.getElementById("nama").value.trim();
+    let tanggal = document.getElementById("tanggal").value;
+    let waktu = document.getElementById("waktu").value;
+    let orang = parseInt(document.getElementById("jumlah_orang").value);
+    let btn = document.querySelector('.btn-reservasi');
+
+    let isValid = true;
+
+    if (!nama || !tanggal || !waktu || !orang || isNaN(orang)) {
+        isValid = false;
+    }
+
+    if (orang < 1) {
+        isValid = false;
+    }
+
+    if (tanggal) {
+        let today = new Date();
+        today.setHours(0,0,0,0);
+        let selectedDate = new Date(tanggal);
+        if (selectedDate < today) isValid = false;
+    }
+
+    if (tanggal && waktu) {
+        let selectedDate = new Date(tanggal);
+        let day = selectedDate.getDay(); 
+        let timeParts = waktu.split(':');
+        let hours = parseInt(timeParts[0]);
+        let minutes = parseInt(timeParts[1]);
+        let timeInMinutes = hours * 60 + minutes;
+
+        if (day >= 1 && day <= 5) {
+            if (timeInMinutes <= 659 || timeInMinutes >= 1319) isValid = false;
+        } else {
+            if (timeInMinutes <= 659 || timeInMinutes >= 1379) isValid = false;
+        }
+    }
+
+    btn.disabled = !isValid;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    let elTanggal = document.getElementById("tanggal");
+    let elWaktu = document.getElementById("waktu");
+    let elNama = document.getElementById("nama");
+    let elOrang = document.getElementById("jumlah_orang");
+
+    elTanggal.addEventListener('change', function() {
+        if (this.value) {
+            elWaktu.disabled = false;
+            let selectedDate = new Date(this.value);
+            let day = selectedDate.getDay(); 
+
+            if (day >= 1 && day <= 5) {
+                elWaktu.min = "11:00";
+                elWaktu.max = "21:58";
+            } else {
+                elWaktu.min = "11:00";
+                elWaktu.max = "22:58";
+            }
+        } else {
+            elWaktu.disabled = true;
+            elWaktu.value = '';
+        }
+        checkValidations();
+    });
+
+    elWaktu.addEventListener('change', function() {
+        if (this.value && this.min && this.max) {
+            if (this.value < this.min || this.value > this.max) {
+                // Hapus nilai jika diluar jam tanpa memunculkan alert
+                this.value = '';
+            }
+        }
+        checkValidations();
+    });
+
+    elNama.addEventListener('input', checkValidations);
+    elWaktu.addEventListener('input', checkValidations);
+    elOrang.addEventListener('input', checkValidations);
+    checkValidations();
+});
+
 function kirimReservasi() {
+    let form = document.getElementById("formReservasi");
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
     let nama    = document.getElementById("nama").value;
     let tanggal = document.getElementById("tanggal").value;
     let waktu   = document.getElementById("waktu").value;
@@ -217,7 +313,7 @@ function kirimReservasi() {
 
     window.open(url, '_blank');
 
-    document.getElementById("formReservasi").submit();
+    form.submit();
 }
 </script>
 

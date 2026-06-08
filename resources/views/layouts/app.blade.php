@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'AGATHA SPACE | Premium Experience')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('adminlte/dist/img/logo agatha.jpg') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">

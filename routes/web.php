@@ -215,6 +215,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     Route::delete('/reviews/{id}/reply', [ReviewController::class, 'deleteReply'])
         ->name('admin.reviews.reply.delete');
 
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
+        ->name('admin.reviews.delete');
+
 });
 
 //History

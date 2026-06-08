@@ -49,11 +49,24 @@ class CartController extends Controller
             ]);
         }
 
+        if ($request->ajax() || $request->wantsJson()) {
+            $cartCount = $cart->items()->sum('qty');
+            return response()->json([
+                'success' => true, 
+                'message' => 'Menu berhasil ditambah ke keranjang', 
+                'cartCount' => $cartCount
+            ]);
+        }
+
         return back()->with('success', 'Menu berhasil ditambah ke keranjang');
     }
 
     public function update(Request $request)
     {
+        if ($request->qty < 1) {
+            return back()->with('error', 'Minimal pesanan adalah 1. Jika ingin membatalkan, silakan klik Hapus.');
+        }
+
         $item = CartItem::find($request->id);
         $item->qty = $request->qty;
         $item->save();
@@ -70,6 +83,10 @@ class CartController extends Controller
     public function checkout(Request $request) {
 
     $cart = $this->getCart()->load('items.menu');
+
+    if ($cart->items->count() === 0) {
+        return back()->with('error', 'Keranjang belanja Anda masih kosong. Silakan tambahkan menu terlebih dahulu sebelum memesan.');
+    }
 
     $total = 0;
     $menuList = "";

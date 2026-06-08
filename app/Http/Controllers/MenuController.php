@@ -9,7 +9,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::all();
+        $menus = Menu::orderBy('kategori', 'asc')->get();
         return view('menu', compact('menus'));
     }
 }

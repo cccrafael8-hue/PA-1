@@ -49,6 +49,13 @@
                             <button type="submit" style="background-color: #4a342e; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: 100%;">Balas</button>
                         </form>
                     @endif
+
+                    <!-- Tombol Hapus Seluruh Review -->
+                    <form action="{{ route('admin.reviews.delete', $item->id) }}" method="POST" style="margin-top: 10px;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Yakin ingin menghapus ulasan ini secara permanen?')" style="background-color: #212529; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: 100%;">Hapus Ulasan</button>
+                    </form>
                 </td>
             </tr>
             @empty

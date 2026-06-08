@@ -15,7 +15,8 @@ class Order extends Model
         'menu',
         'total',
         'status',
-        'note'
+        'note',
+        'is_hidden'
     ];
 
     public function user()
