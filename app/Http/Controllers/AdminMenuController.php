@@ -22,19 +22,24 @@ class AdminMenuController extends Controller
 
     public function store(Request $request)
     {
+        // Teks pesan error kustom dalam Bahasa Indonesia jika validasi gagal
         $messages = [
-            'harga'=>'required|numeric|min:1000|max:100000',
-            'harga_hot'=>'nullable|numeric|min:1000|max:100000',
-            'harga_cold'=>'nullable|numeric|min:1000|max:100000',
+            'harga.min' => 'Harga minimal Rp1.000.',
+            'harga.max' => 'Harga maksimal Rp100.000.',
+            'harga_hot.min' => 'Harga Hot minimal Rp1.000.',
+            'harga_hot.max' => 'Harga Hot maksimal Rp100.000.',
+            'harga_cold.min' => 'Harga Cold minimal Rp1.000.',
+            'harga_cold.max' => 'Harga Cold maksimal Rp100.000.'
         ];
 
+        // Validasi ketat di sisi server (Backend)
         $data = $request->validate([
             'nama_menu'=>'required',
             'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
             'deskripsi'=>'required',
-            'harga'=>'required|numeric|min:0',
-            'harga_hot'=>'nullable|numeric|min:0',
-            'harga_cold'=>'nullable|numeric|min:0',
+            'harga'=>'required|numeric|min:1000|max:100000',
+            'harga_hot'=>'nullable|numeric|min:1000|max:100000',
+            'harga_cold'=>'nullable|numeric|min:1000|max:100000',
             'gambar'=>'nullable|image'
         ], $messages);
 
@@ -60,24 +65,24 @@ class AdminMenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
 
+        // Teks pesan error kustom dalam Bahasa Indonesia jika validasi gagal
         $messages = [
-            'harga.min' => 'Harga minimal Rp 1.000.',
-            'harga.max' => 'Harga maksimal Rp 100.000.',
+            'harga.min' => 'Harga minimal Rp1.000.',
+            'harga.max' => 'Harga maksimal Rp100.000.',
+            'harga_hot.min' => 'Harga Hot minimal Rp1.000.',
+            'harga_hot.max' => 'Harga Hot maksimal Rp100.000.',
+            'harga_cold.min' => 'Harga Cold minimal Rp1.000.',
+            'harga_cold.max' => 'Harga Cold maksimal Rp100.000.'
+        ];
 
-            'harga_hot.min' => 'Harga Hot minimal Rp 1.000.',
-            'harga_hot.max' => 'Harga Hot maksimal Rp 100.000.',
-
-            'harga_cold.min' => 'Harga Cold minimal Rp 1.000.',
-            'harga_cold.max' => 'Harga Cold maksimal Rp 100.000.'
-];
-
+        // Validasi ketat di sisi server (Backend)
         $data = $request->validate([
             'nama_menu'=>'required',
             'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
             'deskripsi'=>'required',
-            'harga'=>'required|numeric|min:0',
-            'harga_hot'=>'nullable|numeric|min:0',
-            'harga_cold'=>'nullable|numeric|min:0',
+            'harga'=>'required|numeric|min:1000|max:100000',
+            'harga_hot'=>'nullable|numeric|min:1000|max:100000',
+            'harga_cold'=>'nullable|numeric|min:1000|max:100000',
             'gambar'=>'nullable|image'
         ], $messages);
 

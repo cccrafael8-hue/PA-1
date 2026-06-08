@@ -51,17 +51,18 @@ th, td{
 
 <h4 class="mb-4">Manajemen Menu</h4>
 
-{{-- NOTIF --}}
+{{-- NOTIF SUKSES --}}
 @if(session('success'))
     <div style="color:green; margin-bottom:10px;">
         {{ session('success') }}
     </div>
 @endif
 
-@if($errors->any())
-    <div style="color:red; margin-bottom:10px;">
-        <ul style="margin:0; padding-left:20px;">
-            @foreach($errors->all() as $error)
+{{-- MENAMPILKAN ERROR BACKEND DI ATAS FORM --}}
+@if ($errors->any())
+    <div style="color:red; margin-bottom:15px;">
+        <ul style="padding-left: 20px;">
+            @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
@@ -95,32 +96,28 @@ th, td{
 </select>
 </div>
 
+{{-- INPUT HARGA UMUM (Kelipatan 1000, max 6 digit) --}}
 <div class="col-md-4 mb-3">
 <input type="number" name="harga" class="form-control"
-    placeholder="Harga (Default/Umum)"
-    value="{{ $menu->harga ?? '' }}"
-    min="1000"
-    max="100000"
-    step="1000"
-    required>
+    placeholder="Harga (Default/Umum)" min="1000" max="100000" step="1000"
+    oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"
+    value="{{ $menu->harga ?? '' }}" required>
 </div>
 
+{{-- INPUT HARGA HOT (Kelipatan 1000, max 6 digit) --}}
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
 <input type="number" name="harga_hot" class="form-control"
-    placeholder="Harga Hot (Kopi)"
-    value="{{ $menu->harga_hot ?? '' }}"
-    min="1000"
-    max="100000"
-    step="1000">
+    placeholder="Harga Hot (Kopi)" min="1000" max="100000" step="1000"
+    oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"
+    value="{{ $menu->harga_hot ?? '' }}">
 </div>
 
+{{-- INPUT HARGA COLD (Kelipatan 1000, max 6 digit) --}}
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
 <input type="number" name="harga_cold" class="form-control"
-    placeholder="Harga Cold (Kopi)"
-    value="{{ $menu->harga_cold ?? '' }}"
-    min="1000"
-    max="100000"
-    step="1000">
+    placeholder="Harga Cold (Kopi)" min="1000" max="100000" step="1000"
+    oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"
+    value="{{ $menu->harga_cold ?? '' }}">
 </div>
 
 <div class="col-md-4 mb-3">
@@ -160,37 +157,37 @@ th, td{
 
 <tbody>
 
-@foreach($menus as $menu)
+@foreach($menus as $menuItem)
 
 <tr>
 
 <td width="120">
-<img src="{{ asset('storage/'.$menu->gambar) }}"
+<img src="{{ asset('storage/'.$menuItem->gambar) }}"
 style="width:80px;height:60px;object-fit:cover;border-radius:8px;">
 </td>
 
-<td>{{ $menu->nama_menu }}</td>
+<td>{{ $menuItem->nama_menu }}</td>
 
 <td>
-    @if($menu->kategori == 'makanan') Makanan
-    @elseif($menu->kategori == 'coffee') Coffee
-    @elseif($menu->kategori == 'non_coffee') Non Coffee
-    @elseif($menu->kategori == 'snack') Snack
+    @if($menuItem->kategori == 'makanan') Makanan
+    @elseif($menuItem->kategori == 'coffee') Coffee
+    @elseif($menuItem->kategori == 'non_coffee') Non Coffee
+    @elseif($menuItem->kategori == 'snack') Snack
     @else -
     @endif
 </td>
 
-<td>Rp {{ number_format($menu->harga) }}</td>
+<td>Rp {{ number_format($menuItem->harga) }}</td>
 
 <td>
 
 {{-- EDIT --}}
-<a href="{{ route('admin.menu.edit', $menu->id) }}" class="btn btn-warning btn-sm">
+<a href="{{ route('admin.menu.edit', $menuItem->id) }}" class="btn btn-warning btn-sm">
     Edit
 </a>
 
 {{-- DELETE --}}
-<form action="{{ route('admin.menu.delete', $menu->id) }}" method="POST" style="display:inline;">
+<form action="{{ route('admin.menu.delete', $menuItem->id) }}" method="POST" style="display:inline;">
     @csrf
     @method('DELETE')
     <button class="btn btn-danger btn-sm"
@@ -223,13 +220,14 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             coffeePrices.forEach(el => {
                 el.style.display = 'none';
-                el.querySelector('input').value = '';
+                // Sengaja dikomentari agar isi inputan tidak terhapus mendadak saat edit form dimuat
+                // el.querySelector('input').value = ''; 
             });
         }
     }
 
     kategoriSelect.addEventListener('change', toggleCoffeePrices);
-    toggleCoffeePrices(); // Run on load
+    toggleCoffeePrices(); // Jalankan pas awal halaman di-refresh
 });
 </script>
 
