@@ -22,6 +22,7 @@ class AdminMenuController extends Controller
 
     public function store(Request $request)
     {
+        // Teks pesan error kustom dalam Bahasa Indonesia jika validasi gagal
         $messages = [
             'harga.min'      => 'Harga minimal Rp1.000.',
             'harga.max'      => 'Harga maksimal Rp1.000.000.',  
@@ -31,6 +32,7 @@ class AdminMenuController extends Controller
             'harga_cold.max' => 'Harga Cold maksimal Rp1.000.000.',  
         ];
 
+        // Validasi ketat di sisi server (Backend)
         $data = $request->validate([
             'nama_menu'  => 'required',
             'kategori'   => 'required|in:makanan,coffee,non_coffee,snack',
@@ -62,6 +64,7 @@ class AdminMenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
 
+        // Teks pesan error kustom dalam Bahasa Indonesia jika validasi gagal
         $messages = [
             'harga.min'      => 'Harga minimal Rp1.000.',
             'harga.max'      => 'Harga maksimal Rp1.000.000.',     
@@ -71,6 +74,7 @@ class AdminMenuController extends Controller
             'harga_cold.max' => 'Harga Cold maksimal Rp1.000.000.', 
         ];
 
+        // Validasi ketat di sisi server (Backend)
         $data = $request->validate([
             'nama_menu'  => 'required',
             'kategori'   => 'required|in:makanan,coffee,non_coffee,snack',
