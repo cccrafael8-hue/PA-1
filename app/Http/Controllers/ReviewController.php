@@ -16,12 +16,7 @@ class ReviewController extends Controller
         return view('kritik', compact('reviews'));
     }
 
-    // Fungsi untuk ADMIN (Menampilkan Tabel)
-    public function adminIndex()
-    {
-        $reviews = Review::latest()->get();
-        return view('admin.reviews_admin', compact('reviews'));
-    }
+
 
     // Fungsi untuk menyimpan kritik dari User
     public function store(Request $request)
@@ -40,20 +35,7 @@ class ReviewController extends Controller
         return redirect()->back()->with('success', 'Berhasil mengirim kritik!');
     }
 
-    // Fungsi untuk ADMIN (Membalas Review)
-    public function reply(Request $request, $id)
-    {
-        $request->validate([
-            'admin_reply' => 'required'
-        ]);
 
-        $review = Review::findOrFail($id);
-        $review->update([
-            'admin_reply' => $request->admin_reply
-        ]);
-
-        return redirect()->back()->with('success', 'Berhasil membalas pesan user!');
-    }
 
     // Fungsi untuk Menghapus Review (User)
     public function destroy($id)
@@ -64,12 +46,5 @@ class ReviewController extends Controller
         return redirect()->back()->with('success', 'Review berhasil dihapus!');
     }
 
-    // Fungsi untuk Menghapus Balasan Admin
-    public function deleteReply($id)
-    {
-        $review = Review::findOrFail($id);
-        $review->update(['admin_reply' => null]);
 
-        return redirect()->back()->with('success', 'Balasan berhasil dihapus!');
-    }
 }

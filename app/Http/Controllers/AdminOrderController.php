@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class OrderAdminController extends Controller
+class AdminOrderController extends Controller
 {
 
     public function index()
@@ -15,17 +15,7 @@ class OrderAdminController extends Controller
         return view('admin.order_admin', compact('orders'));
     }
 
-    public function store(Request $request)
-    {
-        Order::create([
-            'nama' => $request->nama,
-            'menu' => $request->menu,
-            'total' => $request->total,
-            'status' => 'pending'
-        ]);
 
-        return redirect()->back()->with('success','Pesanan berhasil dibuat');
-    }
 
     public function updateStatus(Request $request, $id)
     {

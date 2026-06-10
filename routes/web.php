@@ -3,15 +3,19 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservasiController;
+use App\Http\Controllers\AdminReservasiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminMenuController;
-use App\Http\Controllers\OrderAdminController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\AdminGalleryController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\HistoryController;
 
 /*
@@ -89,7 +93,7 @@ Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checko
 | ORDER
 |--------------------------------------------------------------------------
 */
-Route::post('/order', [OrderAdminController::class,'store'])->name('order.store')->middleware('auth');
+Route::post('/order', [OrderController::class,'store'])->name('order.store')->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -126,13 +130,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     | Reservasi
     |------------------------------------------
     */
-    Route::get('/reservasi', [ReservasiController::class, 'index'])
+    Route::get('/reservasi', [AdminReservasiController::class, 'index'])
         ->name('admin.reservasi');
 
-    Route::get('/reservasi/{id}/paid', [ReservasiController::class, 'updateStatus'])
+    Route::get('/reservasi/{id}/paid', [AdminReservasiController::class, 'updateStatus'])
         ->name('admin.reservasi.paid');
 
-    Route::delete('/reservasi/{id}', [ReservasiController::class, 'destroy'])
+    Route::delete('/reservasi/{id}', [AdminReservasiController::class, 'destroy'])
         ->name('admin.reservasi.destroy');
 
     /*
@@ -163,13 +167,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     | Order Admin
     |------------------------------------------
     */
-    Route::get('/order_admin', [OrderAdminController::class, 'index'])
+    Route::get('/order_admin', [AdminOrderController::class, 'index'])
         ->name('admin.order_admin');
 
-    Route::put('/order/{id}/status', [OrderAdminController::class, 'updateStatus'])
+    Route::put('/order/{id}/status', [AdminOrderController::class, 'updateStatus'])
         ->name('admin.order.status');
 
-    Route::delete('/order/{id}', [OrderAdminController::class, 'destroy'])
+    Route::delete('/order/{id}', [AdminOrderController::class, 'destroy'])
         ->name('admin.order.delete');
 
 
@@ -178,10 +182,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     | Kontak Admin
     |------------------------------------------
     */
-    Route::get('/kontak', [ContactController::class, 'index'])
+    Route::get('/kontak', [AdminContactController::class, 'index'])
         ->name('admin.kontak');
 
-    Route::delete('/kontak/{id}', [ContactController::class, 'destroy'])
+    Route::delete('/kontak/{id}', [AdminContactController::class, 'destroy'])
         ->name('admin.kontak.delete');
 
     /*
@@ -206,16 +210,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     | Kritik & Saran Admin
     |------------------------------------------
     */
-    Route::get('/reviews', [ReviewController::class, 'adminIndex'])
+    Route::get('/reviews', [AdminReviewController::class, 'index'])
         ->name('admin.reviews');
         
-    Route::post('/reviews/{id}/reply', [ReviewController::class, 'reply'])
+    Route::post('/reviews/{id}/reply', [AdminReviewController::class, 'reply'])
         ->name('admin.reviews.reply');
 
-    Route::delete('/reviews/{id}/reply', [ReviewController::class, 'deleteReply'])
+    Route::delete('/reviews/{id}/reply', [AdminReviewController::class, 'deleteReply'])
         ->name('admin.reviews.reply.delete');
 
-    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
+    Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
         ->name('admin.reviews.delete');
 
 });

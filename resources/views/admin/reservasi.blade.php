@@ -123,6 +123,72 @@ form {
 .summary-box h4 {
     margin-bottom: 10px;
 }
+
+/* Dropdown menu */
+.dropbtn {
+    background-color: transparent;
+    color: #4b2e2e;
+    padding: 0;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.dropbtn:hover {
+    background-color: #f4ece8;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 10;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.dropdown-content a, .dropdown-content form button {
+    color: #3e2c27;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.dropdown-content form {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.dropdown-content a:hover, .dropdown-content form button:hover {
+    background-color: #f4ece8;
+}
+
+.show {display:block;}
 </style>
 
 @include('admin.navbar_admin')
@@ -130,6 +196,13 @@ form {
 <div class="container">
 
 <h2>Data Reservasi</h2>
+
+@if(session('success'))
+    <div style="background: #edf7ef; border: 1px solid #b4d9bc; color: #2a6b38; padding: 11px 16px; border-radius: 10px; margin-bottom: 15px; font-size:13.5px; font-weight:500;">✓ {{ session('success') }}</div>
+@endif
+@if(session('error'))
+    <div style="background: #fdecea; border: 1px solid #f0b4b4; color: #8b1a1a; padding: 11px 16px; border-radius: 10px; margin-bottom: 15px; font-size:13.5px; font-weight:500;">✗ {{ session('error') }}</div>
+@endif
 
 <div class="summary-box">
     <h4>Total Pendapatan</h4>
@@ -166,17 +239,22 @@ form {
             @endif
         </td>
         <td>
-            @if($r->status == 'pending')
-            <a href="/admin/reservasi/{{ $r->id }}/paid" class="btn-paid">
-                Tandai Dibayar
-            </a>
-            @endif
-
-            <form action="/admin/reservasi/{{ $r->id }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button class="btn-delete">Hapus</button>
-            </form>
+            <div class="dropdown">
+                <button onclick="toggleDropdown({{ $r->id }})" class="dropbtn">⋮</button>
+                <div id="dropdown-{{ $r->id }}" class="dropdown-content">
+                    @if($r->status == 'pending')
+                    <a href="/admin/reservasi/{{ $r->id }}/paid">
+                        Tandai Dibayar
+                    </a>
+                    @else
+                    <form action="/admin/reservasi/{{ $r->id }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" style="color:#b02a37;" onclick="return confirm('Hapus riwayat reservasi ini?')">Hapus</button>
+                    </form>
+                    @endif
+                </div>
+            </div>
         </td>
     </tr>
     @endforeach
@@ -186,5 +264,23 @@ form {
 </div>
 
 </div>
+
+<script>
+function toggleDropdown(id) {
+    document.getElementById("dropdown-" + id).classList.toggle("show");
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+</script>
 
 @endsection
