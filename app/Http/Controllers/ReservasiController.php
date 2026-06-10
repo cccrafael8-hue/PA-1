@@ -33,7 +33,7 @@ class ReservasiController extends Controller
         }
 
         if ($waktu->lessThan($openTime) || $waktu->greaterThanOrEqualTo($closeTime)) {
-            return redirect()->back()->withErrors(['waktu' => 'Cafe sudah tutup pada jam segitu.'])->withInput();
+            return redirect()->back()->withErrors(['waktu' => 'Cafe belum beroperasional pada jam ini.'])->withInput();
         }
 
         //total reservasi per orang

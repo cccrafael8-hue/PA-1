@@ -361,8 +361,8 @@ body {
                 @csrf
 
                 <label class="field-label">Nama</label>
-                <input type="text" name="name" class="field-name"
-                       value="{{ Auth::user()->name }}" readonly required>
+                <input type="text" class="field-name"
+                       value="{{ Auth::user()->name }}" readonly>
 
                 <div class="rating-wrap">
                     <label class="field-label">Rating</label>

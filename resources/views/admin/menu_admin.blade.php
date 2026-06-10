@@ -41,6 +41,35 @@ th, td{
     padding:10px;
     text-align:left;
 }
+
+{{-- ← ADDED: style notif --}}
+.notif-success {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #edf7ef;
+    border: 1px solid #b4d9bc;
+    color: #2a6b38;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.notif-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fdecea;
+    border: 1px solid #f0b4b4;
+    color: #8b1a1a;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
 </style>
 
 @include('admin.navbar_admin')
@@ -51,21 +80,16 @@ th, td{
 
 <h4 class="mb-4">Manajemen Menu</h4>
 
-{{-- NOTIF --}}
+{{-- NOTIF SUKSES ← updated --}}
 @if(session('success'))
-    <div style="color:green; margin-bottom:10px;">
-        {{ session('success') }}
-    </div>
+    <div class="notif-success">✓ {{ session('success') }}</div>
 @endif
 
+{{-- NOTIF ERROR ← updated --}}
 @if($errors->any())
-    <div style="color:red; margin-bottom:10px;">
-        <ul style="margin:0; padding-left:20px;">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+    @foreach($errors->all() as $error)
+        <div class="notif-error">✕ {{ $error }}</div>
+    @endforeach
 @endif
 
 {{-- FORM (CREATE + EDIT) --}}
@@ -95,21 +119,30 @@ th, td{
 </select>
 </div>
 
+{{-- ← UPDATED: tambah min, max, step --}}
 <div class="col-md-4 mb-3">
 <input type="number" name="harga" class="form-control"
     placeholder="Harga (Default/Umum)"
+    min="1000" max="1000000" step="1000"
+    oninput="if(this.value.length > 7) this.value = this.value.slice(0, 7);"
     value="{{ $menu->harga ?? '' }}" required>
 </div>
 
+{{-- ← UPDATED: tambah min, max, step --}}
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
 <input type="number" name="harga_hot" class="form-control"
     placeholder="Harga Hot (Kopi)"
+    min="1000" max="1000000" step="1000"
+    oninput="if(this.value.length > 7) this.value = this.value.slice(0, 7);"
     value="{{ $menu->harga_hot ?? '' }}">
 </div>
 
+{{-- ← UPDATED: tambah min, max, step --}}
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
 <input type="number" name="harga_cold" class="form-control"
     placeholder="Harga Cold (Kopi)"
+    min="1000" max="1000000" step="1000"
+    oninput="if(this.value.length > 7) this.value = this.value.slice(0, 7);"
     value="{{ $menu->harga_cold ?? '' }}">
 </div>
 
@@ -219,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     kategoriSelect.addEventListener('change', toggleCoffeePrices);
-    toggleCoffeePrices(); // Run on load
+    toggleCoffeePrices();
 });
 </script>
 

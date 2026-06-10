@@ -12,7 +12,6 @@ use App\Models\Menu;
 
 class AuthController extends Controller
 {
-
     public function showLogin()
     {
         return view('login');
@@ -49,29 +48,6 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'Password yang Anda masukkan salah',
         ]);
-    }
-
-    public function showRegister()
-    {
-        return view('register');
-    }
-
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'user' // otomatis user biasa
-        ]);
-
-        return redirect('/login')->with('success', 'Akun berhasil dibuat!');
     }
 
     public function logout(Request $request)

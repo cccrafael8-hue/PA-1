@@ -23,19 +23,22 @@ class AdminMenuController extends Controller
     public function store(Request $request)
     {
         $messages = [
-            'harga.min' => 'Harga tidak boleh negatif.',
-            'harga_hot.min' => 'Harga Hot tidak boleh negatif.',
-            'harga_cold.min' => 'Harga Cold tidak boleh negatif.'
+            'harga.min'      => 'Harga minimal Rp1.000.',
+            'harga.max'      => 'Harga maksimal Rp1.000.000.',  
+            'harga_hot.min'  => 'Harga Hot minimal Rp1.000.',
+            'harga_hot.max'  => 'Harga Hot maksimal Rp1.000.000.', 
+            'harga_cold.min' => 'Harga Cold minimal Rp1.000.',
+            'harga_cold.max' => 'Harga Cold maksimal Rp1.000.000.',  
         ];
 
         $data = $request->validate([
-            'nama_menu'=>'required',
-            'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
-            'deskripsi'=>'required',
-            'harga'=>'required|numeric|min:0',
-            'harga_hot'=>'nullable|numeric|min:0',
-            'harga_cold'=>'nullable|numeric|min:0',
-            'gambar'=>'nullable|image'
+            'nama_menu'  => 'required',
+            'kategori'   => 'required|in:makanan,coffee,non_coffee,snack',
+            'deskripsi'  => 'required',
+            'harga'      => 'required|numeric|min:1000|max:1000000',  
+            'harga_hot'  => 'nullable|numeric|min:1000|max:1000000', 
+            'harga_cold' => 'nullable|numeric|min:1000|max:1000000',  
+            'gambar'     => 'nullable|image'
         ], $messages);
 
         if($request->file('gambar')){
@@ -55,25 +58,27 @@ class AdminMenuController extends Controller
         return view('admin.menu_admin', compact('menu','menus'));
     }
 
-    // UPDATE
     public function update(Request $request, $id)
     {
         $menu = Menu::findOrFail($id);
 
         $messages = [
-            'harga.min' => 'Harga tidak boleh negatif.',
-            'harga_hot.min' => 'Harga Hot tidak boleh negatif.',
-            'harga_cold.min' => 'Harga Cold tidak boleh negatif.'
+            'harga.min'      => 'Harga minimal Rp1.000.',
+            'harga.max'      => 'Harga maksimal Rp1.000.000.',     
+            'harga_hot.min'  => 'Harga Hot minimal Rp1.000.',
+            'harga_hot.max'  => 'Harga Hot maksimal Rp1.000.000.',   
+            'harga_cold.min' => 'Harga Cold minimal Rp1.000.',
+            'harga_cold.max' => 'Harga Cold maksimal Rp1.000.000.', 
         ];
 
         $data = $request->validate([
-            'nama_menu'=>'required',
-            'kategori'=>'required|in:makanan,coffee,non_coffee,snack',
-            'deskripsi'=>'required',
-            'harga'=>'required|numeric|min:0',
-            'harga_hot'=>'nullable|numeric|min:0',
-            'harga_cold'=>'nullable|numeric|min:0',
-            'gambar'=>'nullable|image'
+            'nama_menu'  => 'required',
+            'kategori'   => 'required|in:makanan,coffee,non_coffee,snack',
+            'deskripsi'  => 'required',
+            'harga'      => 'required|numeric|min:1000|max:1000000', 
+            'harga_hot'  => 'nullable|numeric|min:1000|max:1000000',
+            'harga_cold' => 'nullable|numeric|min:1000|max:1000000', 
+            'gambar'     => 'nullable|image'
         ], $messages);
 
         if($request->file('gambar')){
@@ -89,7 +94,6 @@ class AdminMenuController extends Controller
         return redirect('/admin/menu')->with('success', 'Menu berhasil diupdate');
     }
 
-    // DELETE
     public function destroy($id)
     {
         $menu = Menu::findOrFail($id);
