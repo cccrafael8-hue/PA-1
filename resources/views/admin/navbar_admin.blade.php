@@ -8,13 +8,20 @@
         </a>
     </div>
 
+    <style>
+        .active-nav {
+            text-decoration: underline !important;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px !important;
+        }
+    </style>
     <ul class="nav-links">
-        <li><a href="{{ route('admin.menu') }}">Menu</a></li>
-        <li><a href="{{ route('gallery_admin') }}">Gallery</a></li>
-        <li><a href="{{ route('admin.reservasi') }}">Reservasi</a></li>
-        <li><a href="{{ route('admin.kontak') }}">Kontak</a></li>
-        <li><a href="{{ route('admin.order_admin') }}">Order</a></li>
-        <li><a href="{{ route('admin.reviews') }}">Ulasan</a></li>
+        <li><a href="{{ route('admin.menu') }}" class="{{ request()->routeIs('admin.menu*') ? 'active-nav' : '' }}">Menu</a></li>
+        <li><a href="{{ route('gallery_admin') }}" class="{{ request()->routeIs('gallery_admin*') ? 'active-nav' : '' }}">Gallery</a></li>
+        <li><a href="{{ route('admin.reservasi') }}" class="{{ request()->routeIs('admin.reservasi*') ? 'active-nav' : '' }}">Reservasi</a></li>
+        <li><a href="{{ route('admin.kontak') }}" class="{{ request()->routeIs('admin.kontak*') ? 'active-nav' : '' }}">Kontak</a></li>
+        <li><a href="{{ route('admin.order_admin') }}" class="{{ request()->routeIs('admin.order*') ? 'active-nav' : '' }}">Order</a></li>
+        <li><a href="{{ route('admin.reviews') }}" class="{{ request()->routeIs('admin.reviews*') ? 'active-nav' : '' }}">Ulasan</a></li>
     </ul>
 
     <div class="nav-right">

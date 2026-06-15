@@ -9,14 +9,21 @@
     </div>
 
     <!-- Tengah: Menu -->
+    <style>
+        .active-nav {
+            text-decoration: underline !important;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px !important;
+        }
+    </style>
     <ul class="nav-links" id="nav-links">
-        <li><a href="{{ route('menu') }}">Menu</a></li>
-        <li><a href="{{ route('gallery') }}">Galeri</a></li>
-        <li><a href="{{ route('reservasi') }}">Reservasi</a></li>
+        <li><a href="{{ route('menu') }}" class="{{ request()->routeIs('menu') ? 'active-nav' : '' }}">Menu</a></li>
+        <li><a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'active-nav' : '' }}">Galeri</a></li>
+        <li><a href="{{ route('reservasi') }}" class="{{ request()->routeIs('reservasi') ? 'active-nav' : '' }}">Reservasi</a></li>
 
-        <li><a href="{{ route('history') }}">Riwayat</a></li>
-        <li><a href="{{ route('kontak') }}">Kontak</a></li>
-        <li><a href="{{ route('kritik.index') }}">Ulasan</a></li>
+        <li><a href="{{ route('history') }}" class="{{ request()->routeIs('history') ? 'active-nav' : '' }}">Riwayat</a></li>
+        <li><a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'active-nav' : '' }}">Kontak</a></li>
+        <li><a href="{{ route('kritik.index') }}" class="{{ request()->routeIs('kritik.*') ? 'active-nav' : '' }}">Ulasan</a></li>
     </ul>
 
     <!-- Kanan: Logout -->

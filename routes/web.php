@@ -125,6 +125,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     Route::get('/', [AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
 
+    //export data penjualan ke excel
+    Route::get('/export', [AdminController::class, 'export'])
+        ->name('admin.export');
+
     /*
     |------------------------------------------
     | Reservasi

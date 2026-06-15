@@ -44,8 +44,8 @@
 
         <div class="ag-hero__stats">
             <div class="hero-stat">
-                <span class="hero-stat__num" data-count="500">0</span><span class="hero-stat__unit">+</span>
-                <span class="hero-stat__label">Pelanggan Setia</span>
+                <span class="hero-stat__num" data-count="{{ $averageRating }}">0</span><span class="hero-stat__unit">★</span>
+                <span class="hero-stat__label">Rating Pelanggan</span>
             </div>
             <div class="hero-stat__divider"></div>
             <div class="hero-stat">

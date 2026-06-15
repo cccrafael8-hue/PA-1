@@ -94,6 +94,11 @@ class AuthController extends Controller
             $popularMenu = Menu::first();
         }
 
-        return view('welcome', compact('latestGallery', 'popularMenu'));
+        // Calculate average rating from Review model
+        $averageRating = \App\Models\Review::avg('rating') ?? 0;
+        // Round to 1 decimal place, e.g., 4.5
+        $averageRating = round($averageRating, 1);
+
+        return view('welcome', compact('latestGallery', 'popularMenu', 'averageRating'));
     }
 }
