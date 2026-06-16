@@ -191,8 +191,8 @@
             <div class="showcase-card__info">
                 <span class="card-pill">Bestseller</span>
                 <h3>Nasi Goreng Kampung</h3>
-                <p>Kopi Arabika single origin dari pegunungan Toba, diseduh dengan metode pour-over untuk menghasilkan rasa yang bersih dan kompleks.</p>
-                <a href="{{ route('menu') }}" class="card-link">Pesan Sekarang! →</a>
+                <p>Nasi goreng bercita rasa khas Indonesia dengan sentuhan bumbu kampung yang sederhana namun kaya rasa.</p>
+                <a href="{{ route('menu') }}#menu-nasi-goreng-kampung" class="card-link">Pesan Sekarang! →</a>
             </div>
         </div>
 
@@ -205,8 +205,8 @@
                 <div class="showcase-card__info">
                     <span class="card-pill">Favorit</span>
                     <h3>Matcha</h3>
-                    <p>Perpaduan matcha berkualitas dan susu creamy yang menghasilkan rasa lembut dengan sentuhan manis alami..</p>
-                    <a href="{{ route('menu') }}" class="card-link">Pesan →</a>
+                    <p>Perpaduan matcha berkualitas dan susu creamy yang menghasilkan rasa lembut dengan sentuhan manis alami.</p>
+                    <a href="{{ route('menu') }}#menu-matcha-cafe-latte" class="card-link">Pesan →</a>
                 </div>
             </div>
 
@@ -219,7 +219,7 @@
                     <span class="card-pill">Our Snack</span>
                     <h3>Snack Premium</h3>
                     <p>Camilan pilihan yang sempurna menemani sesi santai k amu.</p>
-                    <a href="{{ route('menu') }}" class="card-link">Pesan →</a>
+                    <a href="{{ route('menu') }}#snack-section" class="card-link">Pesan →</a>
                 </div>
             </div>
         </div>
@@ -232,7 +232,7 @@
             <span class="popular-label">⭐ Menu Terpopuler Minggu Ini</span>
             <h3>{{ $popularMenu->nama_menu }}</h3>
             <p>{{ Str::limit($popularMenu->deskripsi, 100) }}</p>
-            <a href="{{ route('menu') }}" class="btn-gold-sm">Pesan Sekarang</a>
+            <a href="{{ route('menu') }}#menu-{{ Str::slug($popularMenu->nama_menu) }}" class="btn-gold-sm">Pesan Sekarang</a>
         </div>
         <div class="popular-menu-banner__img">
             <img src="{{ asset('storage/' . $popularMenu->gambar) }}" alt="{{ $popularMenu->nama_menu }}">
@@ -335,19 +335,15 @@
 ════════════════════════════════════════ --}}
 <section class="ag-counter">
     <div class="ag-counter__inner">
-        <div class="counter-item reveal-up" style="--d:0ms">
-            <span class="counter-num" data-count="500">0</span><span class="counter-unit">+</span>
-            <span class="counter-label">Pelanggan per Bulan</span>
-        </div>
-        <div class="counter-divider"></div>
+
         <div class="counter-item reveal-up" style="--d:100ms">
             <span class="counter-num" data-count="30">0</span><span class="counter-unit">+</span>
             <span class="counter-label">Varian Menu</span>
         </div>
         <div class="counter-divider"></div>
         <div class="counter-item reveal-up" style="--d:200ms">
-            <span class="counter-num" data-count="4">0</span><span class="counter-unit">.3★</span>
-            <span class="counter-label">Rating Google Maps</span>
+            <span class="counter-num" data-count="{{ $averageRating }}">0</span><span class="counter-unit">★</span>
+            <span class="counter-label">Rating Pelanggan</span>
         </div>
         <div class="counter-divider"></div>
         <div class="counter-item reveal-up" style="--d:300ms">
@@ -757,9 +753,9 @@
     max-width: 1200px; margin: 0 auto 48px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(197,160,89,0.22);
-    border-radius: 14px; display: flex; align-items: center; overflow: hidden;
+    border-radius: 14px; display: flex; align-items: stretch; overflow: hidden;
 }
-.popular-menu-banner__inner { padding: 36px 40px; flex: 1; }
+.popular-menu-banner__inner { padding: 44px 40px; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
 .popular-label {
     display: block; font-size: 10px; letter-spacing: 2px;
     text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 10px;
@@ -767,9 +763,13 @@
 .popular-menu-banner__inner h3 {
     font-family: 'Playfair Display', serif; font-size: 26px; color: #fff; margin-bottom: 10px;
 }
-.popular-menu-banner__inner p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; margin-bottom: 20px; }
-.popular-menu-banner__img { width: 200px; height: 160px; flex-shrink: 0; }
-.popular-menu-banner__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.popular-menu-banner__inner p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; margin-bottom: 24px; max-width: 90%; }
+.popular-menu-banner__img { width: 40%; flex-shrink: 0; position: relative; }
+.popular-menu-banner__img img { 
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+}
 .showcase-cta { text-align: center; }
 
 /* ═══════════════════════
@@ -976,7 +976,12 @@
     .exp-img--main { height: 300px; width: 82%; }
     .exp-img--float { height: 190px; width: 56%; }
     .popular-menu-banner { flex-direction: column; }
-    .popular-menu-banner__img { width: 100%; height: 180px; }
+    .popular-menu-banner__inner { padding: 32px 24px; }
+    .popular-menu-banner__img { width: 100%; height: 220px; }
+    .popular-menu-banner__img img {
+        -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    }
     .ag-cta-banner { padding: 80px 6%; }
 }
 </style>

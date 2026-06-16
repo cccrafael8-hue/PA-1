@@ -236,6 +236,18 @@ body {
     border: 1px solid var(--border);
     transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease;
     animation: fadeUp 0.45s ease both;
+    scroll-margin-top: 120px;
+}
+
+.menu-card:target {
+    border-color: var(--brown-soft);
+    box-shadow: 0 16px 48px rgba(43,30,22,0.15);
+    animation: targetHighlight 2s ease-out;
+}
+
+@keyframes targetHighlight {
+    0% { box-shadow: 0 0 0 6px rgba(197,160,89, 0.4); transform: translateY(-6px); }
+    100% { box-shadow: 0 16px 48px rgba(43,30,22,0.15); transform: translateY(0); }
 }
 
 .menu-card:hover {
@@ -431,8 +443,13 @@ body {
     {{-- Grid --}}
     <div class="menu-grid" id="menuGrid">
 
+        @php $snackAnchorAdded = false; @endphp
         @foreach($menus as $menu)
-        <div class="menu-card" data-kategori="{{ $menu->kategori }}">
+        @if($menu->kategori == 'snack' && !$snackAnchorAdded)
+            <div id="snack-section" style="grid-column: 1 / -1; height: 0; margin: 0; padding: 0; scroll-margin-top: 120px;"></div>
+            @php $snackAnchorAdded = true; @endphp
+        @endif
+        <div class="menu-card" id="menu-{{ Str::slug($menu->nama_menu) }}" data-kategori="{{ $menu->kategori }}">
 
             <div class="menu-img-wrap">
                 <img

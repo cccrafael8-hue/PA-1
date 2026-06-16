@@ -17,7 +17,7 @@
     </style>
     <ul class="nav-links">
         <li><a href="{{ route('admin.menu') }}" class="{{ request()->routeIs('admin.menu*') ? 'active-nav' : '' }}">Menu</a></li>
-        <li><a href="{{ route('gallery_admin') }}" class="{{ request()->routeIs('gallery_admin*') ? 'active-nav' : '' }}">Gallery</a></li>
+        <li><a href="{{ route('gallery_admin') }}" class="{{ request()->routeIs('gallery_admin*') ? 'active-nav' : '' }}">Galeri</a></li>
         <li><a href="{{ route('admin.reservasi') }}" class="{{ request()->routeIs('admin.reservasi*') ? 'active-nav' : '' }}">Reservasi</a></li>
         <li><a href="{{ route('admin.kontak') }}" class="{{ request()->routeIs('admin.kontak*') ? 'active-nav' : '' }}">Kontak</a></li>
         <li><a href="{{ route('admin.order_admin') }}" class="{{ request()->routeIs('admin.order*') ? 'active-nav' : '' }}">Order</a></li>

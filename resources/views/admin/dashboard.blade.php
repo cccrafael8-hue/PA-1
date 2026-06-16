@@ -9,7 +9,7 @@
     {{-- Navigation Grid --}}
     <div class="dash-grid">
         <a href="{{ route('admin.menu') }}"        class="dash-btn">Menu</a>
-        <a href="{{ route('gallery_admin') }}"     class="dash-btn">Gallery</a>
+        <a href="{{ route('gallery_admin') }}"     class="dash-btn">Galeri</a>
         <a href="{{ route('admin.reservasi') }}"   class="dash-btn">Reservasi</a>
         <a href="{{ route('admin.kontak') }}"      class="dash-btn">Kontak</a>
         <a href="{{ route('admin.order_admin') }}" class="dash-btn">Order</a>

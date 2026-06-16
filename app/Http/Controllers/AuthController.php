@@ -63,8 +63,13 @@ class AuthController extends Controller
     {
         $latestGallery = Gallery::latest()->first();
 
-        // Cari menu paling populer dari Orders
-        $orders = Order::all();
+        // Cari menu paling populer dari Orders dalam 7 hari terakhir
+        $orders = Order::where('created_at', '>=', now()->subDays(7))->get();
+        
+        // Jika tidak ada pesanan minggu ini, ambil dari semua pesanan sebagai fallback
+        if ($orders->isEmpty()) {
+            $orders = Order::all();
+        }
         $menuCounts = [];
         foreach($orders as $order) {
             $items = explode(', ', $order->menu);
