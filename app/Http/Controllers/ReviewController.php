@@ -30,6 +30,7 @@ class ReviewController extends Controller
             'name' => Auth::user()->name,
             'rating' => $request->rating,
             'comment' => $request->comment,
+            'user_id' => Auth::id()
         ]);
 
         return redirect()->back()->with('success', 'Berhasil mengirim kritik!');
@@ -47,4 +48,4 @@ class ReviewController extends Controller
     }
 
 
-}
+}   

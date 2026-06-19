@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminGalleryController extends Controller
 {
@@ -25,7 +26,8 @@ class AdminGalleryController extends Controller
 
         Gallery::create([
             'title' => $request->title,
-            'image' => $imagePath
+            'image' => $imagePath,
+            'user_id' => Auth::id()
         ]);
 
         return back()->with('success', 'Berhasil ditambah');

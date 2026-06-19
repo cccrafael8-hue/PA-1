@@ -9,12 +9,18 @@ class Menu extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nama_menu',
-        'kategori',
-        'deskripsi',
-        'harga',
-        'harga_hot',
-        'harga_cold',
-        'gambar'
+        'name',
+        'category',
+        'description',
+        'price',
+        'price_hot',
+        'price_cold',
+        'image',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

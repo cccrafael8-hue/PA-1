@@ -107,48 +107,48 @@ th, td{
 <div class="row">
 
 <div class="col-md-4 mb-3">
-<input type="text" name="nama_menu" class="form-control"
+<input type="text" name="name" class="form-control"
     placeholder="Nama Menu"
-    value="{{ $menu->nama_menu ?? '' }}" required>
+    value="{{ $menu->name ?? '' }}" required>
 </div>
 
 <div class="col-md-4 mb-3">
-<select name="kategori" class="form-control" required>
+<select name="category" class="form-control" required>
     <option value="">Pilih Kategori</option>
-    <option value="makanan" {{ (isset($menu) && $menu->kategori == 'makanan') ? 'selected' : '' }}>Makanan</option>
-    <option value="coffee" {{ (isset($menu) && $menu->kategori == 'coffee') ? 'selected' : '' }}>Coffee</option>
-    <option value="non_coffee" {{ (isset($menu) && $menu->kategori == 'non_coffee') ? 'selected' : '' }}>Non Coffee</option>
-    <option value="snack" {{ (isset($menu) && $menu->kategori == 'snack') ? 'selected' : '' }}>Snack</option>
+    <option value="makanan" {{ (isset($menu) && $menu->category == 'makanan') ? 'selected' : '' }}>Makanan</option>
+    <option value="coffee" {{ (isset($menu) && $menu->category == 'coffee') ? 'selected' : '' }}>Coffee</option>
+    <option value="non_coffee" {{ (isset($menu) && $menu->category == 'non_coffee') ? 'selected' : '' }}>Non Coffee</option>
+    <option value="snack" {{ (isset($menu) && $menu->category == 'snack') ? 'selected' : '' }}>Snack</option>
 </select>
 </div>
 
 <div class="col-md-4 mb-3">
-<input type="number" name="harga" class="form-control"
+<input type="number" name="price" class="form-control"
     placeholder="Harga (Default/Umum)"
-    value="{{ $menu->harga ?? '' }}" required>
+    value="{{ $menu->price ?? '' }}" required>
 </div>
 
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
-<input type="number" name="harga_hot" class="form-control"
+<input type="number" name="price_hot" class="form-control"
     placeholder="Harga Hot (Kopi)"
-    value="{{ $menu->harga_hot ?? '' }}">
+    value="{{ $menu->price_hot ?? '' }}">
 </div>
 
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
-<input type="number" name="harga_cold" class="form-control"
+<input type="number" name="price_cold" class="form-control"
     placeholder="Harga Cold (Kopi)"
-    value="{{ $menu->harga_cold ?? '' }}">
+    value="{{ $menu->price_cold ?? '' }}">
 </div>
 
 <div class="col-md-4 mb-3">
-<input type="file" name="gambar" class="form-control">
+<input type="file" name="image" class="form-control">
 </div>
 
 </div>
 
 <div class="mb-3">
-<textarea name="deskripsi" class="form-control"
-    placeholder="Deskripsi Menu" required>{{ $menu->deskripsi ?? '' }}</textarea>
+<textarea name="description" class="form-control"
+    placeholder="Deskripsi Menu" required>{{ $menu->description ?? '' }}</textarea>
 </div>
 
 <button class="btn-main">
@@ -182,22 +182,22 @@ th, td{
 <tr>
 
 <td width="120">
-<img src="{{ asset('storage/'.$menuItem->gambar) }}"
+<img src="{{ asset('storage/'.$menuItem->image) }}"
 style="width:80px;height:60px;object-fit:cover;border-radius:8px;">
 </td>
 
-<td>{{ $menuItem->nama_menu }}</td>
+<td>{{ $menuItem->name }}</td>
 
 <td>
-    @if($menuItem->kategori == 'makanan') Makanan
-    @elseif($menuItem->kategori == 'coffee') Coffee
-    @elseif($menuItem->kategori == 'non_coffee') Non Coffee
-    @elseif($menuItem->kategori == 'snack') Snack
+    @if($menuItem->category == 'makanan') Makanan
+    @elseif($menuItem->category == 'coffee') Coffee
+    @elseif($menuItem->category == 'non_coffee') Non Coffee
+    @elseif($menuItem->category == 'snack') Snack
     @else -
     @endif
 </td>
 
-<td>Rp {{ number_format($menuItem->harga) }}</td>
+<td>Rp {{ number_format($menuItem->price) }}</td>
 
 <td>
 
@@ -231,11 +231,11 @@ style="width:80px;height:60px;object-fit:cover;border-radius:8px;">
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const kategoriSelect = document.querySelector('select[name="kategori"]');
+    const categorySelect = document.querySelector('select[name="category"]');
     const coffeePrices = document.querySelectorAll('.coffee-price');
 
     function toggleCoffeePrices() {
-        if(kategoriSelect.value === 'coffee') {
+        if(categorySelect.value === 'coffee') {
             coffeePrices.forEach(el => el.style.display = 'block');
         } else {
             coffeePrices.forEach(el => {
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    kategoriSelect.addEventListener('change', toggleCoffeePrices);
+    categorySelect.addEventListener('change', toggleCoffeePrices);
     toggleCoffeePrices(); 
 });
 </script>

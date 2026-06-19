@@ -13,6 +13,12 @@ class Review extends Model
         'name',
         'rating',
         'comment',
-        'admin_reply'
+        'admin_reply',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

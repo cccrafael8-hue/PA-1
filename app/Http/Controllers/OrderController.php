@@ -10,8 +10,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         Order::create([
-            'nama' => $request->nama,
-            'menu' => $request->menu,
+            'name' => $request->name,
+            'items' => $request->items,
             'total' => $request->total,
             'status' => 'pending'
         ]);

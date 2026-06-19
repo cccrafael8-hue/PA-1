@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Reservasi extends Model
+class Reservation extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
         'user_id',
-        'nama',
-        'tanggal',
-        'waktu',
-        'jumlah_orang',
-        'total_bayar',
+        'name',
+        'date',
+        'time',
+        'guest_count',
+        'total_price',
         'status'
     ];
 }

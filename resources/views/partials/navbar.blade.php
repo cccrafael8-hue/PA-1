@@ -19,7 +19,7 @@
     <ul class="nav-links" id="nav-links">
         <li><a href="{{ route('menu') }}" class="{{ request()->routeIs('menu') ? 'active-nav' : '' }}">Menu</a></li>
         <li><a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'active-nav' : '' }}">Galeri</a></li>
-        <li><a href="{{ route('reservasi') }}" class="{{ request()->routeIs('reservasi') ? 'active-nav' : '' }}">Reservasi</a></li>
+        <li><a href="{{ route('reservation') }}" class="{{ request()->routeIs('reservation') ? 'active-nav' : '' }}">Reservasi</a></li>
 
         <li><a href="{{ route('history') }}" class="{{ request()->routeIs('history') ? 'active-nav' : '' }}">Riwayat</a></li>
         <li><a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'active-nav' : '' }}">Kontak</a></li>

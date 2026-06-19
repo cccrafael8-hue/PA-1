@@ -9,5 +9,10 @@ class Gallery extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'image'];
+    protected $fillable = ['title', 'image', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

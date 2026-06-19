@@ -33,7 +33,7 @@
                         <span class="order-date">{{ $order->created_at->format('d M Y · H:i') }}</span>
                     </div>
                     <div class="order-details">
-                        <span><strong>Menu:</strong> {{ $order->menu }}</span>
+                        <span><strong>Menu:</strong> {{ $order->items }}</span>
                     </div>
                     @if($order->note)
                     <div class="order-note">{{ $order->note }}</div>

@@ -265,12 +265,12 @@ body {
     @foreach($cart->items as $item)
 
     @php
-        $harga = $item->menu->harga;
-        if($item->menu->kategori == 'coffee') {
-            if($item->tipe == 'hot' && $item->menu->harga_hot) $harga = $item->menu->harga_hot;
-            if($item->tipe == 'cold' && $item->menu->harga_cold) $harga = $item->menu->harga_cold;
+        $price = $item->menu->price;
+        if($item->menu->category == 'coffee') {
+            if($item->type == 'hot' && $item->menu->price_hot) $price = $item->menu->price_hot;
+            if($item->type == 'cold' && $item->menu->price_cold) $price = $item->menu->price_cold;
         }
-        $subtotal = $harga * $item->qty;
+        $subtotal = $price * $item->qty;
         $total += $subtotal;
     @endphp
 
@@ -281,12 +281,12 @@ body {
 
             <div class="item-info">
                 <div class="item-name">
-                    {{ $item->menu->nama_menu }}
-                    @if($item->tipe)
-                        <span style="font-size:12px; color:#a8862f;">({{ ucfirst($item->tipe) }})</span>
+                    {{ $item->menu->name }}
+                    @if($item->type)
+                        <span style="font-size:12px; color:#a8862f;">({{ ucfirst($item->type) }})</span>
                     @endif
                 </div>
-                <div class="item-price">Rp {{ number_format($harga, 0, ',', '.') }}</div>
+                <div class="item-price">Rp {{ number_format($price, 0, ',', '.') }}</div>
             </div>
 
             <!-- UPDATE QTY -->
@@ -386,9 +386,9 @@ function kirimPesanan() {
 
     @foreach($cart->items as $item)
         @php
-            $tipeLabel = $item->tipe ? ' ('.ucfirst($item->tipe).')' : '';
+            $typeLabel = $item->type ? ' ('.ucfirst($item->type).')' : '';
         @endphp
-        pesan += "- {{ $item->menu->nama_menu }}{{ $tipeLabel }} x{{ $item->qty }}\n";
+        pesan += "- {{ $item->menu->name }}{{ $typeLabel }} x{{ $item->qty }}\n";
     @endforeach
 
     pesan += "\nTotal: Rp {{ number_format($total, 0, ',', '.') }}";

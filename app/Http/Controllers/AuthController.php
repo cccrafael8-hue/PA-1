@@ -72,7 +72,7 @@ class AuthController extends Controller
         }
         $menuCounts = [];
         foreach($orders as $order) {
-            $items = explode(', ', $order->menu);
+            $items = explode(', ', $order->items);
             foreach($items as $item) {
                 if(trim($item) == '') continue;
                 $parts = explode(' x', $item);
@@ -91,7 +91,7 @@ class AuthController extends Controller
         if(!empty($menuCounts)) {
             arsort($menuCounts);
             $popularName = array_key_first($menuCounts);
-            $popularMenu = Menu::where('nama_menu', $popularName)->first();
+            $popularMenu = Menu::where('name', $popularName)->first();
         }
 
         // Kalau tidak ada order atau menu tidak ditemukan, tampilkan menu pertama
@@ -106,4 +106,35 @@ class AuthController extends Controller
 
         return view('welcome', compact('latestGallery', 'popularMenu', 'averageRating'));
     }
+
+    public function showRegister()
+{
+    return view('register');
+}
+
+public function register(Request $request)
+{
+    $credentials = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:8|confirmed',
+    ], [
+        'email.unique' => 'Email tersebut sudah terdaftar, silakan gunakan email lain',
+        'password.min' => 'Password minimal harus 8 karakter',
+        'password.confirmed' => 'Konfirmasi password tidak cocok',
+    ]);
+
+    $user = User::create([
+        'name' => $credentials['name'],
+        'email' => $credentials['email'],
+        'password' => Hash::make($credentials['password']),
+        'role' => 'customer', // default role, biar gak bisa daftar jadi admin sendiri
+    ]);
+
+    Auth::login($user);
+
+    $request->session()->regenerate();
+
+    return redirect('/welcome');
+}
 }

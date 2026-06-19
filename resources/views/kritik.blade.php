@@ -357,6 +357,7 @@ body {
         @endif
 
         <div class="form-box">
+            @auth
             <form action="{{ route('kritik.store') }}" method="POST">
                 @csrf
 
@@ -382,6 +383,16 @@ body {
 
                 <button type="submit" class="btn-kirim">Kirim Ulasan</button>
             </form>
+            @else
+            <div style="text-align: center; padding: 20px 0;">
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px; line-height: 1.6;">
+                    Silakan login terlebih dahulu untuk memberikan ulasan dan membagikan pengalaman Anda.
+                </p>
+                <a href="{{ route('login') }}" class="btn-kirim" style="display: inline-block; width: auto; padding: 10px 28px; text-decoration: none;">
+                    Login Sekarang
+                </a>
+            </div>
+            @endauth
         </div>
     </div>
 

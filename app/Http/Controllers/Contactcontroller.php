@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -12,6 +13,7 @@ class ContactController extends Controller
         Contact::create([
             'name' => $request->name,
             'message' => $request->message,
+            'user_id' => Auth::id()
         ]);
 
         return back()->with('success', 'Pesan berhasil dikirim!');

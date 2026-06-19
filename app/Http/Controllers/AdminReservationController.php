@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reservasi;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
-class AdminReservasiController extends Controller
+class AdminReservationController extends Controller
 {
     // ADMIN LIHAT 
     public function index()
     {
-        $reservasis = Reservasi::latest()->get();
-        return view('admin.reservasi', compact('reservasis'));
+        $reservations = Reservation::latest()->get();
+        return view('admin.reservasi', compact('reservations'));
     }
 
     // ADMIN UPDATE STATUS
     public function updateStatus($id)
     {
-        $reservasi = Reservasi::findOrFail($id);
-        $reservasi->status = 'paid';
-        $reservasi->save();
+        $reservation = Reservation::findOrFail($id);
+        $reservation->status = 'paid';
+        $reservation->save();
 
         return back();
     }
@@ -27,13 +27,13 @@ class AdminReservasiController extends Controller
     // ADMIN DELETE
     public function destroy($id)
     {
-        $reservasi = Reservasi::findOrFail($id);
+        $reservation = Reservation::findOrFail($id);
 
-        if ($reservasi->status != 'paid') {
+        if ($reservation->status != 'paid') {
             return back()->with('error', 'Reservasi yang belum dibayar tidak dapat dihapus.');
         }
 
-        $reservasi->delete();
+        $reservation->delete();
         return back()->with('success', 'Reservasi berhasil dihapus.');
     }
 }

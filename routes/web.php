@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ReservasiController;
-use App\Http\Controllers\AdminReservasiController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\AdminReservationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminMenuController;
@@ -49,6 +49,8 @@ Route::get('/welcome', [AuthController::class, 'welcome'])->name('welcome');
 
 Route::view('/kontak', 'kontak')->name('kontak');
 
+Route::get('/kritik', [ReviewController::class, 'index'])->name('kritik.index');
+
 /*
 |--------------------------------------------------------------------------
 | USER (WAJIB LOGIN)
@@ -56,13 +58,12 @@ Route::view('/kontak', 'kontak')->name('kontak');
 */
 Route::middleware(['auth'])->group(function () {
 
-    Route::view('/reservasi', 'reservasi')->name('reservasi');
+    Route::view('/reservation', 'reservasi')->name('reservation');
 
-    Route::post('/reservasi/store', [ReservasiController::class, 'store'])
-        ->name('reservasi.store');
+    Route::post('/reservation/store', [ReservationController::class, 'store'])
+        ->name('reservation.store');
 
     /* --- KRITIK USER (BAGIAN YANG DIUBAH) --- */
-    Route::get('/kritik', [ReviewController::class, 'index'])->name('kritik.index');
     Route::post('/kritik', [ReviewController::class, 'store'])->name('kritik.store');
     Route::delete('/kritik/{id}', [ReviewController::class, 'destroy'])->name('kritik.destroy');
 });
@@ -134,14 +135,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     | Reservasi
     |------------------------------------------
     */
-    Route::get('/reservasi', [AdminReservasiController::class, 'index'])
-        ->name('admin.reservasi');
+    Route::get('/reservation', [AdminReservationController::class, 'index'])
+        ->name('admin.reservation');
 
-    Route::get('/reservasi/{id}/paid', [AdminReservasiController::class, 'updateStatus'])
-        ->name('admin.reservasi.paid');
+    Route::get('/reservation/{id}/paid', [AdminReservationController::class, 'updateStatus'])
+        ->name('admin.reservation.paid');
 
-    Route::delete('/reservasi/{id}', [AdminReservasiController::class, 'destroy'])
-        ->name('admin.reservasi.destroy');
+    Route::delete('/reservation/{id}', [AdminReservationController::class, 'destroy'])
+        ->name('admin.reservation.destroy');
 
     /*
     |------------------------------------------

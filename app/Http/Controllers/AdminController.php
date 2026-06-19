@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Reservasi;
+use App\Models\Reservation;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -12,12 +12,12 @@ class AdminController extends Controller
 {
     public function dashboard(Request $request)
     {
-        $reservasis = Reservasi::all();
+        $reservations = Reservation::all();
         $filter = $request->query('filter', 'day'); // default to day
 
         // Fetch all orders and reservasis to group them in PHP (including soft-deleted)
         $orders = Order::withTrashed()->select('created_at', 'total')->orderBy('created_at', 'ASC')->get();
-        $reservasisData = Reservasi::withTrashed()->select('created_at', 'total_bayar')->where('status', 'paid')->orderBy('created_at', 'ASC')->get();
+        $reservationsData = Reservation::withTrashed()->select('created_at', 'total_price')->where('status', 'paid')->orderBy('created_at', 'ASC')->get();
         
         $grouped = [];
 
@@ -50,7 +50,7 @@ class AdminController extends Controller
         };
 
         $processData($orders, 'total');
-        $processData($reservasisData, 'total_bayar');
+        $processData($reservationsData, 'total_price');
 
         // Sort by key to ensure chronological order after combining both datasets
         ksort($grouped);
@@ -72,16 +72,15 @@ class AdminController extends Controller
             $chartTotals[] = $item['total'];
         }
 
-        return view('admin.dashboard', compact('reservasis', 'chartDates', 'chartTotals', 'filter'));
+        return view('admin.dashboard', compact('reservations', 'chartDates', 'chartTotals', 'filter'));
     }
 
     public function export()
     {
         $fileName = 'statistik_penjualan_' . date('Y-m-d') . '.csv';
 
-        // Fetch orders and paid reservations (including soft-deleted)
         $orders = Order::withTrashed()->orderBy('created_at', 'ASC')->get();
-        $reservasis = Reservasi::withTrashed()->where('status', 'paid')->orderBy('created_at', 'ASC')->get();
+        $reservations = Reservation::withTrashed()->where('status', 'paid')->orderBy('created_at', 'ASC')->get();
 
         $data = [];
 
@@ -89,19 +88,19 @@ class AdminController extends Controller
             $data[] = [
                 'Tanggal' => Carbon::parse($order->created_at)->format('Y-m-d H:i:s'),
                 'Tipe' => 'Order',
-                'Nama Pelanggan' => $order->nama,
-                'Detail' => $order->menu,
+                'Nama Pelanggan' => $order->name,
+                'Detail' => $order->items,
                 'Total' => $order->total,
             ];
         }
 
-        foreach ($reservasis as $reservasi) {
+        foreach ($reservations as $reservasi) {
             $data[] = [
                 'Tanggal' => Carbon::parse($reservasi->created_at)->format('Y-m-d H:i:s'),
                 'Tipe' => 'Reservasi',
-                'Nama Pelanggan' => $reservasi->nama,
-                'Detail' => 'Reservasi untuk ' . $reservasi->jumlah_orang . ' orang',
-                'Total' => $reservasi->total_bayar,
+                'Nama Pelanggan' => $reservasi->name,
+                'Detail' => 'Reservasi untuk ' . $reservasi->guest_count . ' orang',
+                'Total' => $reservasi->total_price,
             ];
         }
 

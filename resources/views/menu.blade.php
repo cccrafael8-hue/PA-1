@@ -286,7 +286,7 @@ body {
 
 .menu-card:hover .menu-img { transform: scale(1.07); }
 
-.kategori-badge {
+.category-badge {
     position: absolute;
     top: 12px; left: 12px;
     background: rgba(43,30,22,0.72);
@@ -326,7 +326,7 @@ body {
 }
 
 /* ── SELECT ── */
-.tipe-select {
+.type-select {
     width: 100%;
     padding: 7px 32px 7px 10px;
     font-size: 12.5px;
@@ -347,7 +347,7 @@ body {
     background-position: right 10px center;
 }
 
-.tipe-select:focus { border-color: var(--brown); }
+.type-select:focus { border-color: var(--brown); }
 
 /* ── CARD FOOTER ── */
 .menu-footer {
@@ -445,36 +445,36 @@ body {
 
         @php $snackAnchorAdded = false; @endphp
         @foreach($menus as $menu)
-        @if($menu->kategori == 'snack' && !$snackAnchorAdded)
+        @if($menu->category == 'snack' && !$snackAnchorAdded)
             <div id="snack-section" style="grid-column: 1 / -1; height: 0; margin: 0; padding: 0; scroll-margin-top: 120px;"></div>
             @php $snackAnchorAdded = true; @endphp
         @endif
-        <div class="menu-card" id="menu-{{ Str::slug($menu->nama_menu) }}" data-kategori="{{ $menu->kategori }}">
+        <div class="menu-card" id="menu-{{ Str::slug($menu->name) }}" data-category="{{ $menu->category }}">
 
             <div class="menu-img-wrap">
                 <img
-                    src="{{ asset('storage/'.$menu->gambar) }}"
+                    src="{{ asset('storage/'.$menu->image) }}"
                     class="menu-img"
-                    alt="{{ $menu->nama_menu }}"
+                    alt="{{ $menu->name }}"
                     loading="lazy"
                 >
-                <span class="kategori-badge">
-                    @if($menu->kategori == 'coffee') Coffee
-                    @elseif($menu->kategori == 'non_coffee') Non Coffee
-                    @elseif($menu->kategori == 'snack') Snack
+                <span class="category-badge">
+                    @if($menu->category == 'coffee') Coffee
+                    @elseif($menu->category == 'non_coffee') Non Coffee
+                    @elseif($menu->category == 'snack') Snack
                     @else Makanan
                     @endif
                 </span>
             </div>
 
             <div class="menu-body">
-                <div class="menu-name">{{ $menu->nama_menu }}</div>
-                <div class="menu-desc">{{ $menu->deskripsi }}</div>
+                <div class="menu-name">{{ $menu->name }}</div>
+                <div class="menu-desc">{{ $menu->description }}</div>
 
-                @if($menu->kategori == 'coffee')
-                    <select class="tipe-select"
-                            data-harga-hot="{{ $menu->harga_hot ?? $menu->harga }}"
-                            data-harga-cold="{{ $menu->harga_cold ?? $menu->harga }}"
+                @if($menu->category == 'coffee')
+                    <select class="type-select"
+                            data-price-hot="{{ $menu->price_hot ?? $menu->price }}"
+                            data-price-cold="{{ $menu->price_cold ?? $menu->price }}"
                             onchange="updatePriceAndType(this)">
                         <option value="hot">Hot</option>
                         <option value="cold">Cold / Iced</option>
@@ -485,10 +485,10 @@ body {
                     <div class="price-wrap">
                         <span class="price-label">Harga</span>
                         <span class="menu-price price-display">
-                            @if($menu->kategori == 'coffee')
-                                Rp {{ number_format($menu->harga_hot ?? $menu->harga, 0, ',', '.') }}
+                            @if($menu->category == 'coffee')
+                                Rp {{ number_format($menu->price_hot ?? $menu->price, 0, ',', '.') }}
                             @else
-                                Rp {{ number_format($menu->harga, 0, ',', '.') }}
+                                Rp {{ number_format($menu->price, 0, ',', '.') }}
                             @endif
                         </span>
                     </div>
@@ -496,10 +496,10 @@ body {
                     <form action="{{ route('cart.add') }}" method="POST" class="form-add-cart">
                         @csrf
                         <input type="hidden" name="menu_id" value="{{ $menu->id }}">
-                        @if($menu->kategori == 'coffee')
-                            <input type="hidden" name="tipe" class="tipe-input" value="hot">
+                        @if($menu->category == 'coffee')
+                            <input type="hidden" name="type" class="type-input" value="hot">
                         @endif
-                        <button type="submit" class="btn-add" title="Tambah ke Keranjang" aria-label="Tambah {{ $menu->nama_menu }} ke keranjang">+</button>
+                        <button type="submit" class="btn-add" title="Tambah ke Keranjang" aria-label="Tambah {{ $menu->name }} ke keranjang">+</button>
                     </form>
                 </div>
             </div>
@@ -514,11 +514,11 @@ body {
 function updatePriceAndType(selectEl) {
     const card = selectEl.closest('.menu-card');
     const priceDisplay = card.querySelector('.price-display');
-    const tipeInput = card.querySelector('.tipe-input');
+    const typeInput = card.querySelector('.type-input');
     const isHot = selectEl.value === 'hot';
-    const price = isHot ? selectEl.getAttribute('data-harga-hot') : selectEl.getAttribute('data-harga-cold');
+    const price = isHot ? selectEl.getAttribute('data-price-hot') : selectEl.getAttribute('data-price-cold');
     priceDisplay.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(price);
-    if (tipeInput) tipeInput.value = selectEl.value;
+    if (typeInput) typeInput.value = selectEl.value;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -535,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let visible = 0;
 
             menuCards.forEach(card => {
-                const match = filterValue === 'all' || card.getAttribute('data-kategori') === filterValue;
+                const match = filterValue === 'all' || card.getAttribute('data-category') === filterValue;
                 card.style.display = match ? 'block' : 'none';
                 if (match) visible++;
             });

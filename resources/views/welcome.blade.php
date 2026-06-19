@@ -230,12 +230,12 @@
     <div class="popular-menu-banner reveal-up">
         <div class="popular-menu-banner__inner">
             <span class="popular-label">⭐ Menu Terpopuler Minggu Ini</span>
-            <h3>{{ $popularMenu->nama_menu }}</h3>
-            <p>{{ Str::limit($popularMenu->deskripsi, 100) }}</p>
-            <a href="{{ route('menu') }}#menu-{{ Str::slug($popularMenu->nama_menu) }}" class="btn-gold-sm">Pesan Sekarang</a>
+            <h3>{{ $popularMenu->name }}</h3>
+            <p>{{ Str::limit($popularMenu->description, 100) }}</p>
+            <a href="{{ route('menu') }}#menu-{{ Str::slug($popularMenu->name) }}" class="btn-gold-sm">Pesan Sekarang</a>
         </div>
         <div class="popular-menu-banner__img">
-            <img src="{{ asset('storage/' . $popularMenu->gambar) }}" alt="{{ $popularMenu->nama_menu }}">
+            <img src="{{ asset('storage/' . $popularMenu->image) }}" alt="{{ $popularMenu->name }}">
         </div>
     </div>
     @endif
@@ -305,7 +305,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('reservasi') }}" class="btn-gold-hero" style="margin-top:36px;display:inline-flex">
+            <a href="{{ route('reservation') }}" class="btn-gold-hero" style="margin-top:36px;display:inline-flex">
                 Reservasi Sekarang
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>

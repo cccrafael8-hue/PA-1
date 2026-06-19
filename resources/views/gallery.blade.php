@@ -32,11 +32,6 @@
                 <div class="gallery-num">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</div>
                 <div class="gallery-info">
                     <h5 class="gallery-caption">{{ $item->title }}</h5>
-                    <div class="gallery-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="1.8">
-                            <path d="M2 10L10 2M10 2H4M10 2V8"/>
-                        </svg>
-                    </div>
                 </div>
             </div>
             @endforeach
@@ -204,10 +199,6 @@ html, body {
     left: 0;
     right: 0;
     padding: 20px 18px 17px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 8px;
     pointer-events: none;
 }
 
@@ -222,40 +213,12 @@ html, body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 80%;
+    max-width: 100%;
     transition: transform 0.35s ease;
 }
 
 .gallery-card:hover .gallery-caption {
     transform: translateY(-2px);
-}
-
-.gallery-arrow {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    opacity: 0;
-    transform: scale(0.65) translateY(8px);
-    transition:
-        opacity 0.35s ease,
-        transform 0.35s cubic-bezier(.22,.68,0,1.3),
-        background 0.25s ease;
-    pointer-events: auto;
-}
-
-.gallery-card:hover .gallery-arrow {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-}
-
-.gallery-arrow:hover {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.5);
 }
 
 @media (max-width: 992px) {

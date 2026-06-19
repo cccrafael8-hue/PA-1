@@ -119,8 +119,8 @@ tr:hover{
         <tbody>
         @foreach($orders as $order)
         <tr>
-            <td>{{ $order->nama }}</td>
-            <td>{{ $order->menu }}</td>
+            <td>{{ $order->name }}</td>
+            <td>{{ $order->items }}</td>
             <td>Rp {{ number_format($order->total) }}</td>
 
             <!-- NOTE -->

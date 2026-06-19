@@ -207,7 +207,7 @@ form {
 <div class="summary-box">
     <h4>Total Pendapatan</h4>
     <strong style="font-size:20px;">
-        Rp {{ number_format($reservasis->where('status','paid')->sum('total_bayar')) }}
+        Rp {{ number_format($reservations->where('status','paid')->sum('total_price')) }}
     </strong>
 </div>
 
@@ -225,12 +225,12 @@ form {
     </thead>
 
     <tbody>
-    @foreach($reservasis as $r)
+    @foreach($reservations as $r)
     <tr>
-        <td>{{ $r->nama }}</td>
-        <td>{{ $r->tanggal }}</td>
-        <td>{{ $r->jumlah_orang }}</td>
-        <td>Rp {{ number_format($r->total_bayar) }}</td>
+        <td>{{ $r->name }}</td>
+        <td>{{ $r->date }}</td>
+        <td>{{ $r->guest_count }}</td>
+        <td>Rp {{ number_format($r->total_price) }}</td>
         <td>
             @if($r->status == 'pending')
                 <span class="status-pending">Menunggu</span>
@@ -243,14 +243,14 @@ form {
                 <button onclick="toggleDropdown({{ $r->id }})" class="dropbtn">⋮</button>
                 <div id="dropdown-{{ $r->id }}" class="dropdown-content">
                     @if($r->status == 'pending')
-                    <a href="/admin/reservasi/{{ $r->id }}/paid">
+                    <a href="/admin/reservation/{{ $r->id }}/paid">
                         Tandai Dibayar
                     </a>
                     @else
-                    <form action="/admin/reservasi/{{ $r->id }}" method="POST">
+                    <form action="/admin/reservation/{{ $r->id }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" style="color:#b02a37;" onclick="return confirm('Hapus riwayat reservasi ini?')">Hapus</button>
+                        <button type="submit" style="color:#b02a37;" onclick="return confirm('Hapus riwayat reservation ini?')">Hapus</button>
                     </form>
                     @endif
                 </div>

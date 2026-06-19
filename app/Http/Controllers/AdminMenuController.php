@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMenuController extends Controller
 {
@@ -24,28 +25,30 @@ class AdminMenuController extends Controller
     {
         // Teks pesan error kustom dalam Bahasa Indonesia jika validasi gagal
         $messages = [
-            'harga.min'      => 'Harga minimal Rp1.000.',
-            'harga.max'      => 'Harga maksimal Rp1.000.000.',  
-            'harga_hot.min'  => 'Harga Hot minimal Rp1.000.',
-            'harga_hot.max'  => 'Harga Hot maksimal Rp1.000.000.', 
-            'harga_cold.min' => 'Harga Cold minimal Rp1.000.',
-            'harga_cold.max' => 'Harga Cold maksimal Rp1.000.000.',  
+            'price.min'      => 'Harga minimal Rp1.000.',
+            'price.max'      => 'Harga maksimal Rp1.000.000.',  
+            'price_hot.min'  => 'Harga Hot minimal Rp1.000.',
+            'price_hot.max'  => 'Harga Hot maksimal Rp1.000.000.', 
+            'price_cold.min' => 'Harga Cold minimal Rp1.000.',
+            'price_cold.max' => 'Harga Cold maksimal Rp1.000.000.',  
         ];
 
         // Validasi ketat di sisi server (Backend)
         $data = $request->validate([
-            'nama_menu'  => 'required',
-            'kategori'   => 'required|in:makanan,coffee,non_coffee,snack',
-            'deskripsi'  => 'required',
-            'harga'      => 'required|numeric|min:1000|max:1000000',  
-            'harga_hot'  => 'nullable|numeric|min:1000|max:1000000', 
-            'harga_cold' => 'nullable|numeric|min:1000|max:1000000',  
-            'gambar'     => 'nullable|image'
+            'name'  => 'required',
+            'category'   => 'required|in:makanan,coffee,non_coffee,snack',
+            'description'  => 'required',
+            'price'      => 'required|numeric|min:1000|max:1000000',  
+            'price_hot'  => 'nullable|numeric|min:1000|max:1000000', 
+            'price_cold' => 'nullable|numeric|min:1000|max:1000000',  
+            'image'     => 'nullable|image'
         ], $messages);
 
-        if($request->file('gambar')){
-            $data['gambar'] = $request->file('gambar')->store('menu','public');
+        if($request->file('image')){
+            $data['image'] = $request->file('image')->store('menu','public');
         }
+
+        $data['user_id'] = Auth::id();
 
         Menu::create($data);
 
@@ -66,31 +69,31 @@ class AdminMenuController extends Controller
 
         // Teks pesan error kustom dalam Bahasa Indonesia jika validasi gagal
         $messages = [
-            'harga.min'      => 'Harga minimal Rp1.000.',
-            'harga.max'      => 'Harga maksimal Rp1.000.000.',     
-            'harga_hot.min'  => 'Harga Hot minimal Rp1.000.',
-            'harga_hot.max'  => 'Harga Hot maksimal Rp1.000.000.',   
-            'harga_cold.min' => 'Harga Cold minimal Rp1.000.',
-            'harga_cold.max' => 'Harga Cold maksimal Rp1.000.000.', 
+            'price.min'      => 'Harga minimal Rp1.000.',
+            'price.max'      => 'Harga maksimal Rp1.000.000.',     
+            'price_hot.min'  => 'Harga Hot minimal Rp1.000.',
+            'price_hot.max'  => 'Harga Hot maksimal Rp1.000.000.',   
+            'price_cold.min' => 'Harga Cold minimal Rp1.000.',
+            'price_cold.max' => 'Harga Cold maksimal Rp1.000.000.', 
         ];
 
         // Validasi ketat di sisi server (Backend)
         $data = $request->validate([
-            'nama_menu'  => 'required',
-            'kategori'   => 'required|in:makanan,coffee,non_coffee,snack',
-            'deskripsi'  => 'required',
-            'harga'      => 'required|numeric|min:1000|max:1000000', 
-            'harga_hot'  => 'nullable|numeric|min:1000|max:1000000',
-            'harga_cold' => 'nullable|numeric|min:1000|max:1000000', 
-            'gambar'     => 'nullable|image'
+            'name'  => 'required',
+            'category'   => 'required|in:makanan,coffee,non_coffee,snack',
+            'description'  => 'required',
+            'price'      => 'required|numeric|min:1000|max:1000000', 
+            'price_hot'  => 'nullable|numeric|min:1000|max:1000000',
+            'price_cold' => 'nullable|numeric|min:1000|max:1000000', 
+            'image'     => 'nullable|image'
         ], $messages);
 
-        if($request->file('gambar')){
-            if($menu->gambar){
-                Storage::disk('public')->delete($menu->gambar);
+        if($request->file('image')){
+            if($menu->image){
+                Storage::disk('public')->delete($menu->image);
             }
 
-            $data['gambar'] = $request->file('gambar')->store('menu','public');
+            $data['image'] = $request->file('image')->store('menu','public');
         }
 
         $menu->update($data);
@@ -102,8 +105,8 @@ class AdminMenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
 
-        if($menu->gambar){
-            Storage::disk('public')->delete($menu->gambar);
+        if($menu->image){
+            Storage::disk('public')->delete($menu->image);
         }
 
         $menu->delete();

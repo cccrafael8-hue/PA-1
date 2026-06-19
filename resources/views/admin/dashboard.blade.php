@@ -10,7 +10,7 @@
     <div class="dash-grid">
         <a href="{{ route('admin.menu') }}"        class="dash-btn">Menu</a>
         <a href="{{ route('gallery_admin') }}"     class="dash-btn">Galeri</a>
-        <a href="{{ route('admin.reservasi') }}"   class="dash-btn">Reservasi</a>
+        <a href="{{ route('admin.reservation') }}"   class="dash-btn">Reservasi</a>
         <a href="{{ route('admin.kontak') }}"      class="dash-btn">Kontak</a>
         <a href="{{ route('admin.order_admin') }}" class="dash-btn">Order</a>
         <a href="{{ route('admin.reviews') }}"     class="dash-btn">Ulasan</a>
@@ -20,8 +20,7 @@
     <div class="dash-chart-card">
         <div class="dash-chart-header">
             <div>
-                <span class="dash-chart-tag">Statistik Penjualan</span>
-                <h3 class="dash-chart-title">Revenue <span>Overview</span></h3>
+                <h3 class="dash-chart-title">Statistik Penjualan</h3>
             </div>
             <div class="dash-chart-meta" style="display: flex; gap: 10px; align-items: center;">
                 <form method="GET" action="{{ route('admin.dashboard') }}" id="filterForm">
