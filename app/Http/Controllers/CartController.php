@@ -112,7 +112,6 @@ class CartController extends Controller
         'items' => $menuList,
         'total' => $total,
         'status' => 'Pending',
-        'note' => $request->note
     ]);
 
     CartItem::where('cart_id', $cart->id)->delete();
