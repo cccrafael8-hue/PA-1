@@ -74,6 +74,15 @@ tbody tr:hover {
     font-weight: 600;
 }
 
+.status-cancelled {
+    background: #fdecea;
+    color: #8b1a1a;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
 .btn-paid {
     background-color: #4b2e2e;
     color: white;
@@ -105,6 +114,23 @@ tbody tr:hover {
 
 .btn-delete:hover {
     background-color: #7a1c24;
+}
+
+.btn-proof {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.btn-proof:hover {
+    background: #117a8b;
 }
 
 form {
@@ -218,7 +244,9 @@ form {
         <th>Nama</th>
         <th>Tanggal</th>
         <th>Orang</th>
+        <th>Menu</th>
         <th>Total</th>
+        <th>Bukti Bayar</th>
         <th>Status</th>
         <th>Aksi</th>
     </tr>
@@ -230,10 +258,24 @@ form {
         <td>{{ $r->name }}</td>
         <td>{{ $r->date }}</td>
         <td>{{ $r->guest_count }}</td>
+        <td style="max-width:200px; text-align:left; font-size:13px;">{{ $r->items ?? '-' }}</td>
         <td>Rp {{ number_format($r->total_price) }}</td>
+        <td>
+            @if($r->payment_proof)
+                <button type="button" class="btn-proof" onclick="showProofModal('{{ asset('storage/'.$r->payment_proof) }}')" title="Lihat Bukti">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </button>
+            @else
+                <span style="color:#999; font-size:12px;">Tidak Ada</span>
+            @endif
+        </td>
         <td>
             @if($r->status == 'pending')
                 <span class="status-pending">Menunggu</span>
+            @elseif($r->status == 'cancelled')
+                <span class="status-cancelled">Dibatalkan</span>
             @else
                 <span class="status-paid">Dibayar</span>
             @endif
@@ -245,6 +287,9 @@ form {
                     @if($r->status == 'pending')
                     <a href="/admin/reservation/{{ $r->id }}/paid">
                         Tandai Dibayar
+                    </a>
+                    <a href="/admin/reservation/{{ $r->id }}/cancel" style="color:#b02a37;" onclick="return confirm('Batalkan reservasi ini?')">
+                        Batalkan
                     </a>
                     @else
                     <form action="/admin/reservation/{{ $r->id }}" method="POST">
@@ -265,6 +310,15 @@ form {
 
 </div>
 
+<!-- Modal Bukti Pembayaran -->
+<div id="proofModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); justify-content:center; align-items:center;">
+    <div style="position:relative; background:#fff; padding:20px; border-radius:12px; max-width:90%; max-height:90%; overflow:auto;">
+        <span onclick="closeProofModal()" style="position:absolute; top:10px; right:15px; font-size:28px; font-weight:bold; cursor:pointer; color:#333;">&times;</span>
+        <h4 style="margin-top:0; color:#5b3a34;">Bukti Pembayaran</h4>
+        <img id="proofImage" src="" alt="Bukti Pembayaran" style="max-width:100%; max-height:70vh; display:block; margin:15px auto 0;">
+    </div>
+</div>
+
 <script>
 function toggleDropdown(id) {
     document.getElementById("dropdown-" + id).classList.toggle("show");
@@ -280,6 +334,16 @@ window.onclick = function(event) {
             }
         }
     }
+}
+
+function showProofModal(imgSrc) {
+    document.getElementById('proofImage').src = imgSrc;
+    document.getElementById('proofModal').style.display = 'flex';
+}
+
+function closeProofModal() {
+    document.getElementById('proofModal').style.display = 'none';
+    document.getElementById('proofImage').src = '';
 }
 </script>
 

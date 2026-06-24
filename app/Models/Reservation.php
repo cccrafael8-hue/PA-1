@@ -15,7 +15,9 @@ class Reservation extends Model
         'date',
         'time',
         'guest_count',
+        'items',
         'total_price',
-        'status'
+        'status',
+        'payment_proof',
     ];
 }

@@ -9,10 +9,11 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\AdminGalleryController;
+use App\Http\Controllers\AdminPaymentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminContactController;
-use App\Http\Controllers\AdminGalleryController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
@@ -58,7 +59,7 @@ Route::get('/kritik', [ReviewController::class, 'index'])->name('kritik.index');
 */
 Route::middleware(['auth'])->group(function () {
 
-    Route::view('/reservation', 'reservasi')->name('reservation');
+    Route::get('/reservation', [ReservationController::class, 'create'])->name('reservation');
 
     Route::post('/reservation/store', [ReservationController::class, 'store'])
         ->name('reservation.store');
@@ -110,6 +111,7 @@ Route::post('/contact', [ContactController::class, 'store'])
 |--------------------------------------------------------------------------
 */
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
+Route::get('/gallery/{id}', [GalleryController::class, 'show'])->name('gallery.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +142,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 
     Route::get('/reservation/{id}/paid', [AdminReservationController::class, 'updateStatus'])
         ->name('admin.reservation.paid');
+
+    Route::get('/reservation/{id}/cancel', [AdminReservationController::class, 'cancel'])
+        ->name('admin.reservation.cancel');
 
     Route::delete('/reservation/{id}', [AdminReservationController::class, 'destroy'])
         ->name('admin.reservation.destroy');
@@ -178,8 +183,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     Route::put('/order/{id}/status', [AdminOrderController::class, 'updateStatus'])
         ->name('admin.order.status');
 
-    Route::delete('/order/{id}', [AdminOrderController::class, 'destroy'])
-        ->name('admin.order.delete');
 
 
     /*
@@ -210,6 +213,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     Route::delete('/gallery_admin/{id}', [AdminGalleryController::class, 'destroy'])
         ->name('gallery_admin.delete');
 
+    Route::post('/gallery_admin/album', [AdminGalleryController::class, 'storeAlbum'])
+        ->name('gallery_admin.album.store');
+
+    Route::delete('/gallery_admin/album/{id}', [AdminGalleryController::class, 'deleteAlbum'])
+        ->name('gallery_admin.album.delete');
+
     /*
     |------------------------------------------
     | Kritik & Saran Admin
@@ -226,6 +235,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 
     Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
         ->name('admin.reviews.delete');
+
+    /*
+    |------------------------------------------
+    | Payment Settings Admin
+    |------------------------------------------
+    */
+    Route::get('/payment-settings', [AdminPaymentController::class, 'index'])
+        ->name('admin.payment_settings');
+        
+    Route::post('/payment-settings', [AdminPaymentController::class, 'update'])
+        ->name('admin.payment_settings.update');
 
 });
 

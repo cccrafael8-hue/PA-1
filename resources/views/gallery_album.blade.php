@@ -6,49 +6,52 @@
 
 <div class="gallery-page">
 
-    <div class="gallery-hero">
-        <div class="gallery-hero-left">
-            <span class="gallery-tag">Lihat bagaimana AGATHA SPACE hadir dalam keseharian.</span>
-            <h1 class="gallery-title">Galeri <span>Foto</span></h1>
-        </div>
-        <div class="gallery-count">
-            Menampilkan <strong>{{ $albums->count() }}</strong> album
+    <div class="gallery-hero" style="flex-direction: column; align-items: flex-start; gap: 15px;">
+        <a href="{{ route('gallery') }}" style="text-decoration: none; color: #4b2e2e; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Kembali ke Album
+        </a>
+        <div style="display: flex; align-items: flex-end; justify-content: space-between; width: 100%;">
+            <div class="gallery-hero-left">
+                <span class="gallery-tag">Album Galeri</span>
+                <h1 class="gallery-title">{{ $album->name }}</h1>
+            </div>
+            <div class="gallery-count">
+                Menampilkan <strong>{{ $galleries->total() }}</strong> foto
+            </div>
         </div>
     </div>
 
     <div class="gallery-divider"></div>
 
     <div class="container-fluid gallery-container">
-        <div class="gallery-grid">
-            @foreach($albums as $index => $album)
-            <a href="{{ route('gallery.show', $album->id) }}" style="text-decoration: none;">
-                <div class="gallery-card album-card">
+        @if($galleries->isEmpty())
+            <div style="text-align: center; padding: 50px 0; color: #888;">
+                <h5>Belum ada foto di album ini.</h5>
+            </div>
+        @else
+            <div class="gallery-grid">
+                @foreach($galleries as $index => $item)
+                <div class="gallery-card">
                     <div class="gallery-img-wrap">
-                        @if($album->galleries->isNotEmpty())
-                            <img src="{{ asset('storage/'.$album->galleries->first()->image) }}"
-                                 class="gallery-img"
-                                 alt="{{ $album->name }}">
-                        @else
-                            <div style="height: 240px; background: #c0b5af; display: flex; align-items: center; justify-content: center; color: white;">
-                                <span>Tidak ada foto</span>
-                            </div>
-                        @endif
+                        <img src="{{ asset('storage/'.$item->image) }}"
+                             class="gallery-img"
+                             alt="{{ $item->title }}">
                     </div>
                     <div class="gallery-overlay"></div>
                     <div class="gallery-overlay-top"></div>
-                    
-                    <div class="album-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                        {{ $album->galleries_count }} Foto
-                    </div>
-
                     <div class="gallery-info">
-                        <h5 class="gallery-caption">{{ $album->name }}</h5>
+                        <h5 class="gallery-caption">{{ $item->title }}</h5>
                     </div>
                 </div>
-            </a>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+
+            <!-- PAGINATION -->
+            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                {{ $galleries->links('vendor.pagination.circle') }}
+            </div>
+        @endif
     </div>
 
 </div>
@@ -92,11 +95,6 @@ html, body {
     line-height: 1.1;
     letter-spacing: -0.01em;
     margin: 0;
-}
-
-.gallery-title span {
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(0,0,0,0.2);
 }
 
 .gallery-count {
@@ -190,39 +188,6 @@ html, body {
     opacity: 1;
 }
 
-.album-badge {
-    position: absolute;
-    top: 14px;
-    left: 16px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    z-index: 10;
-}
-
-.gallery-num {
-    position: absolute;
-    top: 14px;
-    left: 16px;
-    font-size: 11px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.1em;
-    transition: color 0.3s ease;
-    pointer-events: none;
-}
-
-.gallery-card:hover .gallery-num {
-    color: rgba(255,255,255,0.85);
-}
-
 .gallery-info {
     position: absolute;
     bottom: 0;
@@ -257,9 +222,6 @@ html, body {
     }
     .gallery-hero {
         padding: 36px 24px 24px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
     }
     .gallery-divider {
         margin: 0 24px 28px;
@@ -281,6 +243,49 @@ html, body {
     .gallery-img {
         height: 200px;
     }
+}
+
+.custom-pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 8px;
+    align-items: center;
+}
+
+.custom-pagination .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    background-color: transparent;
+    color: #555;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.custom-pagination .page-item:not(.disabled) .page-link:hover {
+    border-color: #4285F4;
+    color: #4285F4;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: #4285F4;
+    border-color: #4285F4;
+    color: white;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #eee;
+    color: #aaa;
 }
 </style>
 

@@ -339,16 +339,32 @@ body {
             ></textarea>
         </div>
 
-        <form action="{{ route('cart.checkout') }}" method="POST" id="formPesan">
+        <form action="{{ route('cart.checkout') }}" method="POST" id="formPesan" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="note" id="hiddenNote">
 
+            <div class="note-section">
+                <label class="note-label" style="text-align: center; margin-top: 10px;">QRIS Pembayaran</label>
+                @php
+                    $qrCode = \App\Models\Setting::where('key', 'qr_code_payment')->first();
+                @endphp
+                @if($qrCode && $qrCode->value)
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <img src="{{ asset('storage/' . $qrCode->value) }}" alt="QRIS" style="max-width: 220px; border-radius: 12px; border: 1px solid rgba(91,58,52,0.2);">
+                    </div>
+                @else
+                    <div style="text-align: center; margin-bottom: 15px; color: #a84040; font-size: 13px;">QRIS Belum Tersedia.</div>
+                @endif
+                
+                <label class="note-label">Upload Bukti Transfer (Wajib)</label>
+                <input type="file" name="payment_proof" class="note-input" accept="image/png, image/jpeg, image/jpg" required style="padding: 8px; background: #fff;">
+                @error('payment_proof')
+                    <div style="color:red; font-size:12px; margin-top:5px;">{{ $message }}</div>
+                @enderror
+            </div>
+
             <button type="button" onclick="kirimPesanan()" class="btn-order">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.3-.345.45-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345z"/>
-                    <path d="M20.52 3.449C12.831-3.984.106 1.407.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652C8.079 23.354 9.99 23.805 11.889 23.805c9.88.016 16.68-10.54 11.836-18.228A11.908 11.908 0 0020.52 3.449zm-8.621 18.22a9.888 9.888 0 01-5.032-1.378l-.36-.214-3.742.975 1.005-3.645-.235-.375a9.869 9.869 0 01-1.516-5.29c.012-5.463 4.445-9.91 9.917-9.91a9.898 9.898 0 017.008 2.909 9.845 9.845 0 012.905 6.995c-.012 5.477-4.447 9.924-9.95 9.933z"/>
-                </svg>
-                Pesan via WhatsApp
+                Pesan Sekarang
             </button>
         </form>
 
@@ -381,30 +397,16 @@ function kirimPesanan() {
         document.getElementById("formPesan").submit();
         return;
     }
-
-    let pesan = "Halo kak, saya mau pesan \n";
-
-    @foreach($cart->items as $item)
-        @php
-            $typeLabel = $item->type ? ' ('.ucfirst($item->type).')' : '';
-        @endphp
-        pesan += "- {{ $item->menu->name }}{{ $typeLabel }} x{{ $item->qty }}\n";
-    @endforeach
-
-    pesan += "\nTotal: Rp {{ number_format($total, 0, ',', '.') }}";
-
-    let note = document.getElementById("note").value;
-    if (note) {
-        pesan += "\n\nCatatan: " + note;
+    let form = document.getElementById("formPesan");
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
     }
 
+    let note = document.getElementById("note").value;
     document.getElementById("hiddenNote").value = note;
 
-    let nomor = "62895346041061";
-    let url = "https://wa.me/" + nomor + "?text=" + encodeURIComponent(pesan);
-    window.open(url, '_blank');
-
-    document.getElementById("formPesan").submit();
+    form.submit();
 }
 </script>
 

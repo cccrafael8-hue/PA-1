@@ -10,9 +10,10 @@ class AdminOrderController extends Controller
 
     public function index()
     {
-        $orders = Order::where('is_hidden', false)->latest()->get();
+        $activeOrders = Order::where('is_hidden', false)->whereNotIn('status', ['selesai', 'batal'])->latest()->get();
+        $archivedOrders = Order::where('is_hidden', false)->whereIn('status', ['selesai', 'batal'])->latest()->get();
 
-        return view('admin.order_admin', compact('orders'));
+        return view('admin.order_admin', compact('activeOrders', 'archivedOrders'));
     }
 
 
@@ -20,10 +21,15 @@ class AdminOrderController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:pending,proses,selesai'
+            'status' => 'required|in:pending,proses,selesai,batal'
         ]);
 
         $order = Order::findOrFail($id);
+
+        if (in_array($order->status, ['selesai', 'batal'])) {
+            return back()->with('error', 'Status pesanan yang sudah arsip (Selesai/Batal) tidak dapat diubah lagi');
+        }
+
         $order->update([
             'status' => $request->status
         ]);
@@ -31,12 +37,5 @@ class AdminOrderController extends Controller
         return back()->with('success', 'Status pesanan berhasil diperbarui');
     }
 
-    public function destroy($id)
-    {
-        $order = Order::findOrFail($id);
-        $order->update(['is_hidden' => true]);
-
-        return back()->with('success', 'Pesanan berhasil dihapus');
-    }
 
 }
