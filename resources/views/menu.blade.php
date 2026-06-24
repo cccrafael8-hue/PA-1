@@ -471,7 +471,7 @@ body {
                 <div class="menu-name">{{ $menu->name }}</div>
                 <div class="menu-desc">{{ $menu->description }}</div>
 
-                @if($menu->category == 'coffee')
+                @if($menu->category == 'coffee' && ($menu->price_hot > 0 || $menu->price_cold > 0))
                     <select class="type-select"
                             data-price-hot="{{ $menu->price_hot ?? $menu->price }}"
                             data-price-cold="{{ $menu->price_cold ?? $menu->price }}"
@@ -496,7 +496,7 @@ body {
                     <form action="{{ route('cart.add') }}" method="POST" class="form-add-cart">
                         @csrf
                         <input type="hidden" name="menu_id" value="{{ $menu->id }}">
-                        @if($menu->category == 'coffee')
+                        @if($menu->category == 'coffee' && ($menu->price_hot > 0 || $menu->price_cold > 0))
                             <input type="hidden" name="type" class="type-input" value="hot">
                         @endif
                         <button type="submit" class="btn-add" title="Tambah ke Keranjang" aria-label="Tambah {{ $menu->name }} ke keranjang">+</button>

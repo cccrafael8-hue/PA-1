@@ -24,13 +24,23 @@ class AdminReservationController extends Controller
         return back();
     }
 
+    // ADMIN CANCEL
+    public function cancel($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $reservation->status = 'cancelled';
+        $reservation->save();
+
+        return back()->with('success', 'Reservasi berhasil dibatalkan.');
+    }
+
     // ADMIN DELETE
     public function destroy($id)
     {
         $reservation = Reservation::findOrFail($id);
 
-        if ($reservation->status != 'paid') {
-            return back()->with('error', 'Reservasi yang belum dibayar tidak dapat dihapus.');
+        if ($reservation->status == 'pending') {
+            return back()->with('error', 'Reservasi yang masih pending tidak dapat dihapus. Silakan batalkan terlebih dahulu.');
         }
 
         $reservation->delete();

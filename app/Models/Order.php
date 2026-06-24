@@ -17,7 +17,8 @@ class Order extends Model
         'total',
         'status',
         'note',
-        'is_hidden'
+        'is_hidden',
+        'payment_proof'
     ];
 
     public function user()

@@ -9,10 +9,15 @@ class Gallery extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'image', 'user_id'];
+    protected $fillable = ['title', 'image', 'user_id', 'album_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function album()
+    {
+        return $this->belongsTo(Album::class);
     }
 }

@@ -3,50 +3,71 @@
 @section('content')
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
 body {
-    background: #f0ebe8;
     font-family: 'Poppins', sans-serif;
-    color: #3e2c27;
+    background: #f5ede8;
+    color: #2d1e15;
 }
 
-.res-container {
-    max-width: 480px;
-    margin: 110px auto 60px;
-    padding: 0 16px;
+.res-page {
+    padding: 32px 16px 64px;
 }
 
-.page-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: 600;
-    color: #3d1f1a;
-    margin-bottom: 6px;
-}
-
-.page-sub {
-    text-align: center;
-    font-size: 13px;
-    color: #9a6e66;
-    margin-bottom: 24px;
-}
-
-/* ── SUCCESS ALERT ── */
-.alert-success {
-    background: #eaf5ec;
-    border: 0.5px solid rgba(60,130,70,0.2);
-    color: #2e6b38;
-    padding: 12px 16px;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    font-size: 14px;
+.res-shell {
+    max-width: 520px;
+    margin: 80px auto 0;
 }
 
 /* ── CARD ── */
 .res-card {
     background: #fff;
     border-radius: 20px;
+    border: 0.5px solid rgba(91, 58, 52, 0.12);
     padding: 28px 24px;
-    border: 0.5px solid rgba(91,58,52,0.12);
+    margin-bottom: 14px;
+}
+
+/* ── SECTION HEAD ── */
+.sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sec-head-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sec-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #fdf0e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+    color: #5b3a34;
+}
+
+.sec-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2d1e15;
+}
+
+.sec-sub {
+    font-size: 11px;
+    color: #9a6e66;
+    margin-top: 1px;
 }
 
 /* ── FIELDS ── */
@@ -56,11 +77,11 @@ body {
 
 .field-label {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
-    color: #7a5248;
+    color: #9a6e66;
     margin-bottom: 5px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
 }
 
@@ -68,9 +89,9 @@ body {
     width: 100%;
     padding: 11px 14px;
     border-radius: 12px;
-    border: 1px solid rgba(91,58,52,0.18);
-    font-size: 14px;
-    color: #2c1410;
+    border: 1px solid rgba(91, 58, 52, 0.15);
+    font-size: 13px;
+    color: #2d1e15;
     background: #fdf9f8;
     outline: none;
     font-family: 'Poppins', sans-serif;
@@ -83,238 +104,541 @@ body {
     background: #fff;
 }
 
+.field-input[readonly] {
+    background: #f5ede8;
+    color: #9a6e66;
+    cursor: not-allowed;
+}
+
+.field-input:disabled {
+    background: #f5ede8;
+    color: #bfada8;
+    cursor: not-allowed;
+}
+
 .field-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
 }
 
-/* ── DIVIDER ── */
-.divider {
-    border: none;
-    border-top: 0.5px dashed rgba(91,58,52,0.18);
-    margin: 20px 0;
-}
-
-/* ── INFO BOX ── */
-.info-box {
+/* ── TAGS ── */
+.tag-row {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: #fdf5f2;
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin-bottom: 16px;
-    border: 0.5px solid rgba(91,58,52,0.1);
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
 }
 
-.info-icon {
-    font-size: 16px;
-    flex-shrink: 0;
-    margin-top: 1px;
-}
-
-.info-text {
-    font-size: 12px;
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #fdf0e8;
+    border: 0.5px solid rgba(91, 58, 52, 0.15);
+    font-size: 11px;
     color: #7a5248;
-    line-height: 1.6;
+}
+
+/* ── MENU LIST ── */
+.menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(91, 58, 52, 0.1);
+    background: #fdf9f8;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.menu-item.has-qty {
+    border-color: #5b3a34;
+    background: #fff;
+}
+
+.menu-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: #f5ede8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 17px;
+    color: #5b3a34;
+}
+
+.menu-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.menu-item-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2d1e15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-item-price {
+    font-size: 11px;
+    color: #9a6e66;
+    margin-top: 2px;
+}
+
+.menu-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.type-select {
+    font-size: 11px;
+    padding: 5px 7px;
+    border-radius: 8px;
+    border: 1px solid rgba(91, 58, 52, 0.18);
+    background: #fff;
+    color: #2d1e15;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+}
+
+/* ── QTY STEPPER ── */
+.qty-wrap {
+    display: flex;
+    align-items: center;
+    background: #f5ede8;
+    border-radius: 30px;
+    padding: 3px;
+    gap: 2px;
+    border: 1px solid rgba(91, 58, 52, 0.12);
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(91, 58, 52, 0.15);
+    background: #fff;
+    color: #2d1e15;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    flex-shrink: 0;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.qty-btn:hover {
+    background: #5b3a34;
+    color: #fff;
+    border-color: #5b3a34;
+}
+
+.qty-btn:active {
+    background: #2d1e15;
+    border-color: #2d1e15;
+}
+
+.qty-num {
+    min-width: 28px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2d1e15;
+}
+
+/* hidden real input for form submission */
+.qty-hidden {
+    display: none;
+}
+
+/* ── TOTAL ── */
+.total-card {
+    background: #2d1e15;
+    border-radius: 14px;
+    padding: 16px 18px;
+}
+
+.total-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.total-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(232, 201, 154, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.total-amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e8c99a;
+    margin-top: 2px;
+}
+
+.total-count {
+    font-size: 11px;
+    color: rgba(232, 201, 154, 0.5);
+    text-align: right;
+}
+
+.total-note {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ── ALERT ── */
+.alert-success {
+    background: #eaf5ec;
+    border: 0.5px solid rgba(60, 130, 70, 0.2);
+    color: #2e6b38;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+.error-msg {
+    color: #c0392b;
+    font-size: 11px;
+    margin-top: 4px;
 }
 
 /* ── BUTTON ── */
-.btn-reservation {
+.btn-wa {
     width: 100%;
-    padding: 14px;
+    padding: 15px;
     background: #5b3a34;
     color: #fff;
     border: none;
-    border-radius: 30px;
-    font-size: 15px;
+    border-radius: 14px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    letter-spacing: 0.02em;
     font-family: 'Poppins', sans-serif;
     transition: background 0.2s;
+    letter-spacing: 0.02em;
 }
 
-.btn-reservation:hover:not(:disabled) {
-    background: #4a2e29;
+.btn-wa:hover:not(:disabled) {
+    background: #3d1f1a;
 }
 
-.btn-reservation:disabled {
-    opacity: 0.5;
+.btn-wa:disabled {
+    opacity: 0.4;
     cursor: not-allowed;
-    background: #9a6e66;
 }
 </style>
 
 @include('partials.navbar')
 
-<div class="res-container">
-
-    <p class="page-title">Reservasi Meja</p>
-    <p class="page-sub">Isi data di bawah untuk memesan tempat duduk</p>
+<div class="res-page">
+<div class="res-shell">
 
     @if(session('success'))
-        <div class="alert-success">
-            {{ session('success') }}
-        </div>
+        <div class="alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('reservation.store') }}" method="POST" class="res-card" id="formReservasi">
+    {{-- FORM --}}
+    <form action="{{ route('reservation.store') }}" method="POST" id="formReservasi" enctype="multipart/form-data">
         @csrf
 
-        <div class="field-group">
-            <label class="field-label">Nama lengkap</label>
-            <input type="text" name="name" id="name" class="field-input" placeholder="Contoh: Budi Santoso" required>
-        </div>
-
-        <div class="field-row">
+        {{-- CARD: DATA PEMESAN --}}
+        <div class="res-card">
             <div class="field-group">
-                <label class="field-label">Tanggal</label>
-                <input type="date" name="date" id="date" class="field-input" min="{{ date('Y-m-d') }}" required>
+                <label class="field-label">Nama lengkap</label>
+                <input type="text" name="name" class="field-input" value="{{ Auth::user()->name }}" readonly required>
             </div>
-            <div class="field-group">
-                <label class="field-label">Jam</label>
-                <input type="time" name="time" id="time" class="field-input" required disabled title="Pilih date terlebih dahulu">
+
+            <div class="field-row">
+                <div class="field-group">
+                    <label class="field-label">Tanggal</label>
+                    <input type="date" name="date" id="inDate" class="field-input" min="{{ date('Y-m-d') }}" required>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Jam</label>
+                    <input type="time" name="time" id="inTime" class="field-input" required disabled title="Pilih tanggal terlebih dahulu">
+                </div>
+            </div>
+
+            <div class="field-group" style="margin-bottom:0">
+                <label class="field-label">Jumlah tamu</label>
+                <input type="number" name="guest_count" id="inGuest" class="field-input" placeholder="Contoh: 4" min="1" required>
+            </div>
+
+            <div class="tag-row">
+                <span class="tag">🕐 Senin–Jumat 11:00–21:59</span>
+                <span class="tag">🕐 Sabtu–Minggu 11:00–22:59</span>
             </div>
         </div>
 
-        <div class="field-group">
-            <label class="field-label">Jumlah orang</label>
-            <input type="number" name="guest_count" id="guest_count" class="field-input" placeholder="Contoh: 4" min="1" required>
+        {{-- CARD: MENU --}}
+        <div class="res-card">
+            <div class="sec-head" onclick="toggleMenu()">
+                <div class="sec-head-left">
+                    <div class="sec-icon">☰</div>
+                    <div>
+                        <div class="sec-title">Pilih menu</div>
+                        <div class="sec-sub">Minimal 1 item untuk melanjutkan</div>
+                    </div>
+                </div>
+                <div class="sec-arrow" id="menuArrow" style="transition: transform 0.3s; color: #9a6e66;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                @foreach($menus as $menu)
+                <div class="menu-item"
+                    data-id="{{ $menu->id }}"
+                    data-cat="{{ $menu->category }}"
+                    data-price="{{ $menu->price }}"
+                    data-price-hot="{{ $menu->price_hot }}"
+                    data-price-cold="{{ $menu->price_cold }}"
+                    data-name="{{ $menu->name }}">
+
+                    <div class="menu-item-icon">
+                        @if($menu->category == 'coffee') ☕
+                        @elseif($menu->category == 'food') 🍞
+                        @else 🍵
+                        @endif
+                    </div>
+
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">{{ $menu->name }}</div>
+                        <div class="menu-item-price">
+                            @if($menu->category == 'coffee' && ($menu->price_hot > 0 || $menu->price_cold > 0))
+                                Hot Rp {{ number_format($menu->price_hot, 0, ',', '.') }} · Cold Rp {{ number_format($menu->price_cold, 0, ',', '.') }}
+                            @else
+                                Rp {{ number_format($menu->price, 0, ',', '.') }}
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="menu-item-controls">
+                        @if($menu->category == 'coffee' && ($menu->price_hot > 0 || $menu->price_cold > 0))
+                            <select name="menus[{{ $menu->id }}][type]" class="type-select type-input">
+                                <option value="hot">Hot</option>
+                                <option value="cold">Cold</option>
+                            </select>
+                        @endif
+
+                        <input type="hidden" name="menus[{{ $menu->id }}][qty]" class="qty-hidden" value="0">
+
+                        <div class="qty-wrap">
+                            <button type="button" class="qty-btn qminus" aria-label="Kurangi">−</button>
+                            <span class="qty-num">0</span>
+                            <button type="button" class="qty-btn qplus" aria-label="Tambah">+</button>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            @error('menus')
+                <div class="error-msg">{{ $message }}</div>
+            @enderror
+
+            <div class="total-card">
+                <div class="total-card-top">
+                    <div>
+                        <div class="total-label">Total tagihan</div>
+                        <div class="total-amount" id="totalDisplay">Rp 0</div>
+                    </div>
+                    <div class="total-count" id="itemCount">0 item</div>
+                </div>
+                <div class="total-note">💳 Bayar via QRIS saat konfirmasi di WhatsApp</div>
+            </div>
         </div>
 
-        <hr class="divider">
+        <div class="res-card" style="margin-top: 14px;">
+            <div class="sec-head" style="margin-bottom: 10px;">
+                <div class="sec-head-left">
+                    <div class="sec-icon">💳</div>
+                    <div>
+                        <div class="sec-title">Pembayaran</div>
+                        <div class="sec-sub">Selesaikan pembayaran & upload bukti</div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="info-box">
-            <span class="info-icon">💳</span>
-            <span class="info-text">Pembayaran dilakukan saat konfirmasi reservation di WhatsApp.</span>
+            <div style="text-align: center; margin: 15px 0;">
+                @php
+                    $qrCode = \App\Models\Setting::where('key', 'qr_code_payment')->first();
+                @endphp
+                @if($qrCode && $qrCode->value)
+                    <img src="{{ asset('storage/' . $qrCode->value) }}" alt="QRIS" style="max-width: 220px; border-radius: 12px; border: 1px solid rgba(91,58,52,0.2);">
+                @else
+                    <div style="color: #a84040; font-size: 13px;">QRIS Belum Tersedia.</div>
+                @endif
+            </div>
+
+            <div class="field-group" style="margin-bottom:0">
+                <label class="field-label">Upload Bukti Transfer (Wajib)</label>
+                <input type="file" name="payment_proof" class="field-input" accept="image/png, image/jpeg, image/jpg" required style="background: #fff; padding: 10px;">
+                @error('payment_proof')
+                    <div class="error-msg">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
-        <button type="button" onclick="kirimReservasi()" class="btn-reservation">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.3-.345.45-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345z"/>
-                <path d="M20.52 3.449C12.831-3.984.106 1.407.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652C8.079 23.354 9.99 23.805 11.889 23.805c9.88.016 16.68-10.54 11.836-18.228A11.908 11.908 0 0020.52 3.449zm-8.621 18.22a9.888 9.888 0 01-5.032-1.378l-.36-.214-3.742.975 1.005-3.645-.235-.375a9.869 9.869 0 01-1.516-5.29c.012-5.463 4.445-9.91 9.917-9.91a9.898 9.898 0 017.008 2.909 9.845 9.845 0 012.905 6.995c-.012 5.477-4.447 9.924-9.95 9.933z"/>
-            </svg>
-            Reservasi via WhatsApp
+        {{-- TOMBOL --}}
+        <button type="button" id="btnWa" class="btn-wa" disabled onclick="kirimReservasi()">
+            Kirim Reservasi
         </button>
 
     </form>
-
+</div>
 </div>
 
 @include('partials.footer')
 
 <script>
-function checkValidations() {
-    let name = document.getElementById("name").value.trim();
-    let date = document.getElementById("date").value;
-    let time = document.getElementById("time").value;
-    let orang = parseInt(document.getElementById("guest_count").value);
-    let btn = document.querySelector('.btn-reservation');
+document.addEventListener('DOMContentLoaded', function () {
 
-    let isValid = true;
-
-    if (!name || !date || !time || !orang || isNaN(orang)) {
-        isValid = false;
-    }
-
-    if (orang < 1) {
-        isValid = false;
-    }
-
-    if (date) {
-        let today = new Date();
-        today.setHours(0,0,0,0);
-        let selectedDate = new Date(date);
-        if (selectedDate < today) isValid = false;
-    }
-
-    if (date && time) {
-        let selectedDate = new Date(date);
-        let day = selectedDate.getDay(); 
-        let timeParts = time.split(':');
-        let hours = parseInt(timeParts[0]);
-        let minutes = parseInt(timeParts[1]);
-        let timeInMinutes = hours * 60 + minutes;
-
-        if (day >= 1 && day <= 5) {
-            if (timeInMinutes <= 659 || timeInMinutes >= 1319) isValid = false;
-        } else {
-            if (timeInMinutes <= 659 || timeInMinutes >= 1379) isValid = false;
-        }
-    }
-
-    btn.disabled = !isValid;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    let elTanggal = document.getElementById("date");
-    let elWaktu = document.getElementById("time");
-    let elNama = document.getElementById("name");
-    let elOrang = document.getElementById("guest_count");
-
-    elTanggal.addEventListener('change', function() {
-        if (this.value) {
-            elWaktu.disabled = false;
-            let selectedDate = new Date(this.value);
-            let day = selectedDate.getDay(); 
-
-            if (day >= 1 && day <= 5) {
-                elWaktu.min = "11:00";
-                elWaktu.max = "21:58";
-            } else {
-                elWaktu.min = "11:00";
-                elWaktu.max = "22:58";
-            }
-        } else {
-            elWaktu.disabled = true;
-            elWaktu.value = '';
-        }
-        checkValidations();
+    var items = [];
+    document.querySelectorAll('.menu-item').forEach(function (el) {
+        items.push({ el: el, qty: 0 });
     });
 
-    elWaktu.addEventListener('change', function() {
+    function getPrice(item) {
+        var cat = item.el.dataset.cat;
+        if (cat === 'coffee') {
+            var sel = item.el.querySelector('.type-input');
+            var type = sel ? sel.value : 'hot';
+            return parseInt(type === 'cold' ? item.el.dataset.priceCold : item.el.dataset.priceHot) || 0;
+        }
+        return parseInt(item.el.dataset.price) || 0;
+    }
+
+    function recalc() {
+        var total = 0, count = 0, menuLines = [];
+        items.forEach(function (item) {
+            var q = item.qty;
+            item.el.querySelector('.qty-num').textContent = q;
+            item.el.querySelector('.qty-hidden').value = q;
+            item.el.classList.toggle('has-qty', q > 0);
+            if (q > 0) {
+                var p = getPrice(item);
+                total += p * q;
+                count += q;
+                var typeLabel = '';
+                if (item.el.dataset.cat === 'coffee') {
+                    var sel = item.el.querySelector('.type-input');
+                    typeLabel = sel ? ' (' + (sel.value === 'cold' ? 'Cold' : 'Hot') + ')' : '';
+                }
+                menuLines.push(item.el.dataset.name + typeLabel + ' x' + q);
+            }
+        });
+
+        document.getElementById('totalDisplay').textContent = 'Rp ' + total.toLocaleString('id-ID');
+        document.getElementById('itemCount').textContent = count + ' item';
+
+        validate(total, menuLines);
+        return { total: total, menuLines: menuLines };
+    }
+
+    function validate(total, menuLines) {
+        var d = document.getElementById('inDate').value;
+        var t = document.getElementById('inTime').value;
+        var g = parseInt(document.getElementById('inGuest').value);
+        var ok = d && t && g >= 1 && !isNaN(g) && total > 0;
+        document.getElementById('btnWa').disabled = !ok;
+    }
+
+    items.forEach(function (item) {
+        item.el.querySelector('.qplus').addEventListener('click', function () {
+            item.qty++;
+            recalc();
+        });
+        item.el.querySelector('.qminus').addEventListener('click', function () {
+            if (item.qty > 0) { item.qty--; recalc(); }
+        });
+        var sel = item.el.querySelector('.type-input');
+        if (sel) sel.addEventListener('change', recalc);
+    });
+
+    var elDate  = document.getElementById('inDate');
+    var elTime  = document.getElementById('inTime');
+    var elGuest = document.getElementById('inGuest');
+
+    elDate.addEventListener('change', function () {
+        if (this.value) {
+            elTime.disabled = false;
+            var day = new Date(this.value).getDay();
+            elTime.min = '11:00';
+            elTime.max = (day >= 1 && day <= 5) ? '21:58' : '22:58';
+        } else {
+            elTime.disabled = true;
+            elTime.value = '';
+        }
+        recalc();
+    });
+
+    elTime.addEventListener('change', function () {
         if (this.value && this.min && this.max) {
             if (this.value < this.min || this.value > this.max) {
-                // Hapus nilai jika diluar jam tanpa memunculkan alert
                 this.value = '';
             }
         }
-        checkValidations();
+        recalc();
     });
 
-    elNama.addEventListener('input', checkValidations);
-    elWaktu.addEventListener('input', checkValidations);
-    elOrang.addEventListener('input', checkValidations);
-    checkValidations();
+    elGuest.addEventListener('input', recalc);
+    recalc();
+
+    window.toggleMenu = function() {
+        var grid = document.getElementById('menuGrid');
+        var arrow = document.getElementById('menuArrow');
+        if (grid.style.display === 'none') {
+            grid.style.display = 'flex';
+            arrow.style.transform = 'rotate(0deg)';
+        } else {
+            grid.style.display = 'none';
+            arrow.style.transform = 'rotate(180deg)';
+        }
+    };
+
+    window.kirimReservasi = function () {
+        var form = document.getElementById('formReservasi');
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        form.submit();
+    };
 });
-
-function kirimReservasi() {
-    let form = document.getElementById("formReservasi");
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
-
-    let name    = document.getElementById("name").value;
-    let date = document.getElementById("date").value;
-    let time   = document.getElementById("time").value;
-    let orang   = document.getElementById("guest_count").value;
-
-    let pesan = `Halo Kakk, Saya ingin melakukan reservasi meja atas nama ${name}\nTanggal      : ${date}\nJam          : ${time}\nJumlah Orang : ${orang}\n\nSaya juga akan melakukan pembayaran melalui QRIS.\n\nTerima kasih Kakk.`;
-
-    let nomorAdmin = "62895346041061";
-    let url = "https://wa.me/" + nomorAdmin + "?text=" + encodeURIComponent(pesan);
-
-    window.open(url, '_blank');
-
-    form.submit();
-}
 </script>
 
 @endsection

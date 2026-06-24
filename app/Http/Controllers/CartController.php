@@ -83,6 +83,15 @@ class CartController extends Controller
 
     public function checkout(Request $request) {
 
+    $request->validate([
+        'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+    ], [
+        'payment_proof.required' => 'Bukti pembayaran wajib diunggah.',
+        'payment_proof.image' => 'File harus berupa gambar.',
+        'payment_proof.mimes' => 'Format gambar yang diperbolehkan hanya jpeg, png, jpg, gif.',
+        'payment_proof.max' => 'Ukuran gambar maksimal 5MB.',
+    ]);
+
     $cart = $this->getCart()->load('items.menu');
 
     if ($cart->items->count() === 0) {
@@ -106,13 +115,19 @@ class CartController extends Controller
         $menuList .= $item->menu->name . $tipeLabel . " x" . $item->qty . ", ";
     }
 
+    $proofPath = null;
+    if ($request->hasFile('payment_proof')) {
+        $proofPath = $request->file('payment_proof')->store('payments', 'public');
+    }
+
     Order::create([
         'user_id' => auth()->id(),
         'name' => auth()->user()->name,
-        'items' => $menuList,
+        'items' => rtrim($menuList, ", "),
         'total' => $total,
         'status' => 'Pending',
-        'note' => $request->note
+        'note' => $request->note,
+        'payment_proof' => $proofPath
     ]);
 
     CartItem::where('cart_id', $cart->id)->delete();

@@ -16,7 +16,7 @@ class AdminController extends Controller
         $filter = $request->query('filter', 'day'); // default to day
 
         // Fetch all orders and reservasis to group them in PHP (including soft-deleted)
-        $orders = Order::withTrashed()->select('created_at', 'total')->orderBy('created_at', 'ASC')->get();
+        $orders = Order::withTrashed()->where('status', 'selesai')->select('created_at', 'total')->orderBy('created_at', 'ASC')->get();
         $reservationsData = Reservation::withTrashed()->select('created_at', 'total_price')->where('status', 'paid')->orderBy('created_at', 'ASC')->get();
         
         $grouped = [];
@@ -79,7 +79,7 @@ class AdminController extends Controller
     {
         $fileName = 'statistik_penjualan_' . date('Y-m-d') . '.csv';
 
-        $orders = Order::withTrashed()->orderBy('created_at', 'ASC')->get();
+        $orders = Order::withTrashed()->where('status', 'selesai')->orderBy('created_at', 'ASC')->get();
         $reservations = Reservation::withTrashed()->where('status', 'paid')->orderBy('created_at', 'ASC')->get();
 
         $data = [];
