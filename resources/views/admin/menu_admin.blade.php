@@ -123,21 +123,21 @@ th, td{
 </div>
 
 <div class="col-md-4 mb-3">
-<input type="number" name="price" class="form-control"
-    placeholder="Harga (Default/Umum)"
-    value="{{ $menu->price ?? '' }}" required>
+<input type="text" name="price_display" class="form-control"
+    placeholder="Harga (Default/Umum)" required>
+<input type="hidden" name="price" value="{{ old('price', $menu->price ?? '') }}">
 </div>
 
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
-<input type="number" name="price_hot" class="form-control"
-    placeholder="Harga Hot (Kopi)"
-    value="{{ $menu->price_hot ?? '' }}">
+<input type="text" name="price_hot_display" class="form-control"
+    placeholder="Harga Hot (Kopi)">
+<input type="hidden" name="price_hot" value="{{ old('price_hot', $menu->price_hot ?? '') }}">
 </div>
 
 <div class="col-md-4 mb-3 coffee-price" style="display:none;">
-<input type="number" name="price_cold" class="form-control"
-    placeholder="Harga Cold (Kopi)"
-    value="{{ $menu->price_cold ?? '' }}">
+<input type="text" name="price_cold_display" class="form-control"
+    placeholder="Harga Cold (Kopi)">
+<input type="hidden" name="price_cold" value="{{ old('price_cold', $menu->price_cold ?? '') }}">
 </div>
 
 <div class="col-md-4 mb-3">
@@ -246,6 +246,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
     categorySelect.addEventListener('change', toggleCoffeePrices);
     toggleCoffeePrices(); 
+
+    // Format display dan sync ke hidden input secara real-time
+    const priceNames = ['price', 'price_hot', 'price_cold'];
+
+    function formatNumber(value) {
+        let clean = value.toString().replace(/[^\d]/g, '');
+        if (!clean) return '';
+        return new Intl.NumberFormat('id-ID').format(clean);
+    }
+
+    priceNames.forEach(name => {
+        const hiddenInput = document.querySelector(`input[name="${name}"]`);
+        const displayInput = document.querySelector(`input[name="${name}_display"]`);
+        
+        if (hiddenInput && displayInput) {
+            // Isi nilai awal ke input display jika ada value di hidden input
+            if (hiddenInput.value) {
+                displayInput.value = formatNumber(hiddenInput.value);
+            }
+
+            // Sync setiap kali user mengetik di input display
+            displayInput.addEventListener('input', function() {
+                let clean = this.value.replace(/[^\d]/g, '');
+                hiddenInput.value = clean; // Update hidden input dengan angka bersih
+                this.value = formatNumber(clean); // Format visual input display
+            });
+        }
+    });
 });
 </script>
 

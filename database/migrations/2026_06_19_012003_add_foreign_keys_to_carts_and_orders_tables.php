@@ -14,13 +14,6 @@ return new class extends Migration
         // Reassign invalid user_ids to a valid user to prevent constraint failure and save dummy data
         $fallbackUser = \Illuminate\Support\Facades\DB::table('users')->first();
         if ($fallbackUser) {
-            \Illuminate\Support\Facades\DB::table('carts')
-                ->whereNotNull('user_id')
-                ->whereNotIn('user_id', function($query) {
-                    $query->select('id')->from('users');
-                })
-                ->update(['user_id' => $fallbackUser->id]);
-
             \Illuminate\Support\Facades\DB::table('orders')
                 ->whereNotNull('user_id')
                 ->whereNotIn('user_id', function($query) {
@@ -28,13 +21,8 @@ return new class extends Migration
                 })
                 ->update(['user_id' => $fallbackUser->id]);
         } else {
-            \Illuminate\Support\Facades\DB::table('carts')->truncate();
             \Illuminate\Support\Facades\DB::table('orders')->truncate();
         }
-
-        Schema::table('carts', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
 
         Schema::table('orders', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -47,10 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        });
-
-        Schema::table('carts', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
         });
     }

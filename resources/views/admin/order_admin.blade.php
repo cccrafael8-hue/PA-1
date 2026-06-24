@@ -109,7 +109,7 @@ tr:hover{
                 <th>Nama</th>
                 <th>Menu</th>
                 <th>Total</th>
-                <th>Catatan</th> <!-- 🔥 TAMBAHAN -->
+                <th>Catatan</th> <!--  TAMBAHAN -->
                 <th>Status</th>
                 <th>Tanggal</th>
                 <th>Aksi</th>
@@ -132,10 +132,10 @@ tr:hover{
                 <form action="{{ route('admin.order.status', $order->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('PUT')
-                    <select name="status" onchange="this.form.submit()" class="status-select {{ $order->status }}">
-                        <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="proses" {{ $order->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                        <option value="selesai" {{ $order->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                    <select name="status" onchange="this.form.submit()" class="status-select {{ strtolower($order->status) }}">
+                        <option value="pending" {{ strtolower($order->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="proses" {{ strtolower($order->status) == 'proses' ? 'selected' : '' }}>Proses</option>
+                        <option value="selesai" {{ strtolower($order->status) == 'selesai' ? 'selected' : '' }}>Selesai</option>
                     </select>
                 </form>
             </td>

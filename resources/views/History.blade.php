@@ -5,26 +5,39 @@
 @include('partials.navbar')
 
 <div class="history-page">
+    @php
+        $activeOrders = $orders->filter(function($order) {
+            return !$order->is_hidden;
+        });
+    @endphp
 
     <div class="history-hero">
         <div class="history-hero-left">
-            <span class="history-tag">Riwayat Transaksi</span>
+            <span class="history-tag">Riwayat Transaksi · {{ auth()->user()->name }}</span>
             <h1 class="history-title">History <span>Pembelian</span></h1>
         </div>
         <div class="history-count">
-            Menampilkan <strong>{{ $orders->count() }}</strong> pesanan
+            Menampilkan <strong>{{ $activeOrders->count() }}</strong> pesanan
         </div>
     </div>
+
+    @if(auth()->user()->role === 'admin')
+        <div style="background: rgba(180,140,60,.1); border: 1px solid rgba(180,140,60,.3); color: #8a6a1a; padding: 15px 20px; border-radius: 12px; margin-bottom: 24px; font-size: 13.5px; line-height: 1.5;">
+            <strong>Catatan Admin:</strong> Anda saat ini login sebagai akun <strong>Admin ({{ auth()->user()->name }})</strong>. 
+            Halaman ini hanya menampilkan riwayat pesanan pribadi Anda. Untuk melihat dan memproses seluruh pesanan pelanggan (seperti pesanan <em>taeyong</em>), silakan kunjungi halaman 
+            <a href="{{ route('admin.order_admin') }}" style="color: #4b2e2e; font-weight: 600; text-decoration: underline;">Pesanan Admin</a>.
+        </div>
+    @endif
 
     <div class="history-divider"></div>
 
     <div class="orders-list">
-        @forelse ($orders as $index => $order)
+        @forelse ($activeOrders as $order)
         <div class="order-card">
             <div class="order-card-inner">
 
                 {{-- Nomor urut --}}
-                <div class="order-num">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</div>
+                <div class="order-num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</div>
 
                 {{-- Body --}}
                 <div class="order-body">
@@ -43,13 +56,13 @@
                 {{-- Status & Total --}}
                 <div class="order-status-wrap">
                     <span class="order-badge
-                        @if($order->status == 'Pending') badge-pending
-                        @elseif($order->status == 'Proses') badge-proses
-                        @elseif($order->status == 'Selesai') badge-selesai
+                        @if(strtolower($order->status) == 'pending') badge-pending
+                        @elseif(strtolower($order->status) == 'proses') badge-proses
+                        @elseif(strtolower($order->status) == 'selesai') badge-selesai
                         @else badge-other
                         @endif">
                         <svg width="7" height="7" viewBox="0 0 7 7" fill="currentColor"><circle cx="3.5" cy="3.5" r="3.5"/></svg>
-                        {{ $order->status }}
+                        {{ ucfirst($order->status) }}
                     </span>
                     <span class="order-total">Rp{{ number_format($order->total) }}</span>
                 </div>
