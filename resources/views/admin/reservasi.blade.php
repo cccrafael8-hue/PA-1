@@ -246,6 +246,7 @@ form {
         <th>Orang</th>
         <th>Menu</th>
         <th>Total</th>
+        <th>Catatan</th>
         <th>Bukti Bayar</th>
         <th>Status</th>
         <th>Aksi</th>
@@ -260,6 +261,7 @@ form {
         <td>{{ $r->guest_count }}</td>
         <td style="max-width:200px; text-align:left; font-size:13px;">{{ $r->items ?? '-' }}</td>
         <td>Rp {{ number_format($r->total_price) }}</td>
+        <td style="max-width:200px; text-align:left; font-size:13px; word-wrap:break-word;">{{ $r->note ?? '-' }}</td>
         <td>
             @if($r->payment_proof)
                 <button type="button" class="btn-proof" onclick="showProofModal('{{ asset('storage/'.$r->payment_proof) }}')" title="Lihat Bukti">

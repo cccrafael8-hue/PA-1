@@ -148,7 +148,7 @@ th, td{
 
 <div class="mb-3">
 <textarea name="description" class="form-control"
-    placeholder="Deskripsi Menu" required>{{ $menu->description ?? '' }}</textarea>
+    placeholder="Deskripsi Menu">{{ $menu->description ?? '' }}</textarea>
 </div>
 
 <button class="btn-main">

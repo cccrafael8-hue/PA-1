@@ -19,5 +19,6 @@ class Reservation extends Model
         'total_price',
         'status',
         'payment_proof',
+        'note',
     ];
 }
