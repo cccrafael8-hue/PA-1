@@ -386,7 +386,7 @@ body {
             <div class="field-row">
                 <div class="field-group">
                     <label class="field-label">Tanggal</label>
-                    <input type="date" name="date" id="inDate" class="field-input" min="{{ date('Y-m-d') }}" required>
+                    <input type="date" name="date" id="inDate" class="field-input" value="{{ date('Y-m-d') }}" readonly required>
                 </div>
                 <div class="field-group">
                     <label class="field-label">Jam</label>
@@ -480,7 +480,11 @@ body {
                     </div>
                     <div class="total-count" id="itemCount">0 item</div>
                 </div>
-                <div class="total-note">💳 Bayar via QRIS saat konfirmasi di WhatsApp</div>
+            </div>
+            
+            <div class="field-group" style="margin-top: 15px;">
+                <label class="field-label">Catatan Pesanan (Opsional)</label>
+                <textarea name="note" class="field-input" rows="2" placeholder="Contoh: kopi less sugar, makanan jangan pedas"></textarea>
             </div>
         </div>
 
@@ -600,7 +604,21 @@ document.addEventListener('DOMContentLoaded', function () {
             elTime.disabled = false;
             var day = new Date(this.value).getDay();
             elTime.min = '11:00';
-            elTime.max = (day >= 1 && day <= 5) ? '21:58' : '22:58';
+            elTime.max = (day >= 1 && day <= 5) ? '21:59' : '22:59';
+            
+            // Validate if today, time must be >= now + 30 mins
+            var today = new Date();
+            var selectedDate = new Date(this.value);
+            if (today.toDateString() === selectedDate.toDateString()) {
+                var minTimeObj = new Date(today.getTime() + 30 * 60000);
+                var minHours = String(minTimeObj.getHours()).padStart(2, '0');
+                var minMinutes = String(minTimeObj.getMinutes()).padStart(2, '0');
+                var minTimeStr = minHours + ':' + minMinutes;
+                
+                if (minTimeStr > elTime.min) {
+                    elTime.min = minTimeStr;
+                }
+            }
         } else {
             elTime.disabled = true;
             elTime.value = '';
@@ -611,6 +629,7 @@ document.addEventListener('DOMContentLoaded', function () {
     elTime.addEventListener('change', function () {
         if (this.value && this.min && this.max) {
             if (this.value < this.min || this.value > this.max) {
+                alert('Waktu tidak valid! Pastikan memilih di jam operasional dan minimal 30 menit dari sekarang jika reservasi hari ini.');
                 this.value = '';
             }
         }
@@ -618,6 +637,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     elGuest.addEventListener('input', recalc);
+
+    // Initialize time limits for today
+    var event = new Event('change');
+    elDate.dispatchEvent(event);
+    
     recalc();
 
     window.toggleMenu = function() {

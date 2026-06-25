@@ -37,7 +37,7 @@ class AdminMenuController extends Controller
         $data = $request->validate([
             'name'  => 'required',
             'category'   => 'required|in:makanan,coffee,non_coffee,snack',
-            'description'  => 'required',
+            'description'  => 'nullable',
             'price'      => 'required|numeric|min:1000|max:1000000',  
             'price_hot'  => 'nullable|numeric|min:1000|max:1000000', 
             'price_cold' => 'nullable|numeric|min:1000|max:1000000',  
@@ -81,7 +81,7 @@ class AdminMenuController extends Controller
         $data = $request->validate([
             'name'  => 'required',
             'category'   => 'required|in:makanan,coffee,non_coffee,snack',
-            'description'  => 'required',
+            'description'  => 'nullable',
             'price'      => 'required|numeric|min:1000|max:1000000', 
             'price_hot'  => 'nullable|numeric|min:1000|max:1000000',
             'price_cold' => 'nullable|numeric|min:1000|max:1000000', 
