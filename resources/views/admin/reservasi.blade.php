@@ -294,11 +294,7 @@ form {
                         Batalkan
                     </a>
                     @else
-                    <form action="/admin/reservation/{{ $r->id }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="color:#b02a37;" onclick="return confirm('Hapus riwayat reservation ini?')">Hapus</button>
-                    </form>
+                        <span style="display:block; padding:8px; font-size:12px; color:#999; text-align:center;">Tidak ada aksi</span>
                     @endif
                 </div>
             </div>

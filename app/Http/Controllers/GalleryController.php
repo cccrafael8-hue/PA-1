@@ -11,9 +11,7 @@ class GalleryController extends Controller
     public function index()
     {
         // Get all albums and load only the latest photo for each album as cover
-        $albums = Album::with(['galleries' => function($q) {
-            $q->latest()->limit(1);
-        }])->withCount('galleries')->get();
+        $albums = Album::with('latestGallery')->withCount('galleries')->get();
 
         return view('gallery', compact('albums'));
     }

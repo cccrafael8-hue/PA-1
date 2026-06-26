@@ -15,4 +15,9 @@ class Album extends Model
     {
         return $this->hasMany(Gallery::class);
     }
+
+    public function latestGallery()
+    {
+        return $this->hasOne(Gallery::class)->latestOfMany();
+    }
 }

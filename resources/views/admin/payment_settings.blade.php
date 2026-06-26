@@ -5,20 +5,9 @@
 @include('admin.navbar_admin')
 
 <div class="container-fluid" style="padding-top: 100px;">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-2" style="position: fixed; height: 100vh; background-color: #f8f9fa; padding-top: 20px;">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('admin.payment_settings') }}" style="color: #3d1f1a; font-weight: 500;">
-                        <i class="fas fa-qrcode mr-2"></i> QR Code Pembayaran
-                    </a>
-                </li>
-            </ul>
-        </div>
-
+    <div class="row justify-content-center">
         <!-- Main Content -->
-        <div class="col-md-10 offset-md-2" style="padding: 20px 40px;">
+        <div class="col-md-8" style="padding: 20px;">
             
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 style="color: #3d1f1a; font-weight: 600;">Pengaturan Pembayaran</h3>

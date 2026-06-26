@@ -146,8 +146,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
     Route::get('/reservation/{id}/cancel', [AdminReservationController::class, 'cancel'])
         ->name('admin.reservation.cancel');
 
-    Route::delete('/reservation/{id}', [AdminReservationController::class, 'destroy'])
-        ->name('admin.reservation.destroy');
+
 
     /*
     |------------------------------------------

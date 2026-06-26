@@ -24,8 +24,8 @@
             <a href="{{ route('gallery.show', $album->id) }}" style="text-decoration: none;">
                 <div class="gallery-card album-card">
                     <div class="gallery-img-wrap">
-                        @if($album->galleries->isNotEmpty())
-                            <img src="{{ asset('storage/'.$album->galleries->first()->image) }}"
+                        @if($album->latestGallery)
+                            <img src="{{ asset('storage/'.$album->latestGallery->image) }}"
                                  class="gallery-img"
                                  alt="{{ $album->name }}">
                         @else

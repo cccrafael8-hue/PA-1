@@ -13,66 +13,89 @@ class AdminController extends Controller
     public function dashboard(Request $request)
     {
         $reservations = Reservation::all();
-        $filter = $request->query('filter', 'day'); // default to day
 
-        // Fetch all orders and reservasis to group them in PHP (including soft-deleted)
+        // Metric calculations
+        $today = Carbon::today();
+        
+        $pendapatanOrder = Order::whereDate('created_at', $today)->where('status', 'selesai')->sum('total');
+        $pendapatanReservasi = Reservation::whereDate('created_at', $today)->where('status', 'paid')->sum('total_price');
+        $pendapatanHariIni = $pendapatanOrder + $pendapatanReservasi;
+
+        $totalPesanan = Order::whereDate('created_at', $today)->where('is_hidden', false)->count();
+        $pesananBelumKonfirmasi = Order::where('status', 'pending')->where('is_hidden', false)->count();
+        
+        $reservasiAktif = Reservation::whereIn('status', ['pending', 'paid'])->whereDate('date', '>=', $today)->count();
+        $reservasiHariIni = Reservation::whereDate('date', $today)->whereIn('status', ['pending', 'paid'])->count();
+        
+        $ulasanBaru = \App\Models\Review::whereNull('admin_reply')->count();
+
+        // Chart calculations
         $orders = Order::withTrashed()->where('status', 'selesai')->select('created_at', 'total')->orderBy('created_at', 'ASC')->get();
         $reservationsData = Reservation::withTrashed()->select('created_at', 'total_price')->where('status', 'paid')->orderBy('created_at', 'ASC')->get();
-        
-        $grouped = [];
 
-        $processData = function($items, $amountField) use (&$grouped, $filter) {
-            foreach ($items as $item) {
-                $date = Carbon::parse($item->created_at);
-                if ($filter == 'week') {
-                    $key = $date->format('Y-W');
-                    $label = 'Minggu ' . $date->format('W, Y');
-                } elseif ($filter == 'month') {
-                    $key = $date->format('Y-m');
-                    $label = $date->format('M Y');
-                } elseif ($filter == 'year') {
-                    $key = $date->format('Y');
-                    $label = $date->format('Y');
-                } else {
-                    // day
-                    $key = $date->format('Y-m-d');
-                    $label = $date->format('d M Y');
+        $getChartData = function($filterType) use ($orders, $reservationsData) {
+            $grouped = [];
+            $processData = function($items, $amountField) use (&$grouped, $filterType) {
+                foreach ($items as $item) {
+                    $date = Carbon::parse($item->created_at);
+                    if ($filterType == 'week') {
+                        $key = $date->format('Y-W');
+                        $label = 'Minggu ' . $date->format('W, Y');
+                    } elseif ($filterType == 'month') {
+                        $key = $date->format('Y-m');
+                        $label = $date->format('M Y');
+                    } elseif ($filterType == 'year') {
+                        $key = $date->format('Y');
+                        $label = $date->format('Y');
+                    } else {
+                        // day
+                        $key = $date->format('Y-m-d');
+                        $label = $date->format('d M Y');
+                    }
+                    if (!isset($grouped[$key])) {
+                        $grouped[$key] = ['label' => $label, 'total' => 0];
+                    }
+                    $grouped[$key]['total'] += $item->$amountField;
                 }
-                
-                if (!isset($grouped[$key])) {
-                    $grouped[$key] = [
-                        'label' => $label,
-                        'total' => 0
-                    ];
-                }
-                $grouped[$key]['total'] += $item->$amountField;
+            };
+
+            $processData($orders, 'total');
+            $processData($reservationsData, 'total_price');
+            ksort($grouped);
+
+            $limit = 30;
+            if ($filterType == 'week') $limit = 12;
+            if ($filterType == 'month') $limit = 12;
+            if ($filterType == 'year') $limit = 5;
+
+            $sliced = array_slice($grouped, -$limit);
+            $chartDates = [];
+            $chartTotals = [];
+            foreach ($sliced as $item) {
+                $chartDates[] = $item['label'];
+                $chartTotals[] = $item['total'];
             }
+            return [$chartDates, $chartTotals];
         };
 
-        $processData($orders, 'total');
-        $processData($reservationsData, 'total_price');
+        list($chartDates, $chartTotals) = $getChartData('day');
+        list($chartDatesWeek, $chartTotalsWeek) = $getChartData('week');
+        list($chartDatesMonth, $chartTotalsMonth) = $getChartData('month');
+        list($chartDatesYear, $chartTotalsYear) = $getChartData('year');
 
-        // Sort by key to ensure chronological order after combining both datasets
-        ksort($grouped);
-
-        // Determine how many latest data points to show
-        $limit = 30; // default for day
-        if ($filter == 'week') $limit = 12;
-        if ($filter == 'month') $limit = 12;
-        if ($filter == 'year') $limit = 5;
-
-        // Take only the last $limit items
-        $sliced = array_slice($grouped, -$limit);
-
-        $chartDates = [];
-        $chartTotals = [];
-
-        foreach ($sliced as $item) {
-            $chartDates[] = $item['label'];
-            $chartTotals[] = $item['total'];
-        }
-
-        return view('admin.dashboard', compact('reservations', 'chartDates', 'chartTotals', 'filter'));
+        return view('admin.dashboard', compact(
+            'reservations',
+            'pendapatanHariIni',
+            'totalPesanan',
+            'pesananBelumKonfirmasi',
+            'reservasiAktif',
+            'reservasiHariIni',
+            'ulasanBaru',
+            'chartDates', 'chartTotals',
+            'chartDatesWeek', 'chartTotalsWeek',
+            'chartDatesMonth', 'chartTotalsMonth',
+            'chartDatesYear', 'chartTotalsYear'
+        ));
     }
 
     public function export()

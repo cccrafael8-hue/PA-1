@@ -32,7 +32,7 @@
         @else
             <div class="gallery-grid">
                 @foreach($galleries as $index => $item)
-                <div class="gallery-card">
+                <div class="gallery-card" onclick="openLightbox({{ $index }})">
                     <div class="gallery-img-wrap">
                         <img src="{{ asset('storage/'.$item->image) }}"
                              class="gallery-img"
@@ -57,6 +57,56 @@
 </div>
 
 @include('partials.footer')
+
+<!-- LIGHTBOX MODAL -->
+<div id="lightbox" class="lightbox-overlay" style="display:none;">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-prev" onclick="changeLightbox(-1)">&#10094;</button>
+    <button class="lightbox-next" onclick="changeLightbox(1)">&#10095;</button>
+    
+    <div class="lightbox-content">
+        <img id="lightbox-img" src="" alt="">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+</div>
+
+<script>
+    var lightboxImages = [
+        @foreach($galleries as $item)
+        { src: "{{ asset('storage/'.$item->image) }}", title: "{{ $item->title }}" },
+        @endforeach
+    ];
+    var currentIndex = 0;
+
+    function openLightbox(index) {
+        currentIndex = index;
+        updateLightbox();
+        document.getElementById('lightbox').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // disable background scroll
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = 'auto'; // re-enable background scroll
+    }
+
+    function changeLightbox(dir) {
+        currentIndex += dir;
+        if (currentIndex < 0) {
+            currentIndex = lightboxImages.length - 1; // loop back
+        } else if (currentIndex >= lightboxImages.length) {
+            currentIndex = 0; // loop forward
+        }
+        updateLightbox();
+    }
+
+    function updateLightbox() {
+        var img = document.getElementById('lightbox-img');
+        var cap = document.getElementById('lightbox-caption');
+        img.src = lightboxImages[currentIndex].src;
+        cap.textContent = lightboxImages[currentIndex].title;
+    }
+</script>
 
 <style>
 html, body {
@@ -286,6 +336,72 @@ html, body {
     cursor: not-allowed;
     border-color: #eee;
     color: #aaa;
+}
+
+/* ── LIGHTBOX STYLES ── */
+.lightbox-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+.lightbox-content {
+    position: relative;
+    max-width: 85%;
+    max-height: 85vh;
+    text-align: center;
+}
+#lightbox-img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+.lightbox-caption {
+    color: #fff;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 10000;
+}
+.lightbox-prev, .lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.7);
+    font-size: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 20px;
+    transition: color 0.2s;
+    z-index: 10000;
+}
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+.lightbox-prev:hover, .lightbox-next:hover, .lightbox-close:hover {
+    color: #fff;
+}
+@media (max-width: 768px) {
+    .lightbox-prev { left: 0px; font-size: 36px; }
+    .lightbox-next { right: 0px; font-size: 36px; }
+    .lightbox-content { max-width: 95%; }
 }
 </style>
 
